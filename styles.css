@@ -128,3 +128,13 @@ footer p {
   color: #dc3545;
   font-size: 14px;
 }
+
+.NoBorder {
+  border-bottom: none;
+}
+
+.PrintTable .NoBorder {
+  border: none;
+}
+
+
