@@ -1,28 +1,67 @@
-import React, {useState } from "react";
+import React, {useState, useEffect } from "react";
 import cabinet from "../cabinet";
-import cabinetDoor from "../cabinetDoor";
-
+import addOn from "../AddOn";
 function TableBody({
   newItem, 
   item,
   itemNum,
   handleDeleteClick,
   handleCopyClick,
-  handleEdited
+  handleEdited,
 }) {
+
+  const getCabinetById = (id) => {
+    return cabinet.find(cab => cab.ID === id);
+  }
+
+  const cabInfo = getCabinetById(item.cabinetSize);
 
   const colorSelected = [
     newItem.ADoorColor,
     newItem.BDoorColor,
     newItem.CDoorColor
   ]
-
   const [additionalShown, setAdditionalShown] = useState(false);
-
   const handleToggleAdditional = () => {
     setAdditionalShown(!additionalShown);
   };
 
+  const [widthValue, setWidthValue] = useState(true);
+  const [qtyInteger, setQtyInteger] = useState(true);
+  const [widthPositive, setWidthPositive] = useState(true);
+  function isPositiveInteger(input) {
+    return /^[0-9]\d*$/.test(input);
+  }
+
+
+  useEffect(() => {
+    if (cabInfo && item.width > cabInfo.W) {
+      setWidthValue(false);
+    } else {
+      setWidthValue(true);
+    }
+
+    if (!isPositiveInteger(item.width)) {
+      if (isNaN(item.width)) {
+        setWidthPositive(true);
+      } else {
+        setWidthPositive(false);
+      }
+    } else {
+      setWidthPositive(true);
+    }
+
+    if (!isPositiveInteger(item.qty)) {
+      if (isNaN(item.qty)) {
+        setQtyInteger(true);
+      } else {
+        setQtyInteger(false);
+      }
+    } else {
+      setQtyInteger(true);
+    }
+  }, [item.width, item.qty, cabInfo]);
+  
   return (
     <><tr>
       <td>
@@ -39,34 +78,19 @@ function TableBody({
       <td>
         <input
           type="text"
-          list="data"
+          list="cabinetSize"
           className="form-control"
           placeholder="select Cabinet Size"
           name="cabinetSize"
+          style={{ width: "12em" }}
           value={item.cabinetSize}
-          onChange={(event) => handleEdited(event, item.id, item, newItem)} />
-        <datalist id="data">
-          {cabinet.map((item, key) => (
-            <option key={key} value={item.ID} />
-          ))}
-        </datalist>
-      </td>
-      <td>
-        <input
-          type="text"
-          list="data2"
-          className="form-control"
-          placeholder="Door Type"
-          name="doorType"
-          value={item.doorType}
           onChange={(event) => handleEdited(event, item.id, item, newItem)} 
-          readOnly
-          disabled />
-        <datalist id="data2">
-          {cabinetDoor.map((item, key) => (
-            <option key={key} value={item.category} />
-          ))}
-        </datalist>
+          />
+          <datalist id="cabinetSize">
+            {cabinet.map((item, key) => (
+              <option key={key} value={item.ID} />
+            ))}
+          </datalist>
       </td>
       <td>
         <input
@@ -75,6 +99,7 @@ function TableBody({
           className="form-control"
           placeholder="select Door Color"
           name="doorColor"
+          style={{ width: "12em" }}
           value={item.doorColor} // use the doorColor value from newItem
           onChange={(event) => handleEdited(event, item.id, item, newItem)}
                      />
@@ -84,31 +109,52 @@ function TableBody({
           ))}
         </datalist>
       </td>
-
       <td className="text-center">
         <input
           type="number"
-          name="width"
-          style={{ width: "6em" }}
-          value={item.width}
+          name="qty"
+          className={qtyInteger === false ? "form-control is-invalid" : "form-control"}
+          style={{ width: "5em" }}
+          value = {item.qty}
+          min = "0"
           onChange={(event) => handleEdited(event, item.id, item, newItem)}
-                    />
-      </td>
+          />
+           {!qtyInteger && (
+            <div className="invalid-feedback">Please enter more than 0</div>
+          )}
+        </td>
+        <td className="text-center">
+          <input
+            type="number"
+            name="width"
+            className={widthValue === false || widthPositive === false ? "form-control is-invalid" : "form-control"}
+            style={{ width: "5em" }}
+            value={item.width}
+            max={cabInfo && cabInfo.W}
+            min="0"
+            onChange={(event) => handleEdited(event, item.id, item, newItem)}
+          />
+          {widthValue === false && (
+            <div className="invalid-feedback">Please enter value not oversized</div>
+          )}
+          {widthPositive === false && (
+            <div className="invalid-feedback">Please enter width more than 0 and integer only</div>
+          )}
+        </td>
       <td className="text-center">
         <input
           type="number"
           name="height"
-          style={{ width: "6em" }}
+          style={{ width: "5em" }}
           value={item.height}
           readOnly
           disabled />
       </td>
-
       <td className="text-center">
         <input
           type="number"
           name="depth"
-          style={{ width: "6em" }}
+          style={{ width: "5em" }}
           value={item.depth}
           readOnly
           disabled />
@@ -126,51 +172,31 @@ function TableBody({
           <option value="R">Right</option>
         </select>
       </td>
-
-      <td>
-        <input
-          type="number"
-          name="qty"
-          style={{ width: "5em" }}
-          value = {item.qty}
-          onChange={(event) => handleEdited(event, item.id, item, newItem)}
-          />
+      <td className="text-center">
+        <select
+            type="text"
+            name="finLOrR"
+            style={{ width: "6em" }}
+            value={item.finLOrR}
+            onChange={(event) => handleEdited(event, item.id, item, newItem)}
+          >
+          <option value="">-- None --</option>
+          <option value="L">Left</option>
+          <option value="R">Right</option>
+          <option value="LR">LR</option>
+        </select>
       </td>
-
       <td>
         <input
           name="price"
           className="form-control bg-light rounded-pill"
           type="number"
           value={item.price}
-          style={{ width: "6em" }}
+          style={{ width: "8em" }}
           readOnly
           disabled />
       </td>
-      <td>
-        <input
-          name="door_only"
-          className="form-control bg-light rounded-pill"
-          type="number"
-          value={item.DO}
-          style={{ width: "6em" }}
-          readOnly
-          disabled />
-      </td>
-
-      <td>
-        <input
-          name="box_only"
-          className="form-control bg-light rounded-pill"
-          type="number"
-          value={item.BO}
-          style={{ width: "6em" }}
-          readOnly
-          disabled />
-      </td>
-
       </tr>
-      
       <tr>
       <td>
         <button onClick={handleToggleAdditional}>
@@ -178,7 +204,6 @@ function TableBody({
         </button>
       </td>
       <th colSpan="1" className="text-center" ></th>
-          <th className="text-center" hidden={!additionalShown}>FIN L/R</th>
           <th className="text-center" hidden={!additionalShown}>DOOR H</th>
           <th className="text-center" hidden={!additionalShown}>PC TOP DOOR</th>
           <th className="text-center" hidden={!additionalShown}>BC DOOR</th>
@@ -190,20 +215,7 @@ function TableBody({
       <tr hidden={!additionalShown}>
         <td></td>
         <td></td>
-        <td className="text-center">
-        <select
-            type="text"
-            name="fin"
-            style={{ width: "6em" }}
-            value={item.hinge}
-            onChange={(event) => handleEdited(event, item.id, item, newItem)}
-          >
-          <option value="">-- None --</option>
-          <option value="L">Left</option>
-          <option value="R">Right</option>
-          <option value="LR">LR</option>
-        </select>
-      </td>
+        
       <td className="text-center">
         <input
           type="text"
@@ -241,21 +253,33 @@ function TableBody({
            />
       </td>
       <td className="text-center">
-        <input
-          type="number"
+        <select
+          type="text"
           name="notchOut"
           style={{ width: "6em" }}
           value = {item.notchOut}
           onChange={(event) => handleEdited(event, item.id, item, newItem)}
-           />
+           >
+            <option value="">-- Select --</option>
+            <option value="GOLA">GOLA</option>
+            <option value="MITER DOOR">MITER DOOR</option>
+          </select>
+
       </td>
       <td colSpan="2" className="text-center">
         <input
           type="text"
+          list="customizeAddOn"
           name="customizeAddOn"
-          value = {item.customizeAddOn}
+          value={item.customizeAddOn}
           onChange={(event) => handleEdited(event, item.id, item, newItem)}
-           style={{ width: "15em" }}/>
+          style={{ width: "15em" }}
+        />
+        <datalist id="customizeAddOn">
+          {addOn.map((item, key) => (
+            <option key={key} value={item.AddOnDoor || item.AddOnHardware} />
+          ))}
+        </datalist>
       </td>
       <td colSpan="4" className="text-center">
         <input

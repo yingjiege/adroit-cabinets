@@ -3,6 +3,7 @@ import { CSVLink } from "react-csv";
 
 function TableFooter(props) {
   const items = props.items;
+  const newItem = props.newItem;
   const [addNumberOfRow, setAddNumberOfRow] = useState(1);
 
   let testTotal = 0;
@@ -22,6 +23,11 @@ function TableFooter(props) {
     const needRow = event.target.value;
     setAddNumberOfRow(needRow);
   }
+
+  const itemsWithNewData = items.map((item) => ({
+    ...newItem, // Spread the properties of the newItem object
+    ...item // Spread the properties of the original object
+  }));
 
 
   return (
@@ -63,7 +69,7 @@ function TableFooter(props) {
           >
             PDF
           </i>
-          <CSVLink data={props.items} filename={"my-file.csv"} target="_blank">
+          <CSVLink data={itemsWithNewData} filename={"my-file.csv"} target="_blank">
             <i
               className="bi bi-filetype-csv btn btn-primary"
               style={{ color: "white", borderStyle: "solid" }}
