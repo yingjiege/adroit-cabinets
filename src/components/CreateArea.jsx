@@ -134,7 +134,7 @@ function CreateArea({info}) {
     price = +(Math.round(price + "e+2") + "e-2");
     let discount =parseFloat(select.discount) ;
       if(discount !== 0){
-        price = price *qty * (discount / 100).toFixed(2);
+        price = price * (discount / 100).toFixed(2);
       }
 
     //unfinished
