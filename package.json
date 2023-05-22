@@ -1,8 +1,8 @@
 {
-  "name": "adroit",
+  "name": "adroit-cabinets",
   "version": "0.1.0",
-  "homepage": "https://nkbuddy.github.io/adroit/",
-  "private": true,
+  "homepage": "https://yingjiege.github.io/adroit-cabinets/",
+  "private": false,
   "dependencies": {
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
