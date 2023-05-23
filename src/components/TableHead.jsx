@@ -10,12 +10,7 @@ function TableHead({item,handleEditAllInOne}) {
     <thead className="table-success">
       <tr>
             <th colSpan={3} rowSpan={3}>
-              <img
-                src="https://adroitmanufacturing.allmoxy.com/data/header/Adroit_logo_3d-01-01.png"
-                alt="adroit-manufacturing-logo"
-                width={120}
-                height={50}
-              />
+
             </th>
             <th colSpan={3}>
               Adroit
