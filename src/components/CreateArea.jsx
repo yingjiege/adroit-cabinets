@@ -13,6 +13,11 @@ import cabinet from "../cabinet";
 import cabinetDoor from "../cabinetDoor";
 import * as XLSX from "xlsx/xlsx.js";
 import customer from "../CabinetDiscount";
+import AccTableHead from "./AccTableHead";
+import AccTableBody from "./AccTableBody";
+import AccTableFooter from "./AccTableFooter";
+import Acc from "../Acc";
+
 
 function CreateArea({info}) {
   const [select, setSelect] = useState({
@@ -36,7 +41,7 @@ function CreateArea({info}) {
         cabinetSize: "",
         doorType: "",
         doorColor: "",
-        qty: 0,
+        qty: 1,
         width:0,
         height: 0,
         depth: 0,
@@ -54,6 +59,19 @@ function CreateArea({info}) {
         DO: 0
   }])
 
+  const [accessories, setAccessories] = useState([{
+    id:1,
+    acc:"",
+    accColor:"",
+    accCategory:"",
+    width:0,
+    height:0,
+    depth:0,
+    accType:"",
+    accQty:0,
+    price: 0
+  }])
+
   const getCabinetById = (id) => {
     return cabinet.find(cab => cab.ID === id);
   }
@@ -65,6 +83,9 @@ function CreateArea({info}) {
   }
   const getAddOnHardware = (custom) => {
     return addOn.find(cab => cab.AddOnHardware === custom);
+  }
+  const getAcc = (id) => {
+    return Acc.find(cab => cab.ACC === id);
   }
 
   const componentPDF = useRef();
@@ -184,6 +205,7 @@ function CreateArea({info}) {
 
     if(qty !==0){
       finalPrice = price * qty;
+      console.log(qty);
       finalPrice = +(Math.round(finalPrice + "e+2") + "e-2");
     }
     
@@ -194,6 +216,8 @@ function CreateArea({info}) {
     if(obj.qty < 0 ){
       finalPrice = NaN
     }
+    console.log(price);
+    console.log(finalPrice);
     
     return finalPrice;
 
@@ -201,7 +225,7 @@ function CreateArea({info}) {
 
   function updateItem(event, itemId, item, select) {
     const fieldName = event.target.getAttribute("name");
-    let fieldValue = event.target.value;
+    let fieldValue = event.target.value.toUpperCase();
     const newData = { ...item };
     const newSelect = {...select};
 
@@ -231,7 +255,16 @@ function CreateArea({info}) {
       newData["DO"] = newCabinetInfo[newDoorColor.category];
       newData["BO"] = newCabinetInfo[select.cabinetBox] ;
     }
-    newData["price"] = calculation(newData, newSelect);
+    if(newCabinetInfo){
+      newData["price"] = calculation(newData, newSelect);
+    }
+    else{
+      newData["price"] = NaN;
+      newData["width"] = NaN;
+      newData["height"] = NaN;
+      newData["depth"] = NaN;
+    }
+    
   
     const editedItem = {
       id: itemId,
@@ -290,6 +323,7 @@ function CreateArea({info}) {
     tempItem.id = nanoid();
     newItems.splice(index, 0, tempItem);
     setItems(newItems);
+
   }
 
   function deleteRow(itemId) {
@@ -306,7 +340,7 @@ function CreateArea({info}) {
         cabinetSize: "",
         doorType: "",
         doorColor: "",
-        qty: 0,
+        qty: 1,
         width: 0,
         height: 0,
         depth: 0,
@@ -541,6 +575,10 @@ const handleFileUpload = (e) => {
       if (Sindex !== -1) {
         newData[fieldName2] = formatPercentage(customer[Sindex].MULTIPIER);
       }
+      else{
+        newData[fieldName2] = 100;
+      }
+
     }
   
     if (fieldName === "discount") {
@@ -565,8 +603,98 @@ const handleFileUpload = (e) => {
     setItems(updatedItems);
   }
 
+  function updateAcc(event, itemId, item) {
+    const fieldName = event.target.getAttribute("name");
+    let fieldValue = event.target.value.toUpperCase();
+    const newData = { ...item };
+    const newAccInfo = getAcc(newData.acc);
+    const newAccColor = getColor(newData.accColor);
+    const Sindex = Acc.findIndex((item) =>item.ACC === fieldValue)
+    const newItems = [...accessories];
+    const index = accessories.findIndex((item) => item.id === itemId);
+    
+    if (fieldName === "acc") {
+      newData["acc"] = fieldValue;
+      if (Sindex !== -1) {
+        newData["width"] = Acc[Sindex].W;
+        newData["height"] = Acc[Sindex].H;
+        newData["depth"] = Acc[Sindex].D;
+      }
+    } 
+    newData[fieldName] = fieldValue;
+    if (newAccInfo && newAccColor) {
+      newData["accCategory"] = newAccColor.category
+      newData["price"] = newAccInfo[newAccColor.category];
+      if(newData["accQty"] !== 0){
+        newData["price"] *= newData["accQty"];
+        newData["price"] = +(Math.round(newData["price"] + "e+2") + "e-2");
+      }
+    }
 
+    const editedItem = {
+      id: itemId,
+      acc:newData.acc,
+      accColor:newData.accColor,
+      accCategory:newData.accCategory,
+      width:newData.width,
+      height:newData.height,
+      depth:newData.depth,
+      accType:newData.accType,
+      accQty:newData.accQty,
+      price:newData.price
+    };
+    newItems[index] = editedItem;
+    setAccessories(newItems);
+  }
 
+  function addAcc(n) {
+    const newItems = [];
+    for (let i = 0; i < n; i++) {
+      const newItem = {
+        id: nanoid(),
+        acc:"",
+        accColor:"",
+        accCategory:"",
+        width:0,
+        height:0,
+        depth:0,
+        accType:"",
+        accQty:0,
+        price: 0
+      };
+      newItems.push(newItem);
+    }
+    const newItemsAdd = [...accessories, ...newItems];
+    console.log(newItemsAdd)
+    setAccessories(newItemsAdd);
+  }
+
+  function copyAcc(itemId) {
+    const newItems = [...accessories];
+    const index = accessories.findIndex((item) => item.id === itemId);    const copyItem = newItems[index];
+    const tempItem = {
+      id: 0,
+      acc:copyItem.acc,
+      accColor:copyItem.accColor,
+      accCategory:copyItem.accCategory,
+      width:copyItem.width,
+      height:copyItem.height,
+      depth:copyItem.depth,
+      accType:copyItem.accType,
+      accQty:copyItem.accQty,
+      price:copyItem.price
+    };
+    tempItem.id = nanoid();
+    newItems.splice(index, 0, tempItem);
+    setAccessories(newItems);
+  }
+
+  function deleteAcc(itemId) {
+    const newItems = [...accessories];
+    const index = accessories.findIndex((item) => item.id === itemId);
+    newItems.splice(index, 1);
+    setAccessories(newItems);
+  }
 
   return (
     <Fragment>
@@ -595,6 +723,27 @@ const handleFileUpload = (e) => {
           })}
         </tbody>
         <TableFooter items = {items} newItem = {select} onAdd={addRow} printPDF={generatePDF}/>
+      </table>
+      <table>
+      <AccTableHead
+        item={select}
+        />
+        <tbody>
+          {accessories.map((rowItem, index) => {
+            return (
+              <AccTableBody
+                key={index}
+                accNum ={index}
+                handleDeleteAcc={deleteAcc}
+                handleCopyAcc={copyAcc}
+                handleEditedAcc = {updateAcc}
+                Accitem = {rowItem}
+                newItem={select}
+              />
+            );
+          })}
+        </tbody>
+        <AccTableFooter items = {accessories} newItem = {select} onAdd={addAcc} printPDF={generatePDF}/>
       </table>
       <div hidden>
       <table

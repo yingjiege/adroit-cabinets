@@ -109,25 +109,25 @@ function TableBody({
           ))}
         </datalist>
       </td>
-      <td className="text-center">
+      <td style={{ textAlign: "center" }}>
         <input
           type="number"
           name="qty"
           className={qtyInteger === false ? "form-control is-invalid" : "form-control"}
           style={{ width: "5em" }}
-          value = {item.qty}
-          min = "0"
+          value={item.qty}
+          min="1"
           onChange={(event) => handleEdited(event, item.id, item, newItem)}
-          />
-           {!qtyInteger && (
-            <div className="invalid-feedback">Please enter more than 0</div>
-          )}
-        </td>
-        <td className="text-center">
+        />
+        {!qtyInteger && (
+          <div className="invalid-feedback">Please enter more than 0</div>
+        )}
+      </td>
+        <td className="text-center" style={{ textAlign: "center" }}>
           <input
             type="number"
             name="width"
-            className={widthValue === false || widthPositive === false ? "form-control is-invalid" : "form-control"}
+            className={widthValue === false || widthPositive === false ? "form-control is-invalid" : "form-control"} 
             style={{ width: "5em" }}
             value={item.width}
             max={cabInfo && cabInfo.W}
@@ -145,6 +145,7 @@ function TableBody({
         <input
           type="number"
           name="height"
+          className="form-control"
           style={{ width: "5em" }}
           value={item.height}
           readOnly
@@ -154,6 +155,7 @@ function TableBody({
         <input
           type="number"
           name="depth"
+          className="form-control"
           style={{ width: "5em" }}
           value={item.depth}
           readOnly
@@ -163,6 +165,7 @@ function TableBody({
         <select
           type="text"
           name="hinge"
+          className="form-control"
           style={{ width: "6em" }}
           value = {item.hinge}
           onChange={(event) => handleEdited(event, item.id, item, newItem)}
@@ -176,6 +179,7 @@ function TableBody({
         <select
             type="text"
             name="finLOrR"
+            className="form-control"
             style={{ width: "6em" }}
             value={item.finLOrR}
             onChange={(event) => handleEdited(event, item.id, item, newItem)}

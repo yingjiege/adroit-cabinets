@@ -4,6 +4,7 @@ import customer from "../CabinetDiscount";
 
 
 function TableHead({item,handleEditAllInOne, handleUpdateTwo}) {
+
   return (
     <thead className="table-success">
       <tr>
@@ -15,10 +16,10 @@ function TableHead({item,handleEditAllInOne, handleUpdateTwo}) {
                 height={50}
               />
             </th>
-            <th colSpan={3}>
+            <th colSpan={2}>
               Adroit
             </th>
-            <th className="listhead">CUSTERMER:</th>
+            <th className="listhead">*CUSTERMER:</th>
             <th>
             <input
                 type="text"
@@ -49,8 +50,8 @@ function TableHead({item,handleEditAllInOne, handleUpdateTwo}) {
             <th colSpan={3}>MEMO:</th>
           </tr>
           <tr>
-            <th colSpan={3}>Adroit LOGISTICS</th>
-            <th className="needBorder">CABINET BOX:</th>
+            <th colSpan={2}>Adroit LOGISTICS</th>
+            <th className="needBorder">*CABINET BOX:</th>
             <th>
             <select
                 list="dataBox"
@@ -86,8 +87,8 @@ function TableHead({item,handleEditAllInOne, handleUpdateTwo}) {
             <th colSpan={3} rowSpan={5} className="needBorder"></th>
           </tr>
           <tr>
-            <th colSpan={3}>859 39th St</th>
-            <th className="needBorder">A DOOR COLOR:</th>
+            <th colSpan={2}>859 39th St</th>
+            <th className="needBorder">*A DOOR COLOR:</th>
             <th>
                 <input
                     type="text"
@@ -123,7 +124,7 @@ function TableHead({item,handleEditAllInOne, handleUpdateTwo}) {
           </tr>
           <tr>
           <th colSpan={3}>www.adroit.com</th>
-            <th colSpan={3}>BROOKLYN</th>
+            <th colSpan={2}>BROOKLYN</th>
             <th className="needBorder">B DOOR COLOR:</th>
             <th><input
                   type="text"
@@ -159,7 +160,7 @@ function TableHead({item,handleEditAllInOne, handleUpdateTwo}) {
           </tr>
           <tr>
           <th colSpan={3}>customer.service@adroit.com</th>
-            <th colSpan={3}>Tel.(718)431-0089</th>
+            <th colSpan={2}>Tel.(718)431-0089</th>
             <th className="needBorder">C DOOR COLOR:</th>
             <th>
                 <input
@@ -194,7 +195,7 @@ function TableHead({item,handleEditAllInOne, handleUpdateTwo}) {
           </tr>
           <tr>
           <th colSpan={3} rowSpan={2}>com.: 517 LUIS VAZQUEZ</th>
-            <th colSpan={3}>Fax.(718)431-0060</th>
+            <th colSpan={2}>Fax.(718)431-0060</th>
             <th className="needBorder">SP ORDER LEAD TIME:</th>
             <th></th>
             <th className="needBorder">Assemble Time (Min): </th>
@@ -202,7 +203,6 @@ function TableHead({item,handleEditAllInOne, handleUpdateTwo}) {
           </tr>
           <tr>
             <th colSpan={2}>-- Operation insured by MAPFRE</th>
-            <th className="needBorder">Bulks</th>
             <th className="needBorder">9407</th>
             <th colSpan={1}>Tel:+11234567890</th>
             <th className="needBorder">Customer Multi</th>
@@ -213,12 +213,15 @@ function TableHead({item,handleEditAllInOne, handleUpdateTwo}) {
                 name="discount"
                 value={isNaN(item.discount) ? item.discount : item.discount + "%"}
                 onChange={(event) => handleUpdateTwo(event, item)}
+                readOnly
+                disabled
               />
             </th>
             <th colSpan={4}></th>
           </tr>
       <tr>
-        <th colSpan="2" className="text-center"></th>
+        <th className="text-center"></th>
+        <th className="text-center">Copy</th>
         <th className="text-center">Item#</th>
         <th className="text-center">Cabinet Size</th>
         <th className="text-center">Door Color</th>
@@ -228,7 +231,7 @@ function TableHead({item,handleEditAllInOne, handleUpdateTwo}) {
         <th className="text-center">Depth</th>
         <th className="text-center">Hinge L/R</th>
         <th className="text-center">Finish L/R</th>
-        <th className="text-center">Price</th>
+        <th  colSpan="2" className="text-center">Price</th>
       </tr>
     </thead>
   );
