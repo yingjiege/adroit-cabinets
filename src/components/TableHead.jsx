@@ -188,8 +188,8 @@ function TableHead({item,handleEditAllInOne, handleUpdateTwo}) {
               onChange={(event) => handleEditAllInOne(event,  item)}
               >
                   <option value="None">None</option>
-                  <option value="Plastic">Plastic</option>
-                  <option value="Wood">Wood</option> 
+                  <option value="PLASTIC">PLASTIC</option>
+                  <option value="WOOD">WOOD</option> 
               </select>
             </th>
           </tr>
@@ -220,7 +220,7 @@ function TableHead({item,handleEditAllInOne, handleUpdateTwo}) {
             <th colSpan={4}></th>
           </tr>
       <tr>
-        <th className="text-center"></th>
+        <th className="text-center">Cabinet</th>
         <th className="text-center">Copy</th>
         <th className="text-center">Item#</th>
         <th className="text-center">Cabinet Size</th>

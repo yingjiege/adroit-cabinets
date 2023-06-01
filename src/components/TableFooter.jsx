@@ -1,9 +1,7 @@
 import React,  {useState} from "react";
-import { CSVLink } from "react-csv";
 
 function TableFooter(props) {
   const items = props.items;
-  const newItem = props.newItem;
   const [addNumberOfRow, setAddNumberOfRow] = useState(1);
 
   let testTotal = 0;
@@ -13,7 +11,7 @@ function TableFooter(props) {
     totalQty += Number(items[row].qty);
   }
   
-   testTotal = +(Math.round(testTotal + "e+2") + "e-2");
+  testTotal = +(Math.round(testTotal + "e+2") + "e-2");
    
   function handleClick(n) {
     props.onAdd(n);
@@ -23,12 +21,6 @@ function TableFooter(props) {
     const needRow = event.target.value;
     setAddNumberOfRow(needRow);
   }
-
-  const itemsWithNewData = items.map((item) => ({
-    ...newItem, // Spread the properties of the newItem object
-    ...item // Spread the properties of the original object
-  }));
-
 
   return (
     <tfoot>
@@ -41,7 +33,6 @@ function TableFooter(props) {
         ${testTotal}
         </td>
       </tr>
-
       <tr>
         <td colSpan="3">
           <div className="input-group">
@@ -49,7 +40,7 @@ function TableFooter(props) {
               className="bi bi-plus-circle-fill btn btn-secondary"
               onClick={() => handleClick(addNumberOfRow)}
             >
-              add row
+              Add Cabinet
             </i>
             <input
               type="number"
@@ -60,23 +51,6 @@ function TableFooter(props) {
               style={{ width: "5em" }}
             />
           </div>
-        </td>
-        <td colSpan="4">
-          <i
-            className="bi bi-file-earmark-pdf-fill btn btn-primary"
-            onClick={props.printPDF}
-            style={{ color: "white", borderStyle: "solid" }}
-          >
-            PDF
-          </i>
-          <CSVLink data={itemsWithNewData} filename={"my-file.csv"} target="_blank">
-            <i
-              className="bi bi-filetype-csv btn btn-primary"
-              style={{ color: "white", borderStyle: "solid" }}
-            >
-              CSV
-            </i>
-          </CSVLink>
         </td>
       </tr>
     </tfoot>

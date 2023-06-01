@@ -1,49 +1,30 @@
 import React, { Fragment, useState, useEffect } from "react";
 
-function isEmpty(value) {
-  return value === ''; // Modify this condition based on your definition of an empty value
-}
-
-function ExampleComponent(data) {
-  if (!data || data.length === 0) {
-    return false; // Return false if data is undefined or empty
-  }
-
-  const allValuesEmpty = data.every(item => isEmpty(item.finLOrR));
-  return allValuesEmpty;
-}
-
 function PrintTable({ item, ItemNum }) {
+  function isEmpty(value) {
+    if(value === "")
+    {
+      return true;
+    }
+    else{
+      return false;
+    } // Modify this condition based on your definition of an empty value
+  }
   const [ifFinLOrR, setIfFinLOrR] = useState(true);
   const [ifDoorH, setIfDoorH] = useState(true);
   const [ifPcTopDoor, setIfPcTopDoor] = useState(true);
-  const [ifPcDoor,setIfPcDoor] = useState(true);
+  const [ifPcDoor, setIfPcDoor] = useState(true);
   const [ifBotDF, setIfBotDF] = useState(true);
   const [ifNotchOut, setIfNotchOut] = useState(true);
 
-
-
   useEffect(() => {
-    
-    if (ExampleComponent(item.finLOrR) === false) {
-      setIfFinLOrR(false);
-    }
-    if(ExampleComponent(item.doorH) === false){
-      setIfDoorH(false);
-    }
-    if (ExampleComponent(item.pcTopDoor) === false) {
-      setIfPcTopDoor(false);
-    }
-    if(ExampleComponent(item.pcDoor) === false){
-      setIfPcDoor(false);
-    }
-    if (ExampleComponent(item.botDF) === false) {
-      setIfBotDF(false);
-    }
-    if(ExampleComponent(item.notchOut) === false){
-      setIfNotchOut(false);
-    }
-  }, [item.finLOrR, item.doorH,item.pcTopDoor, item.pcDoor,item.botDF, item.notchOut]);
+    setIfFinLOrR(!isEmpty(item.finLOrR));
+    setIfDoorH(!isEmpty(item.doorH));
+    setIfPcTopDoor(!isEmpty(item.pcTopDoor));
+    setIfPcDoor(!isEmpty(item.pcDoor));
+    setIfBotDF(!isEmpty(item.botDF));
+    setIfNotchOut(!isEmpty(item.notchOut));
+  }, [item]);
 
   return (
     <Fragment>
@@ -56,15 +37,21 @@ function PrintTable({ item, ItemNum }) {
         <td align="center">{item.height}</td>
         <td align="center">{item.depth}</td>
         <td align="center">{item.hinge}</td>
-        <td align="center" hidden = {!ifFinLOrR}>{item.finLorR}</td>
+        <td align="center" hidden = {!ifFinLOrR}>{item.finLOrR}</td>
+        <td align="center" hidden = {ifFinLOrR}></td>
         <td align="center" hidden = {!ifDoorH}>{item.doorH}</td>
+        <td align="center" hidden = {ifDoorH}></td>
         <td align="center" hidden = {!ifPcTopDoor}>{item.pcTopDoor}</td>
+        <td align="center" hidden = {ifPcTopDoor}></td>
         <td align="center" hidden = {!ifPcDoor}>{item.pcDoor}</td>
+        <td align="center" hidden = {ifPcDoor}></td>
         <td align="center" hidden = {!ifBotDF}>{item.botDF}</td>
+        <td align="center" hidden = {ifBotDF}></td>
         <td align="center" hidden = {!ifNotchOut}>{item.notchOut}</td>
+        <td align="center" hidden = {ifNotchOut}></td>
         <td align="center" colSpan={2}>{item.customizeAddOn}</td>
         <td align="center" >{item.memo}</td>
-        <td align="center" colSpan={2}>{item.price}</td>
+        <td align="center" >{item.price}</td>
 
       </tr>
     </Fragment>

@@ -16,9 +16,9 @@ function RightSideBar({setInfo}) {
       </div>
       <a href="b">ORDER INFO</a>
       <div>
-        <input  
-          className="form-control" 
-          placeholder="Order Name" 
+        <input
+          className="form-control"
+          placeholder="Order Name"
           name = "name"
           onChange={handleInfoChange}
           ></input>
@@ -36,8 +36,8 @@ function RightSideBar({setInfo}) {
         <textarea className="form-control" placeholder="Memo" rows = {6} name = "memo"  onChange={handleInfoChange}></textarea>
       </div>
       <div>
-        
-        <i
+
+        {/* <i
           className="bi bi-save-fill btn btn-primary"
           style={{ color: "white", borderStyle: "solid" }}
         >
@@ -46,7 +46,7 @@ function RightSideBar({setInfo}) {
         <br></br>
         <i className="bi bi-send btn btn-primary" style={{ color: "white", borderStyle: "solid" }}>
           Submite Order
-        </i>
+        </i> */}
         <br></br>
         <span style={{ color: "white"}}>By submitting this order you agree to our terms and conditions</span>
       </div>

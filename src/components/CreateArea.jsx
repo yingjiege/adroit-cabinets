@@ -5,6 +5,7 @@ import { nanoid } from "nanoid";
 import PrintHead from "./PrintHead"
 import PrintTable from "./PrintTable"
 import PrintFooter from "./PrintFooter"
+import PrintAcc from "./PrintAcc"
 import { useReactToPrint } from "react-to-print";
 import TableFooter from "./TableFooter";
 import cabinetFinish from "../cabinetFinish";
@@ -17,7 +18,6 @@ import AccTableHead from "./AccTableHead";
 import AccTableBody from "./AccTableBody";
 import AccTableFooter from "./AccTableFooter";
 import Acc from "../Acc";
-
 
 function CreateArea({info}) {
   const [select, setSelect] = useState({
@@ -33,7 +33,6 @@ function CreateArea({info}) {
     cabinetLeg: "None",
     discount: 100
   });
-
 
   const [items, setItems] = useState([
     {
@@ -64,12 +63,12 @@ function CreateArea({info}) {
     acc:"",
     accColor:"",
     accCategory:"",
-    width:0,
-    height:0,
-    depth:0,
+    accWidth:0,
+    accHeight:0,
+    accDepth:0,
     accType:"",
     accQty:0,
-    price: 0
+    accPrice: 0
   }])
 
   const getCabinetById = (id) => {
@@ -95,19 +94,18 @@ function CreateArea({info}) {
   });  
 
   function updateRow(event) {
-    const fieldName = event.target.getAttribute("name");
-    const fieldValue = event.target.value;
-  
-    setSelect((prevState) => ({
-      ...prevState,
-      [fieldName]: fieldValue,
-    }));
-  
-    // Update the price for each item based on the new select values
-    const updatedItems = items.map((item) => {
+      const fieldName = event.target.getAttribute("name");
+      const fieldValue = event.target.value;
+          // Update the price for each item based on the new select values
+      const updatedItems = items.map((item) => {
       const updatedItem = { ...item };
       const newSelect = { ...select };
   
+      setSelect((prevState) => ({
+        ...prevState,
+        [fieldName]: fieldValue,
+      }));
+
       // Update the relevant select value
       newSelect[fieldName] = fieldValue;
   
@@ -142,6 +140,8 @@ function CreateArea({info}) {
     let drawer = select.drawer;
     let slide = select.slide;
     let slideNum = 0;
+    let discount =parseFloat(select.discount) ;
+
     if (cabInfo) {
       doorCount = cabInfo.DOOR_COUNT;
       hingeNum = cabInfo.HINGE_COUNT;
@@ -153,12 +153,10 @@ function CreateArea({info}) {
     
     price =  DO + BO;
     price = +(Math.round(price + "e+2") + "e-2");
-    let discount =parseFloat(select.discount) ;
       if(discount !== 0){
         price = price * (discount / 100).toFixed(2);
       }
 
-    //unfinished
     if (doorType !== "" && cabInfo ){
       const newFinish = cabinetFinish[doorType];
       if (finLorR === "R" || finLorR === "L"){
@@ -202,13 +200,11 @@ function CreateArea({info}) {
         price += customizeAddOn.Price;
       }
     }
-
+    
     if(qty !==0){
       finalPrice = price * qty;
-      console.log(qty);
       finalPrice = +(Math.round(finalPrice + "e+2") + "e-2");
     }
-    
 
     if(obj.width < 0 ){
       finalPrice = NaN
@@ -216,11 +212,7 @@ function CreateArea({info}) {
     if(obj.qty < 0 ){
       finalPrice = NaN
     }
-    console.log(price);
-    console.log(finalPrice);
-    
     return finalPrice;
-
   }
 
   function updateItem(event, itemId, item, select) {
@@ -234,15 +226,19 @@ function CreateArea({info}) {
     const Newindex = cabinetDoor.findIndex((item) => item.color === fieldValue)
   
     if (fieldName === "cabinetSize") {
-      newData["cabinetSize"] = fieldValue;
       if (Sindex !== -1) {
         newData["width"] = cabinet[Sindex].W;
         newData["height"] = cabinet[Sindex].H;
         newData["depth"] = cabinet[Sindex].D;
+        if(newData["height"] === 93){
+          newData["pcTopDoor"] = "39";
+        }
+        if(cabinet[Sindex].HARDWARE !== 0){
+          newData["customizeAddOn"] = cabinet[Sindex].HARDWARE;
+        }
       }
     } 
     else if (fieldName === "doorColor") {
-      newData["doorColor"] = fieldValue;
       if (Newindex !== -1) {
         newData["doorType"] = cabinetDoor[Newindex].category;
       }
@@ -265,7 +261,6 @@ function CreateArea({info}) {
       newData["depth"] = NaN;
     }
     
-  
     const editedItem = {
       id: itemId,
       cabinetSize: newData.cabinetSize,
@@ -496,59 +491,81 @@ const handleFileUpload = (e) => {
 
     // Create a new array to store the objects in the data
     let newArray = [];
+    let newAcc = [];
 
     for (let row in parsedData) {
+      if(!parsedData[row].acc ){
+        let newItem = {
+          cabinetSize: parsedData[row].cabinetSize || "",
+          doorType: parsedData[row].doorType || "",
+          doorColor: parsedData[row].doorColor || "",
+          qty: parsedData[row].qty || NaN,
+          width: parsedData[row].width || NaN,
+          height: parsedData[row].height || NaN,
+          depth: parsedData[row].depth || NaN,
+          hinge: parsedData[row].hinge || "",
+          finLOrR: parsedData[row].finLOrR || "",
+          doorH: parsedData[row].doorH || "",
+          pcTopDoor: parsedData[row].pcTopDoor || "",
+          pcDoor: parsedData[row].pcDoor || "",
+          botDF: parsedData[row].botDF || "",
+          notchOut: parsedData[row].notchOut || "",
+          customizeAddOn: parsedData[row].customizeAddOn || "",
+          memo: parsedData[row].memo || "",
+          price: NaN,
+          BO: NaN,
+          DO: NaN,
+          id: nanoid()
+        };
+  
+        const priceArr = uploadCal(parsedData[row], parsedData[0].discount);
+        const widthField = "width";
+        const heightField = "height";
+        const depthField = "depth";
+        const priceField = "price";
+        const idField = "id";
+        const doorTypeField = "doorType";
+        const DOField = "DO";
+        const BOField = "BO";
+  
+        // Re-Calculate the price and subtotal of the object, Re-set the id for the object
+        newItem[widthField] = priceArr[0];
+        newItem[heightField] = priceArr[1];
+        newItem[depthField] = priceArr[2];
+        newItem[priceField] = priceArr[3];
+        newItem[doorTypeField] = priceArr[4];
+        newItem[DOField] = priceArr[5];
+        newItem[BOField]= priceArr[6];
+        newItem[idField] = Number(row) + 1;
+  
+        // According to the Panel ID, Re-set the empty part of Panel Finish
+  
+        // Push the object into the array
+        newArray.push(newItem);
+      }
+      else if(parsedData[row].acc){
+          // Create a new object to store data from the file
+          let newItem = {
+            acc:parsedData[row].acc,
+            accColor:parsedData[row].accColor,
+            accCategory:parsedData[row].accCategory,
+            accWidth:parsedData[row].accWidth,
+            accHeight:parsedData[row].accHeight,
+            accDepth:parsedData[row].accDepth,
+            accType:parsedData[row].accType,
+            accQty:parsedData[row].accQty,
+            accPrice:calAcc(parsedData[row]),
+            id: nanoid()
+            }
+        newAcc.push(newItem);
+
+      }
       // Create a new object to store data from the file
-      let newItem = {
-        cabinetSize: parsedData[row].cabinetSize || "",
-        doorType: parsedData[row].doorType || "",
-        doorColor: parsedData[row].doorColor || "",
-        qty: parsedData[row].qty || NaN,
-        width: parsedData[row].width || NaN,
-        height: parsedData[row].height || NaN,
-        depth: parsedData[row].depth || NaN,
-        hinge: parsedData[row].hinge || "",
-        finLOrR: parsedData[row].finLOrR || "",
-        doorH: parsedData[row].doorH || "",
-        pcTopDoor: parsedData[row].pcTopDoor || "",
-        pcDoor: parsedData[row].pcDoor || "",
-        botDF: parsedData[row].botDF || "",
-        notchOut: parsedData[row].notchOut || "",
-        customizeAddOn: parsedData[row].customizeAddOn || "",
-        memo: parsedData[row].memo || "",
-        price: NaN,
-        BO: NaN,
-        DO: NaN,
-        id: nanoid()
-      };
-
-      const priceArr = uploadCal(parsedData[row], parsedData[0].discount);
-      const widthField = "width";
-      const heightField = "height";
-      const depthField = "depth";
-      const priceField = "price";
-      const idField = "id";
-      const doorTypeField = "doorType";
-      const DOField = "DO";
-      const BOField = "BO";
-
-      // Re-Calculate the price and subtotal of the object, Re-set the id for the object
-      newItem[widthField] = priceArr[0];
-      newItem[heightField] = priceArr[1];
-      newItem[depthField] = priceArr[2];
-      newItem[priceField] = priceArr[3];
-      newItem[doorTypeField] = priceArr[4];
-      newItem[DOField] = priceArr[5];
-      newItem[BOField]= priceArr[6];
-      newItem[idField] = Number(row) + 1;
-
-      // According to the Panel ID, Re-set the empty part of Panel Finish
-
-      // Push the object into the array
-      newArray.push(newItem);
+      
     }
     // Set the new Array into the items
     setItems(newArray);
+    setAccessories(newAcc);
     }    
   };
 
@@ -586,7 +603,7 @@ const handleFileUpload = (e) => {
       fieldValue = fieldValue.replace("%", "") + "%";
       newData[fieldName2] = fieldValue;
     }
-  
+
     setSelect(newData);
   
     // Update the price for each item based on the new select values
@@ -603,45 +620,47 @@ const handleFileUpload = (e) => {
     setItems(updatedItems);
   }
 
-  function updateAcc(event, itemId, item) {
+  function updateAcc(event, itemId, item, select) {
     const fieldName = event.target.getAttribute("name");
     let fieldValue = event.target.value.toUpperCase();
     const newData = { ...item };
-    const newAccInfo = getAcc(newData.acc);
-    const newAccColor = getColor(newData.accColor);
-    const Sindex = Acc.findIndex((item) =>item.ACC === fieldValue)
+    const Sindex = Acc.findIndex((item) => item.ACC === fieldValue);
     const newItems = [...accessories];
     const index = accessories.findIndex((item) => item.id === itemId);
-    
+    let discount = parseFloat(select.discount);
+  
     if (fieldName === "acc") {
       newData["acc"] = fieldValue;
       if (Sindex !== -1) {
-        newData["width"] = Acc[Sindex].W;
-        newData["height"] = Acc[Sindex].H;
-        newData["depth"] = Acc[Sindex].D;
+        newData["accWidth"] = Acc[Sindex].W;
+        newData["accHeight"] = Acc[Sindex].H;
+        newData["accDepth"] = Acc[Sindex].D;
       }
-    } 
-    newData[fieldName] = fieldValue;
-    if (newAccInfo && newAccColor) {
-      newData["accCategory"] = newAccColor.category
-      newData["price"] = newAccInfo[newAccColor.category];
-      if(newData["accQty"] !== 0){
-        newData["price"] *= newData["accQty"];
-        newData["price"] = +(Math.round(newData["price"] + "e+2") + "e-2");
-      }
+    } else if (fieldName === "accColor") {
+      newData["accColor"] = fieldValue;
+    } else if (fieldName === "accQty") {
+      newData["accQty"] = fieldValue;
     }
-
+    const newAccInfo = getAcc(newData.acc);
+    const newAccColor = getColor(newData.accColor);
+    if (newAccInfo && newAccColor) {
+      newData["accCategory"] = newAccColor.category;
+      newData["accPrice"] = newAccInfo[newAccColor.category];
+      newData["accPrice"] *= (discount / 100).toFixed(2) * newData["accQty"];
+      newData["accPrice"] = +(Math.round(newData["accPrice"] + "e+2") + "e-2");
+    }
+  
     const editedItem = {
       id: itemId,
-      acc:newData.acc,
-      accColor:newData.accColor,
-      accCategory:newData.accCategory,
-      width:newData.width,
-      height:newData.height,
-      depth:newData.depth,
-      accType:newData.accType,
-      accQty:newData.accQty,
-      price:newData.price
+      acc: newData.acc,
+      accColor: newData.accColor,
+      accCategory: newData.accCategory,
+      accWidth: newData.accWidth,
+      accHeight: newData.accHeight,
+      accDepth: newData.accDepth,
+      accType: newData.accType,
+      accQty: newData.accQty,
+      accPrice: newData.accPrice
     };
     newItems[index] = editedItem;
     setAccessories(newItems);
@@ -655,17 +674,16 @@ const handleFileUpload = (e) => {
         acc:"",
         accColor:"",
         accCategory:"",
-        width:0,
-        height:0,
-        depth:0,
+        accWidth:0,
+        accHeight:0,
+        accDepth:0,
         accType:"",
         accQty:0,
-        price: 0
+        accPrice: 0
       };
       newItems.push(newItem);
     }
     const newItemsAdd = [...accessories, ...newItems];
-    console.log(newItemsAdd)
     setAccessories(newItemsAdd);
   }
 
@@ -677,12 +695,12 @@ const handleFileUpload = (e) => {
       acc:copyItem.acc,
       accColor:copyItem.accColor,
       accCategory:copyItem.accCategory,
-      width:copyItem.width,
-      height:copyItem.height,
-      depth:copyItem.depth,
+      accWidth:copyItem.width,
+      accHeight:copyItem.height,
+      accDepth:copyItem.depth,
       accType:copyItem.accType,
       accQty:copyItem.accQty,
-      price:copyItem.price
+      accPrice:copyItem.accPrice
     };
     tempItem.id = nanoid();
     newItems.splice(index, 0, tempItem);
@@ -694,6 +712,20 @@ const handleFileUpload = (e) => {
     const index = accessories.findIndex((item) => item.id === itemId);
     newItems.splice(index, 1);
     setAccessories(newItems);
+  }
+
+  function calAcc(item){
+    const accQty = item.accQty;
+    let price = 0;
+    const discount =parseFloat(item.discount) ;
+    const newAccInfo = getAcc(item.acc);
+    const newAccColor = getColor(item.accColor);
+    if(newAccInfo && newAccColor){
+      price = newAccInfo[newAccColor.category];
+      price *= (discount / 100).toFixed(2) * accQty;
+      price = +(Math.round(price + "e+2") + "e-2");
+    }
+    return price;
   }
 
   return (
@@ -743,7 +775,7 @@ const handleFileUpload = (e) => {
             );
           })}
         </tbody>
-        <AccTableFooter items = {accessories} newItem = {select} onAdd={addAcc} printPDF={generatePDF}/>
+        <AccTableFooter items={items} acc = {accessories} newItem = {select} onAdd={addAcc} printPDF={generatePDF}/>
       </table>
       <div hidden>
       <table
@@ -751,9 +783,11 @@ const handleFileUpload = (e) => {
         className="table table-hover table-sm table-responsive-sm"
         ref={componentPDF}
       >
-        <PrintHead item={items}
+      <PrintHead 
+        item = {items}
         select = {select}
-          handleEditAllInOne={updateRow}/>
+        info = {info}
+      />
         <tbody>
         {items.map((rowItem, index) => {
             return (
@@ -764,8 +798,17 @@ const handleFileUpload = (e) => {
               />
               );
           })}
+          {accessories.map((rowItem, index) => {
+            return (
+              <PrintAcc
+                key={index}
+                ItemNum ={index}
+                item = {rowItem}
+              />
+            );
+          })}
         </tbody>
-        <PrintFooter items={items}/>
+        <PrintFooter items={items} acc={accessories}/>
         </table>
       </div>
       <input

@@ -1,4 +1,4 @@
-import React, {useState, useEffect } from "react";
+import React from "react";
 import Acc from "../Acc";
 
 function AccTableBody({newItem, 
@@ -13,7 +13,6 @@ function AccTableBody({newItem,
       newItem.BDoorColor,
       newItem.CDoorColor
     ]
-    console.log(Accitem );
   
     return (
       <tr>
@@ -28,14 +27,14 @@ function AccTableBody({newItem,
           ></i>
         </td>
         <td className="text-center"> {accNum + 1}</td>
-        <td>
+        <td >
           <input
             type="text"
             list="acc"
             className="form-control"
             placeholder="Select Accessories"
             name="acc"
-            style={{ width: "12em" }}
+            style={{ width: "14em" }}
             value={Accitem.acc}
             onChange={(event) => handleEditedAcc(event, Accitem.id, Accitem, newItem)} 
             />
@@ -50,10 +49,10 @@ function AccTableBody({newItem,
             type="text"
             list="accColor"
             className="form-control"
-            placeholder="select Door Color"
+            placeholder="Select ACC Color"
             name="accColor"
             style={{ width: "12em" }}
-            value={Accitem.accColor} // use the doorColor value from newItem
+            value={Accitem.accColor} 
             onChange={(event) => handleEditedAcc(event, Accitem.id, Accitem, newItem)}
                        />
           <datalist id="accColor">
@@ -62,24 +61,24 @@ function AccTableBody({newItem,
             ))}
           </datalist>
         </td>
-        <td style={{ textAlign: "center" }}>
+        <td style={{ textAlign: "center" }} >
           <input
             type="number"
             name="accQty"
             className="form-control"
-            style={{ width: "5em" }}
+            style={{ width: "8em" }}
             value={Accitem.accQty}
             min="0"
             onChange={(event) => handleEditedAcc(event, Accitem.id, Accitem, newItem)}
           />
         </td>
-          <td className="text-center" style={{ textAlign: "center" }}>
+          <td className="text-center" style={{ textAlign: "center" }} colSpan={2}>
             <input
               type="number"
-              name="width"
+              name="accWidth"
               className="form-control"
               style={{ width: "5em" }}
-              value={Accitem.width}
+              value={Accitem.accWidth}
               min="0"
               readOnly
               disabled
@@ -88,29 +87,29 @@ function AccTableBody({newItem,
         <td className="text-center">
           <input
             type="number"
-            name="height"
+            name="accHeight"
             className="form-control"
             style={{ width: "5em" }}
-            value={Accitem.height}
+            value={Accitem.accHeight}
             readOnly
             disabled />
         </td>
         <td className="text-center">
           <input
             type="number"
-            name="depth"
+            name="accDepth"
             className="form-control"
             style={{ width: "5em" }}
-            value={Accitem.depth}
+            value={Accitem.accDepth}
             readOnly
             disabled />
         </td>
-        <td>
+        <td colSpan="10">
           <input
-            name="price"
+            name="accPrice"
             className="form-control bg-light rounded-pill"
             type="number"
-            value={Accitem.price}
+            value={Accitem.accPrice}
             style={{ width: "8em" }}
             readOnly
             disabled />
@@ -121,5 +120,3 @@ function AccTableBody({newItem,
   }
 
 export default AccTableBody;
-
-

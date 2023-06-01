@@ -13,7 +13,6 @@ function App() {
   });
   return (
     <div className="App">
-      <Topbar />
       <RightSideBar setInfo={setInfo} />
       <div id="main">
         <CreateArea info={info} />

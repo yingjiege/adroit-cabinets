@@ -9,7 +9,6 @@ function TableBody({
   handleCopyClick,
   handleEdited,
 }) {
-
   const getCabinetById = (id) => {
     return cabinet.find(cab => cab.ID === id);
   }
@@ -29,6 +28,7 @@ function TableBody({
   const [widthValue, setWidthValue] = useState(true);
   const [qtyInteger, setQtyInteger] = useState(true);
   const [widthPositive, setWidthPositive] = useState(true);
+  const [hingeReq, setHingeReq] = useState(true);
   function isPositiveInteger(input) {
     return /^[0-9]\d*$/.test(input);
   }
@@ -60,8 +60,15 @@ function TableBody({
     } else {
       setQtyInteger(true);
     }
+
+    if(cabInfo && item.width <=24){
+      setHingeReq(false);
+    }
+    else if(cabInfo && item.width >24){
+      setHingeReq(true);
+    }
   }, [item.width, item.qty, cabInfo]);
-  
+
   return (
     <><tr>
       <td>
@@ -80,7 +87,7 @@ function TableBody({
           type="text"
           list="cabinetSize"
           className="form-control"
-          placeholder="select Cabinet Size"
+          placeholder="Select Cabinet Size"
           name="cabinetSize"
           style={{ width: "12em" }}
           value={item.cabinetSize}
@@ -97,7 +104,7 @@ function TableBody({
           type="text"
           list="data3"
           className="form-control"
-          placeholder="select Door Color"
+          placeholder="Select Door Color"
           name="doorColor"
           style={{ width: "12em" }}
           value={item.doorColor} // use the doorColor value from newItem
@@ -114,7 +121,7 @@ function TableBody({
           type="number"
           name="qty"
           className={qtyInteger === false ? "form-control is-invalid" : "form-control"}
-          style={{ width: "5em" }}
+          style={{ width: "10em" }}
           value={item.qty}
           min="1"
           onChange={(event) => handleEdited(event, item.id, item, newItem)}
@@ -128,7 +135,7 @@ function TableBody({
             type="number"
             name="width"
             className={widthValue === false || widthPositive === false ? "form-control is-invalid" : "form-control"} 
-            style={{ width: "5em" }}
+            style={{ width: "10em" }}
             value={item.width}
             max={cabInfo && cabInfo.W}
             min="0"
@@ -146,7 +153,7 @@ function TableBody({
           type="number"
           name="height"
           className="form-control"
-          style={{ width: "5em" }}
+          style={{ width: "10em" }}
           value={item.height}
           readOnly
           disabled />
@@ -156,7 +163,7 @@ function TableBody({
           type="number"
           name="depth"
           className="form-control"
-          style={{ width: "5em" }}
+          style={{ width: "10em" }}
           value={item.depth}
           readOnly
           disabled />
@@ -174,6 +181,9 @@ function TableBody({
           <option value="L">Left</option>
           <option value="R">Right</option>
         </select>
+        {!hingeReq && (
+          <div >Hinge is required</div>
+        )}
       </td>
       <td className="text-center">
         <select

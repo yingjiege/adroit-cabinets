@@ -1,25 +1,22 @@
 import React from "react";
-import cabinetDoor from "../cabinetDoor";
-import customer from "../CabinetDiscount";
 
-
-function AccTableHead({item}) {
-
+function AccTableHead() {
   return (
     <thead className="table-success">
       <tr>
-      <th className="text-center"> Accessory</th>
-      </tr>
-      <tr>
-        <th className="text-center"> </th>
-        <th className="text-center"></th>
-        <th className="text-center">Item#</th>
-        <th className="text-center">Cabinet Size</th>
-        <th className="text-center">Door Color</th>
-        <th className="text-center">Qty</th>
-        <th className="text-center">Width(inch)</th>
-        <th className="text-center">Height(inch)</th>
-        <th className="text-center">Depth</th>
+        <th className="text-center" style={{ width: "100px" }}>Accessory</th>
+        <th className="text-center">Copy</th>
+        <th className="text-center" style={{ width: "80px" }}>Item#</th>
+        <th className="text-center" style={{ width: "200px" }}>ACC-NO</th>
+        <th className="text-center" style={{ width: "100px" }}>COLOR</th>
+        <th className="text-center" style={{ width: "100px" }}>Qty</th>
+        <th >Width(inch)</th>
+
+        <th colSpan="2">Height(inch)</th>
+
+        <th colSpan="2">Depth</th>
+
+
         <th  colSpan="2" className="text-center">Price</th>
       </tr>
     </thead>
