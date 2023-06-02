@@ -13,7 +13,7 @@ function App() {
   });
 
   return (
-      <div className="main-container">
+      <div className="main-container" id="main">
         <div id="main">
           <CreateArea info={info} />
         </div>
