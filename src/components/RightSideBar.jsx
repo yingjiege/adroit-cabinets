@@ -19,7 +19,7 @@ function RightSideBar({ setInfo }) {
     <nav className="navbar" id="sidenav">
       <ul className="navbar-nav">
       <li class="logo">
-        <a href="a" class="nav-link">
+        <a class="nav-link">
       
           <svg
             aria-hidden="true"
@@ -48,7 +48,7 @@ function RightSideBar({ setInfo }) {
       </li>
 
         <li className="logo">
-          <a href="b" className="nav-link">
+          <a className="nav-link">
           <span class="link-text logo-text">Order Information</span>
           </a>
           <div>
@@ -74,7 +74,7 @@ function RightSideBar({ setInfo }) {
           </div>
         </li>
         <li className="logo">
-          <a href="d" className="nav-link">
+          <a className="nav-link">
           <span class="link-text logo-text">Billing</span>
           </a>
           <div>
@@ -88,7 +88,7 @@ function RightSideBar({ setInfo }) {
           </div>
         </li>
         <li className="logo">
-          <a href="d" className="nav-link">
+          <a className="nav-link">
           <span class="link-text logo-text">Memo</span>
           </a>
           <div>
