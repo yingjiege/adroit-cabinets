@@ -61,13 +61,14 @@ function TableBody({
       setQtyInteger(true);
     }
 
-    if(cabInfo && item.width <=24){
-      setHingeReq(false);
+    if(cabInfo){
+      if(item.width <= 24 && item.hinge ==="")
+        setHingeReq(false);
+      else 
+        setHingeReq(true);
     }
-    else if(cabInfo && item.width >24){
-      setHingeReq(true);
-    }
-  }, [item.width, item.qty, cabInfo]);
+    
+  }, [item.width, item.qty, item.hinge, cabInfo]);
 
   return (
     <><tr>
@@ -121,7 +122,7 @@ function TableBody({
           type="number"
           name="qty"
           className={qtyInteger === false ? "form-control is-invalid" : "form-control"}
-          style={{ width: "10em" }}
+          style={{ width: "5em", margin: "0 auto" }}
           value={item.qty}
           min="1"
           onChange={(event) => handleEdited(event, item.id, item, newItem)}
@@ -130,12 +131,12 @@ function TableBody({
           <div className="invalid-feedback">Please enter more than 0</div>
         )}
       </td>
-        <td className="text-center" style={{ textAlign: "center" }}>
+      <td className="text-center" style={{ textAlign: "center", display: "flex", justifyContent: "center" }}>
           <input
             type="number"
             name="width"
             className={widthValue === false || widthPositive === false ? "form-control is-invalid" : "form-control"} 
-            style={{ width: "10em" }}
+            style={{ width: "5em" }}
             value={item.width}
             max={cabInfo && cabInfo.W}
             min="0"
@@ -148,32 +149,34 @@ function TableBody({
             <div className="invalid-feedback">Please enter width more than 0 and integer only</div>
           )}
         </td>
-      <td className="text-center">
-        <input
-          type="number"
-          name="height"
-          className="form-control"
-          style={{ width: "10em" }}
-          value={item.height}
-          readOnly
-          disabled />
-      </td>
-      <td className="text-center">
-        <input
-          type="number"
-          name="depth"
-          className="form-control"
-          style={{ width: "10em" }}
-          value={item.depth}
-          readOnly
-          disabled />
-      </td>
+        <td className="text-center">
+          <input
+            type="number"
+            name="height"
+            className="form-control"
+            style={{ width: "5em", margin: "0 auto" }}
+            value={item.height}
+            readOnly
+            disabled
+          />
+        </td>
+        <td className="text-center">
+          <input
+            type="number"
+            name="depth"
+            className="form-control"
+            style={{ width: "5em", margin: "0 auto" }}
+            value={item.depth}
+            readOnly
+            disabled
+          />
+        </td>
       <td className="text-center">
         <select
           type="text"
           name="hinge"
-          className="form-control"
-          style={{ width: "6em" }}
+          className={hingeReq === false  ? "form-control is-invalid" : "form-control"}
+          style={{ width: "8em" }}
           value = {item.hinge}
           onChange={(event) => handleEdited(event, item.id, item, newItem)}
         >
@@ -182,7 +185,7 @@ function TableBody({
           <option value="R">Right</option>
         </select>
         {!hingeReq && (
-          <div >Hinge is required</div>
+          <div className="invalid-feedback">Hinge is required</div>
         )}
       </td>
       <td className="text-center">
