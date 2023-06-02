@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/adroit-cabinets/precache-manifest.6cefd3c1a7d4d6540e774ee63b8e0b18.js"
+  "/adroit-cabinets/precache-manifest.292fe7211c26eeedea9bb77a0f8adc5c.js"
 );
 
 workbox.clientsClaim();
