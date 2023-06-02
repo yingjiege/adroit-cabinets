@@ -100,13 +100,6 @@ function RightSideBar({ setInfo }) {
               onChange={handleInfoChange}
             ></textarea>
           </div>
-          <div>
-            <span style={{ color: "black" }} class=" logo-text">
-            <a href="d" className="nav-link">
-                By submitting this order you agree to our terms and conditions
-            </a>
-            </span>
-          </div>
           </li>
           <li>
           <CSVLink data={table} filename={"my-file.csv"} target="_blank">
