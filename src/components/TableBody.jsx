@@ -237,7 +237,8 @@ function TableBody({
         <input
           type="text"
           name="doorH"
-          style={{ width: "6em" }}
+          style={{ width: "6em", margin: "0 auto" }}
+          className="form-control"
           value = {item.doorH}
           onChange={(event) => handleEdited(event, item.id, item, newItem)}
           />
@@ -246,7 +247,8 @@ function TableBody({
         <input
           type="text"
           name="pcTopDoor"
-          style={{ width: "6em" }}
+          className="form-control"
+          style={{ width: "6em", margin: "0 auto" }}
           value = {item.pcTopDoor}
           onChange={(event) => handleEdited(event, item.id, item, newItem)}
            />
@@ -255,7 +257,8 @@ function TableBody({
         <input
           type="text"
           name="pcDoor"
-          style={{ width: "6em" }}
+          className="form-control"
+          style={{ width: "6em", margin: "0 auto" }}
           value = {item.pcDoor}
           onChange={(event) => handleEdited(event, item.id, item, newItem)}
            />
@@ -264,7 +267,8 @@ function TableBody({
         <input
           type="text"
           name="botDF"
-          style={{ width: "6em" }}
+          className="form-control"
+          style={{ width: "6em", margin: "0 auto" }}
           value = {item.botDF}
           onChange={(event) => handleEdited(event, item.id, item, newItem)}
            />
@@ -273,7 +277,8 @@ function TableBody({
         <select
           type="text"
           name="notchOut"
-          style={{ width: "6em" }}
+          className="form-control"
+          style={{ width: "8em", margin: "0 auto" }}
           value = {item.notchOut}
           onChange={(event) => handleEdited(event, item.id, item, newItem)}
            >
@@ -287,10 +292,11 @@ function TableBody({
         <input
           type="text"
           list="customizeAddOn"
+          className="form-control"
           name="customizeAddOn"
           value={item.customizeAddOn}
           onChange={(event) => handleEdited(event, item.id, item, newItem)}
-          style={{ width: "15em" }}
+          style={{ width: "25em" }}
         />
         <datalist id="customizeAddOn">
           {addOn.map((item, key) => (
@@ -302,6 +308,7 @@ function TableBody({
         <input
           type="text"
           name="memo"
+          className="form-control"
           style={{ width: "24em" }}
           value = {item.memo}
           onChange={(event) => handleEdited(event, item.id, item, newItem)}

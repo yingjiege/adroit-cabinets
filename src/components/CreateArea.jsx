@@ -382,9 +382,9 @@ function CreateArea({info}) {
     const finLOrR = item.finLOrR;
     const newFinish = cabinetFinish[doorType];
     let finalPrice = 0;
-    let price = DO + BO;
+    let price = parseFloat(DO + BO);
     let newDiscount =parseFloat(discount) ;
-    if(newDiscount !== 0){
+    if(newDiscount !== 0 && newDiscount){
       price = price * (newDiscount / 100).toFixed(2);
     }
     let customizeAddOn = item.customizeAddOn;
@@ -519,6 +519,7 @@ const handleFileUpload = (e) => {
         };
   
         const priceArr = uploadCal(parsedData[row], parsedData[0].discount);
+        console.log(priceArr)
         const widthField = "width";
         const heightField = "height";
         const depthField = "depth";

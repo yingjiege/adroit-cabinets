@@ -1,4 +1,4 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import Topbar from "./Topbar";
 import CreateArea from "./CreateArea";
 import RightSideBar from "./RightSideBar";
@@ -11,13 +11,14 @@ function App() {
     billing: "",
     memo: ""
   });
+
   return (
-    <div className="App">
-      <RightSideBar setInfo={setInfo} />
-      <div id="main">
-        <CreateArea info={info} />
+      <div className="main-container">
+        <div id="main">
+          <CreateArea info={info} />
+        </div>
+        <RightSideBar setInfo={setInfo} />
       </div>
-    </div>
   );
 }
 

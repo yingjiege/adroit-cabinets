@@ -66,7 +66,7 @@ function AccTableBody({newItem,
             type="number"
             name="accQty"
             className="form-control"
-            style={{ width: "8em" }}
+            style={{ width: "5em", margin: "0 auto"  }}
             value={Accitem.accQty}
             min="0"
             onChange={(event) => handleEditedAcc(event, Accitem.id, Accitem, newItem)}
@@ -77,7 +77,7 @@ function AccTableBody({newItem,
               type="number"
               name="accWidth"
               className="form-control"
-              style={{ width: "5em" }}
+              style={{ width: "5em"  }}
               value={Accitem.accWidth}
               min="0"
               readOnly
@@ -89,7 +89,7 @@ function AccTableBody({newItem,
             type="number"
             name="accHeight"
             className="form-control"
-            style={{ width: "5em" }}
+            style={{ width: "5em"  }}
             value={Accitem.accHeight}
             readOnly
             disabled />
@@ -99,7 +99,7 @@ function AccTableBody({newItem,
             type="number"
             name="accDepth"
             className="form-control"
-            style={{ width: "5em" }}
+            style={{ width: "5em"}}
             value={Accitem.accDepth}
             readOnly
             disabled />
@@ -110,7 +110,7 @@ function AccTableBody({newItem,
             className="form-control bg-light rounded-pill"
             type="number"
             value={Accitem.accPrice}
-            style={{ width: "8em" }}
+            style={{ width: "8em", margin: "0 auto"  }}
             readOnly
             disabled />
         </td>
