@@ -63,7 +63,7 @@ function TableBody({
     }
 
     if(cabInfo){
-      if(item.width <= 24 && item.hinge ==="")
+      if(item.width < 24 && item.hinge ==="")
         setHingeReq(false);
       else 
         setHingeReq(true);
