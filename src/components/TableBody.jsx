@@ -20,6 +20,7 @@ function TableBody({
     newItem.BDoorColor,
     newItem.CDoorColor
   ]
+  
   const [additionalShown, setAdditionalShown] = useState(false);
   const handleToggleAdditional = () => {
     setAdditionalShown(!additionalShown);
@@ -110,6 +111,9 @@ function TableBody({
           style={{ width: "12em" }}
           value={item.doorColor} // use the doorColor value from newItem
           onChange={(event) => handleEdited(event, item.id, item, newItem)}
+          readOnly={colorSelected.every(color => color === "")}
+          disabled={colorSelected.every(color => color === "")}
+
                      />
         <datalist id="data3">
           {colorSelected.map((item, key) => (
