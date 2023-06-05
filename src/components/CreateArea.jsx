@@ -471,9 +471,8 @@ const handleFileUpload = (e) => {
     const sheetName = workbook.SheetNames[0];
     const sheet = workbook.Sheets[sheetName];
     // Create the new variable to store the data from the sheet
-    let parsedData = XLSX.utils.sheet_to_json(sheet);
-  
-    if (parsedData.length <=3 ){
+    let parsedData = XLSX.utils.sheet_to_json(sheet);  
+    if (parsedData.length <1 ){
       return;
     }
 
@@ -523,7 +522,6 @@ const handleFileUpload = (e) => {
         };
   
         const priceArr = uploadCal(parsedData[row], parsedData[0].discount);
-        console.log(priceArr)
         const widthField = "width";
         const heightField = "height";
         const depthField = "depth";
