@@ -76,7 +76,7 @@ function PrintHead({ item, select, info }) {
             <th className="needBorder" colSpan={5}>{select.slide}</th>
           </tr>
           <tr>
-          <th colSpan={3}>www.adroit.com</th>
+          <th colSpan={3}>www.adroitmanufactory.com</th>
             <th colSpan={3}>BROOKLYN</th>
             <th className="needBorder">B DOOR COLOR:</th>
             <th className="needBorder" colSpan={2}>{select.BDoorColor}</th>

@@ -63,7 +63,7 @@ function TableBody({
     }
 
     if(cabInfo){
-      if(item.width < 24 && item.hinge ==="")
+      if(cabInfo.DOOR_COUNT === 1 && item.hinge === "")
         setHingeReq(false);
       else 
         setHingeReq(true);
@@ -113,8 +113,7 @@ function TableBody({
           onChange={(event) => handleEdited(event, item.id, item, newItem)}
           readOnly={colorSelected.every(color => color === "")}
           disabled={colorSelected.every(color => color === "")}
-
-                     />
+        />
         <datalist id="data3">
           {colorSelected.map((item, key) => (
             <option key={key} value={item} />
@@ -320,10 +319,7 @@ function TableBody({
       </td>
     </tr>
     </>
-        
-        
-      );
-
+  );
 }
 
 export default TableBody;

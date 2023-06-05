@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Topbar from "./Topbar";
 import CreateArea from "./CreateArea";
 import RightSideBar from "./RightSideBar";
 
@@ -16,7 +15,7 @@ function App() {
       <div className="main-container" id="main">
         <div id="main">
           <CreateArea info={info} />
-        </div>
+        </div >
         <RightSideBar setInfo={setInfo} />
       </div>
   );

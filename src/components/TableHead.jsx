@@ -123,7 +123,7 @@ function TableHead({item,handleEditAllInOne, handleUpdateTwo}) {
             </th>
           </tr>
           <tr>
-          <th colSpan={3}>www.adroit.com</th>
+          <th colSpan={3}>www.adroitmanufactory.com</th>
             <th colSpan={2}>BROOKLYN</th>
             <th className="needBorder">B DOOR COLOR:</th>
             <th><input

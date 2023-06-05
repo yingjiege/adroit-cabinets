@@ -18,9 +18,8 @@ function RightSideBar({ setInfo }) {
   return (
     <nav className="navbar" id="sidenav">
       <ul className="navbar-nav">
-      <li class="logo">
-        <button class="nav-link">
-      
+      <li className="logo">
+        <button className="nav-link">
           <svg
             aria-hidden="true"
             focusable="false"
@@ -29,30 +28,28 @@ function RightSideBar({ setInfo }) {
             role="img"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 448 512"
-            class="svg-inline--fa fa-angle-double-right fa-w-14 fa-5x"
+            className="svg-inline--fa fa-angle-double-right fa-w-14 fa-5x"
           >
-            <g class="fa-group">
+            <g className="fa-group">
               <path
                 fill="currentColor"
                 d="M224 273L88.37 409a23.78 23.78 0 0 1-33.8 0L32 386.36a23.94 23.94 0 0 1 0-33.89l96.13-96.37L32 159.73a23.94 23.94 0 0 1 0-33.89l22.44-22.79a23.78 23.78 0 0 1 33.8 0L223.88 239a23.94 23.94 0 0 1 .1 34z"
-                class="fa-secondary"
+                className="fa-secondary"
               ></path>
               <path
                 fill="currentColor"
                 d="M415.89 273L280.34 409a23.77 23.77 0 0 1-33.79 0L224 386.26a23.94 23.94 0 0 1 0-33.89L320.11 256l-96-96.47a23.94 23.94 0 0 1 0-33.89l22.52-22.59a23.77 23.77 0 0 1 33.79 0L416 239a24 24 0 0 1-.11 34z"
-                class="fa-primary"
+                className="fa-primary"
               ></path>
             </g>
           </svg>
         </button>
       </li>
 
-        <li className="logo">
-          <a className="nav-link">
-          <span class="link-text logo-text">Order Information</span>
-          </a>
+      <li className="logo">
+        <span className="link-text logo-text nav-link">Order Information</span>
           <div>
-            <input
+            {/* <input
               className="form-control logo-text"
               placeholder="Order Name"
               name="name"
@@ -63,7 +60,7 @@ function RightSideBar({ setInfo }) {
               placeholder="Description"
               name="description"
               onChange={handleInfoChange}
-            ></textarea>
+            ></textarea> */}
             <input
               className="form-control logo-text"
               type="date"
@@ -72,11 +69,9 @@ function RightSideBar({ setInfo }) {
               onChange={handleInfoChange}
             />
           </div>
-        </li>
-        <li className="logo">
-          <a className="nav-link">
-          <span class="link-text logo-text">Billing</span>
-          </a>
+      </li>
+      <li className="logo">
+        <span className="link-text logo-text nav-link" >Billing</span>
           <div>
             <textarea
               className="form-control link-text logo-text"
@@ -86,11 +81,9 @@ function RightSideBar({ setInfo }) {
               onChange={handleInfoChange}
             ></textarea>
           </div>
-        </li>
-        <li className="logo">
-          <a className="nav-link">
-          <span class="link-text logo-text">Memo</span>
-          </a>
+      </li>
+      <li className="logo">
+        <span className="link-text logo-text nav-link">Memo</span>
           <div>
             <textarea
               className="form-control link-text logo-text"
@@ -111,7 +104,6 @@ function RightSideBar({ setInfo }) {
             </i>
           </CSVLink>
           </li>
-
       </ul>
     </nav>
   );

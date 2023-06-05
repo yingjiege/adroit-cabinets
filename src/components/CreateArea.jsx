@@ -472,12 +472,17 @@ const handleFileUpload = (e) => {
     const sheet = workbook.Sheets[sheetName];
     // Create the new variable to store the data from the sheet
     let parsedData = XLSX.utils.sheet_to_json(sheet);  
-    if (parsedData.length <1 ){
+    if (parsedData.length >=1 ){
+      if(parsedData[0].cabinetSize === ""){
+        return;
+      }
+    }
+    else{
       return;
     }
 
     let newItem = {
-      cabinetSize: parsedData[0].cabinetSize || "",
+      cabinetSize: parsedData[0].cabinetSize,
       company: parsedData[0].company || "",
       PO: parsedData[0].PO || "",
       cabinetBox: parsedData[0].cabinetBox || "",
