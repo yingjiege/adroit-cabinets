@@ -19,7 +19,7 @@ function RightSideBar({ setInfo }) {
     <nav className="navbar" id="sidenav">
       <ul className="navbar-nav">
       <li class="logo">
-        <a class="nav-link">
+        <button class="nav-link">
       
           <svg
             aria-hidden="true"
@@ -44,7 +44,7 @@ function RightSideBar({ setInfo }) {
               ></path>
             </g>
           </svg>
-        </a>
+        </button>
       </li>
 
         <li className="logo">
