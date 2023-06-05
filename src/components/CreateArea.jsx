@@ -472,6 +472,10 @@ const handleFileUpload = (e) => {
     const sheet = workbook.Sheets[sheetName];
     // Create the new variable to store the data from the sheet
     let parsedData = XLSX.utils.sheet_to_json(sheet);
+  
+    if (parsedData.length <=3 ){
+      return;
+    }
 
     let newItem = {
       cabinetSize: parsedData[0].cabinetSize || "",
