@@ -5,7 +5,7 @@ function Topbar() {
   return (
     <header>
     <nav
-    className="navbar navbar-expand-lg bg-body-tertiary rounded"
+    className="navbar2 navbar-expand-lg bg-body-tertiary rounded"
       aria-label="Thirteenth navbar example"
     >
       <div className="container-fluid">
