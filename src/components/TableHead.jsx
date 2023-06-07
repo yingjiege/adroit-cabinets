@@ -49,7 +49,7 @@ function TableHead({item,handleEditAllInOne, handleUpdateTwo}) {
             <th colSpan={2}>BILLING TO:</th>
             <th colSpan={3}>MEMO:</th>
           </tr>
-          <tr>
+          <tr style={{ fontSize: '12px' }}>
             <th colSpan={2}>Adroit LOGISTICS</th>
             <th className="needBorder">*CABINET BOX:</th>
             <th>
@@ -86,7 +86,7 @@ function TableHead({item,handleEditAllInOne, handleUpdateTwo}) {
             <th colSpan={3} rowSpan={5} className="needBorder"></th>
             <th colSpan={3} rowSpan={5} className="needBorder"></th>
           </tr>
-          <tr>
+          <tr style={{ fontSize: '12px' }}>
             <th colSpan={2}>859 39th St</th>
             <th className="needBorder">*A DOOR COLOR:</th>
             <th>
@@ -122,7 +122,7 @@ function TableHead({item,handleEditAllInOne, handleUpdateTwo}) {
             </select>
             </th>
           </tr>
-          <tr>
+          <tr style={{ fontSize: '12px' }}>
           <th colSpan={3}>www.adroitmanufactory.com</th>
             <th colSpan={2}>BROOKLYN</th>
             <th className="needBorder">B DOOR COLOR:</th>
@@ -158,7 +158,7 @@ function TableHead({item,handleEditAllInOne, handleUpdateTwo}) {
 
             </th>
           </tr>
-          <tr>
+          <tr style={{ fontSize: '12px' }}>
           <th colSpan={3}>customer.service@adroit.com</th>
             <th colSpan={2}>Tel.(718)431-0089</th>
             <th className="needBorder">C DOOR COLOR:</th>
@@ -193,7 +193,7 @@ function TableHead({item,handleEditAllInOne, handleUpdateTwo}) {
               </select>
             </th>
           </tr>
-          <tr>
+          <tr style={{ fontSize: '12px' }}>
           <th colSpan={3} rowSpan={2}>com.: 517 LUIS VAZQUEZ</th>
             <th colSpan={2}>Fax.(718)431-0060</th>
             <th className="needBorder">SP ORDER LEAD TIME:</th>
@@ -201,7 +201,7 @@ function TableHead({item,handleEditAllInOne, handleUpdateTwo}) {
             <th className="needBorder">Assemble Time (Min): </th>
             <th></th>
           </tr>
-          <tr>
+          <tr style={{ fontSize: '12px' }}>
             <th colSpan={2}>-- Operation insured by MAPFRE</th>
             <th className="needBorder">9407</th>
             <th colSpan={1}>Tel:+11234567890</th>
