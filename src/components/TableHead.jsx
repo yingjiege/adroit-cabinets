@@ -29,11 +29,6 @@ function TableHead({item,handleEditAllInOne, handleUpdateTwo}) {
                 value={item.company}
                 onChange={(event) => handleUpdateTwo(event, item)}
               />
-              <datalist id="dataCompany">
-                {customer.map((item, key) => (
-                  <option key={key} value={item.Company} />
-                ))}
-              </datalist>
             </th>
             <th className="listhead">PO#:</th>
             <th>
@@ -205,18 +200,6 @@ function TableHead({item,handleEditAllInOne, handleUpdateTwo}) {
             <th colSpan={2}>-- Operation insured by MAPFRE</th>
             <th className="needBorder">9407</th>
             <th colSpan={1}>Tel:+11234567890</th>
-            <th className="needBorder">Customer Multi</th>
-            <th className="needBorder">
-              <input
-                list="dataDiscount"
-                className="form-control"
-                name="discount"
-                value={isNaN(item.discount) ? item.discount : item.discount + "%"}
-                onChange={(event) => handleUpdateTwo(event, item)}
-                readOnly
-                disabled
-              />
-            </th>
             <th colSpan={4}></th>
           </tr>
       <tr>
