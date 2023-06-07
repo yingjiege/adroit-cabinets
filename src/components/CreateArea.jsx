@@ -594,9 +594,9 @@ const handleFileUpload = (e) => {
     if (fieldName === "company") {
       const fieldName1 = "company";
       const fieldName2 = "discount";
-      newData[fieldName1] = fieldValue;
+      newData[fieldName1] = fieldValue.toUpperCase();
   
-      const Sindex = customer.findIndex((item) => item.Company === fieldValue);
+      const Sindex = customer.findIndex((item) => item.Company.toUpperCase() === fieldValue.toUpperCase());
       if (Sindex !== -1) {
         newData[fieldName2] = formatPercentage(customer[Sindex].MULTIPIER);
       }
