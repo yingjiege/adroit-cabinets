@@ -200,7 +200,7 @@ function TableHead({item,handleEditAllInOne, handleUpdateTwo}) {
             <th colSpan={2}>-- Operation insured by MAPFRE</th>
             <th className="needBorder">9407</th>
             <th colSpan={1}>Tel:+11234567890</th>
-            <th colSpan={4}></th>
+            <th colSpan={6}></th>
           </tr>
       <tr>
         <th className="text-center">Cabinet</th>
