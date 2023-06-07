@@ -7,7 +7,7 @@ function TableHead({item,handleEditAllInOne, handleUpdateTwo}) {
 
   return (
     <thead className="table-success">
-      <tr>
+      <tr style={{ fontSize: '12px' }}>
             <th colSpan={3} rowSpan={3}>
               <img
                 src="https://adroitmanufacturing.allmoxy.com/data/header/Adroit_logo_3d-01-01.png"
