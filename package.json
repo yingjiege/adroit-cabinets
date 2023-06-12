@@ -1,7 +1,7 @@
 {
   "name": "adroit",
   "version": "0.1.0",
-  "homepage": "/adroit-cabinets"
+  "homepage": "/adroit-cabinets",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.10.6",
