@@ -12,14 +12,15 @@ function App() {
     memo: ""
   });
 
+
   return (
     <div className="App">
       <Topbar/>
       <div className="main-container" id="main">
+      <RightSideBar setInfo={setInfo} />
         <div id="main">
           <CreateArea info={info} />
         </div >
-        <RightSideBar setInfo={setInfo} />
       </div>
       </div>
   );
