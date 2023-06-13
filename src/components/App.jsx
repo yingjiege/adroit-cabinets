@@ -1,4 +1,3 @@
-// App.js
 import React, { useState} from "react";
 import Topbar from "./Topbar";
 import CreateArea from "./CreateArea";

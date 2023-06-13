@@ -1,16 +1,17 @@
 import React,  {useState} from "react";
 import { CSVLink } from "react-csv";
 
-function TableFooter(props) {
+function AccTableFooter(props) {
+  const acc = props.acc;
   const items = props.items;
   const newItem = props.newItem;
   const [addNumberOfRow, setAddNumberOfRow] = useState(1);
 
   let testTotal = 0;
   let totalQty = 0;
-  for (let row in items) {
-    testTotal += Number(items[row].price);
-    totalQty += Number(items[row].qty);
+  for (let row in acc) {
+    testTotal += Number(acc[row].accPrice);
+    totalQty += Number(acc[row].accQty);
   }
   
    testTotal = +(Math.round(testTotal + "e+2") + "e-2");
@@ -24,24 +25,34 @@ function TableFooter(props) {
     setAddNumberOfRow(needRow);
   }
 
-  const itemsWithNewData = items.map((item) => ({
-    ...newItem, // Spread the properties of the newItem object
-    ...item // Spread the properties of the original object
-  }));
+  let itemsWithNewData = [];
 
+  if (Array.isArray(items)) {
+    itemsWithNewData = itemsWithNewData.concat(items);
+  }
+  
+  if (Array.isArray(acc)) {
+    for(let i in acc){
+      if(acc[i].accQty !== 0)
+      itemsWithNewData = itemsWithNewData.concat(acc[i]);
+    }
+  }
+  
+  itemsWithNewData = itemsWithNewData.map((item) => ({
+    ...newItem,
+    ...item
+  }));
 
   return (
     <tfoot>
       <tr>
-      <td colSpan="5" align="right">
-          total items
+      <td colSpan="12" align="center">
+          total items {totalQty}
         </td>
-        <td>{totalQty}</td>
-        <td colSpan="7" align="right">
+        <td colSpan="1" align="center">
         ${testTotal}
         </td>
       </tr>
-
       <tr>
         <td colSpan="3">
           <div className="input-group">
@@ -49,7 +60,7 @@ function TableFooter(props) {
               className="bi bi-plus-circle-fill btn btn-secondary"
               onClick={() => handleClick(addNumberOfRow)}
             >
-              add row
+              Add Accessory
             </i>
             <input
               type="number"
@@ -69,7 +80,8 @@ function TableFooter(props) {
           >
             PDF
           </i>
-          <CSVLink data={itemsWithNewData} filename={"my-file.csv"} target="_blank">
+          <CSVLink data={itemsWithNewData} filename={"my-file.csv"} target="_blank"   
+>
             <i
               className="bi bi-filetype-csv btn btn-primary"
               style={{ color: "white", borderStyle: "solid" }}
@@ -83,4 +95,4 @@ function TableFooter(props) {
   );
 }
 
-export default TableFooter;
+export default AccTableFooter;
