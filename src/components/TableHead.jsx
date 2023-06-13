@@ -1,23 +1,13 @@
-import React, { useState,  useEffect} from "react";
-import Axios from "axios";
+import React from "react";
+import cabinetDoor from "../cabinetDoor";
+import customer from "../CabinetDiscount";
 
 
 function TableHead({item,handleEditAllInOne, handleUpdateTwo}) {
-  
-  const [cabinetDoor, setCabinetDoor] = useState([]);
-  useEffect(() => {
-    Axios.get(`https://us-east-1.aws.data.mongodb-api.com/app/application-0-hxfdv/endpoint/cabinet_door`)
-      .then((res) => {
-        const searchedCabinet = res.data;
-        setCabinetDoor(searchedCabinet);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
+
   return (
     <thead className="table-success">
-      <tr style={{ fontSize: '10px' }}>
+      <tr style={{ fontSize: '12px' }}>
             <th colSpan={3} rowSpan={3}>
               <img
                 src="https://adroitmanufacturing.allmoxy.com/data/header/Adroit_logo_3d-01-01.png"
@@ -54,7 +44,7 @@ function TableHead({item,handleEditAllInOne, handleUpdateTwo}) {
             <th colSpan={2}>BILLING TO:</th>
             <th colSpan={3}>MEMO:</th>
           </tr>
-          <tr>
+          <tr style={{ fontSize: '12px' }}>
             <th colSpan={2}>Adroit LOGISTICS</th>
             <th className="needBorder">*CABINET BOX:</th>
             <th>
@@ -91,7 +81,7 @@ function TableHead({item,handleEditAllInOne, handleUpdateTwo}) {
             <th colSpan={3} rowSpan={5} className="needBorder"></th>
             <th colSpan={3} rowSpan={5} className="needBorder"></th>
           </tr>
-          <tr>
+          <tr style={{ fontSize: '12px' }}>
             <th colSpan={2}>859 39th St</th>
             <th className="needBorder">*A DOOR COLOR:</th>
             <th>
@@ -127,7 +117,7 @@ function TableHead({item,handleEditAllInOne, handleUpdateTwo}) {
             </select>
             </th>
           </tr>
-          <tr>
+          <tr style={{ fontSize: '12px' }}>
           <th colSpan={3}>www.adroitmanufactory.com</th>
             <th colSpan={2}>BROOKLYN</th>
             <th className="needBorder">B DOOR COLOR:</th>
@@ -163,7 +153,7 @@ function TableHead({item,handleEditAllInOne, handleUpdateTwo}) {
 
             </th>
           </tr>
-          <tr>
+          <tr style={{ fontSize: '12px' }}>
           <th colSpan={3}>customer.service@adroit.com</th>
             <th colSpan={2}>Tel.(718)431-0089</th>
             <th className="needBorder">C DOOR COLOR:</th>
@@ -198,7 +188,7 @@ function TableHead({item,handleEditAllInOne, handleUpdateTwo}) {
               </select>
             </th>
           </tr>
-          <tr>
+          <tr style={{ fontSize: '12px' }}>
           <th colSpan={3} rowSpan={2}>com.: 517 LUIS VAZQUEZ</th>
             <th colSpan={2}>Fax.(718)431-0060</th>
             <th className="needBorder">SP ORDER LEAD TIME:</th>
@@ -206,11 +196,11 @@ function TableHead({item,handleEditAllInOne, handleUpdateTwo}) {
             <th className="needBorder">Assemble Time (Min): </th>
             <th></th>
           </tr>
-          <tr>
+          <tr style={{ fontSize: '12px' }}>
             <th colSpan={2}>-- Operation insured by MAPFRE</th>
             <th className="needBorder">9407</th>
             <th colSpan={1}>Tel:+11234567890</th>
-            <th colSpan={4}></th>
+            <th colSpan={6}></th>
           </tr>
       <tr>
         <th className="text-center">Cabinet</th>

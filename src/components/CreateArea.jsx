@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useRef, useEffect} from "react";
+import React, { Fragment, useState, useRef} from "react";
 import TableHead from "./TableHead";
 import TableBody from "./TableBody";
 import { nanoid } from "nanoid";
@@ -8,71 +8,18 @@ import PrintFooter from "./PrintFooter"
 import PrintAcc from "./PrintAcc"
 import { useReactToPrint } from "react-to-print";
 import TableFooter from "./TableFooter";
+import cabinetFinish from "../cabinetFinish";
+import addOn from "../AddOn";
+import cabinet from "../cabinet";
+import cabinetDoor from "../cabinetDoor";
 import * as XLSX from "xlsx/xlsx.js";
+import customer from "../CabinetDiscount";
 import AccTableHead from "./AccTableHead";
 import AccTableBody from "./AccTableBody";
 import AccTableFooter from "./AccTableFooter";
-import Axios from "axios";
-
+import Acc from "../Acc";
 
 function CreateArea({info}) {
-  const [cabinet, setCabinet] = useState([]);
-  const [cabinetDoor, setCabinetDoor] = useState([]);
-  const [Acc, setAcc] = useState([]);
-  const [customer, setCustomer] = useState([]);
-  const [addOn, setAddOn] = useState([]);
-  const [cabinetFinish, setCabnietFinish] = useState([]);
-  useEffect(() => {
-    Axios.get(`https://us-east-1.aws.data.mongodb-api.com/app/application-0-hxfdv/endpoint/cabinet`)
-      .then((res) => {
-        const searchedCabinet = res.data;
-        setCabinet(searchedCabinet);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-    Axios.get(`https://us-east-1.aws.data.mongodb-api.com/app/application-0-hxfdv/endpoint/accessory`)
-          .then((res) => {
-            const searchedCabinet = res.data;
-            setAcc(searchedCabinet);
-          })
-          .catch((error) => {
-            console.error(error);
-          });
-    Axios.get(`https://us-east-1.aws.data.mongodb-api.com/app/application-0-hxfdv/endpoint/cabinet_door`)
-      .then((res) => {
-        const searchedCabinet = res.data;
-        setCabinetDoor(searchedCabinet);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-    Axios.get(`https://us-east-1.aws.data.mongodb-api.com/app/application-0-hxfdv/endpoint/get_cabinet_customer`)
-      .then((res) => {
-        const searchedCabinet = res.data;
-        setCustomer(searchedCabinet);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-    Axios.get(`https://us-east-1.aws.data.mongodb-api.com/app/application-0-hxfdv/endpoint/get_cabinet_addon`)
-      .then((res) => {
-        const searchedCabinet = res.data;
-        setAddOn(searchedCabinet);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-      Axios.get(`https://us-east-1.aws.data.mongodb-api.com/app/application-0-hxfdv/endpoint/get_cabinet_finish`)
-      .then((res) => {
-        const searchedCabinet = res.data;
-        setCabnietFinish(searchedCabinet);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
-  
   const [select, setSelect] = useState({
     company: "",
     PO: "",
@@ -123,12 +70,10 @@ function CreateArea({info}) {
     accQty:0,
     accPrice: 0
   }])
-  
+
   const getCabinetById = (id) => {
-    return cabinet.find((cab) => cab.ID === id);
-  };
-
-
+    return cabinet.find(cab => cab.ID === id);
+  }
   const getColor = (color) => {
     return cabinetDoor.find(cab =>cab.color === color);
   }
@@ -274,67 +219,70 @@ function CreateArea({info}) {
     const fieldName = event.target.getAttribute("name");
     let fieldValue = event.target.value.toUpperCase();
     const newData = { ...item };
-    const newSelect = { ...select };
-  
-    const Newindex = cabinetDoor.findIndex((item) => item.color === fieldValue);
-    const Sindex = cabinet.findIndex((item) => item.ID === fieldValue);
+    const newSelect = {...select};
 
+    newSelect[fieldName] = fieldValue;
+    const Sindex = cabinet.findIndex((item) =>item.ID === fieldValue)
+    const Newindex = cabinetDoor.findIndex((item) => item.color === fieldValue)
+  
     if (fieldName === "cabinetSize") {
       if (Sindex !== -1) {
         newData["width"] = cabinet[Sindex].W;
         newData["height"] = cabinet[Sindex].H;
         newData["depth"] = cabinet[Sindex].D;
-        if (newData["height"] === 93) {
+        if(newData["height"] === 93){
           newData["pcTopDoor"] = "39";
         }
-        if (cabinet[Sindex].HARDWARE !== 0) {
+        if(cabinet[Sindex].HARDWARE !== 0){
           newData["customizeAddOn"] = cabinet[Sindex].HARDWARE;
         }
       }
-    } else if (fieldName === "doorColor") {
+    } 
+    else if (fieldName === "doorColor") {
       if (Newindex !== -1) {
         newData["doorType"] = cabinetDoor[Newindex].category;
       }
     }
     newData[fieldName] = fieldValue;
+  
     const newCabinetInfo = getCabinetById(newData.cabinetSize);
     const newDoorColor = getColor(newData.doorColor);
     if (newCabinetInfo && newDoorColor) {
       newData["DO"] = newCabinetInfo[newDoorColor.category];
-      newData["BO"] = newCabinetInfo[select.cabinetBox];
+      newData["BO"] = newCabinetInfo[select.cabinetBox] ;
     }
-    if (newCabinetInfo) {
+    if(newCabinetInfo){
       newData["price"] = calculation(newData, newSelect);
-    } else {
+    }
+    else{
       newData["price"] = NaN;
       newData["width"] = NaN;
       newData["height"] = NaN;
       newData["depth"] = NaN;
     }
-  
+    
     const editedItem = {
       id: itemId,
       cabinetSize: newData.cabinetSize,
-      doorType: newData.doorType,
-      doorColor: newData.doorColor,
-      qty: newData.qty,
-      width: newData.width,
-      height: newData.height,
-      depth: newData.depth,
-      hinge: newData.hinge,
-      finLOrR: newData.finLOrR,
-      doorH: newData.doorH,
-      pcTopDoor: newData.pcTopDoor,
-      pcDoor: newData.pcDoor,
-      botDF: newData.botDF,
-      notchOut: newData.notchOut,
-      customizeAddOn: newData.customizeAddOn,
-      memo: newData.memo,
-      price: newData.price,
-      BO: newData.BO,
-      DO: newData.DO,
+        doorType: newData.doorType,
+        doorColor: newData.doorColor,
+        qty: newData.qty,
+        width: newData.width,
+        height: newData.height,
+        depth: newData.depth,
+        hinge: newData.hinge,
+        finLOrR:newData.finLOrR,
+        doorH:newData.doorH,
+        pcTopDoor:newData.pcTopDoor,
+        pcDoor:newData.pcDoor,
+        botDF:newData.botDF,
+        notchOut:newData.notchOut,
+        customizeAddOn:newData.customizeAddOn,
+        memo:newData.memo,
+        price: newData.price,
+        BO: newData.BO,
+        DO: newData.DO,
     };
-  
     const newItems = [...items];
     const index = items.findIndex((item) => item.id === itemId);
     newItems[index] = editedItem;
@@ -416,7 +364,6 @@ function CreateArea({info}) {
     const doorColor = item.doorColor;
     const cabinetBox = item.cabinetBox;
     const qty = item.qty;
-    // Handle the response from the MongoDB function 
     const newCabinetInfo = getCabinetById(cabinetSize);
     const newDoorColor = getColor(doorColor);
     const doorType = newDoorColor.category;

@@ -1,5 +1,6 @@
 import React, {useState, useEffect } from "react";
-import Axios from "axios";
+import cabinet from "../cabinet";
+import addOn from "../AddOn";
 function TableBody({
   newItem, 
   item,
@@ -8,28 +9,6 @@ function TableBody({
   handleCopyClick,
   handleEdited,
 }) {
-
-  const [cabinet, setCabinet] = useState([]);
-  const [addOn, setAddOn] = useState([]);
-
-  useEffect(() => {
-    Axios.get(`https://us-east-1.aws.data.mongodb-api.com/app/application-0-hxfdv/endpoint/cabinet`)
-      .then((res) => {
-        const searchedCabinet = res.data;
-        setCabinet(searchedCabinet);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-    Axios.get(`https://us-east-1.aws.data.mongodb-api.com/app/application-0-hxfdv/endpoint/get_cabinet_addon`)
-      .then((res) => {
-        const searchedCabinet = res.data;
-        setAddOn(searchedCabinet);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
   const getCabinetById = (id) => {
     return cabinet.find(cab => cab.ID === id);
   }
@@ -240,8 +219,7 @@ function TableBody({
       </tr>
       <tr>
       <td>
-        <button onClick={handleToggleAdditional}
-        className="form-control">
+        <button onClick={handleToggleAdditional}>
           {additionalShown ? "Hide " : "Additional"}
         </button>
       </td>

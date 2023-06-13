@@ -24,7 +24,7 @@ function PrintHead({ item, select, info }) {
       if (!isEmpty(item[i].doorH)) {
         setIfDoorH(false);
       }
-      if (!isEmpty(item[i].pcTopDoor)) { 
+      if (!isEmpty(item[i].pcTopDoor)) {
         setIfPcTopDoor(false);
       }
       if (!isEmpty(item[i].pcDoor)) {

@@ -1,5 +1,5 @@
-import React, { useState , useEffect} from "react";
-import Axios from "axios";
+import React from "react";
+import Acc from "../Acc";
 
 function AccTableBody({newItem, 
     Accitem,
@@ -13,19 +13,6 @@ function AccTableBody({newItem,
       newItem.BDoorColor,
       newItem.CDoorColor
     ]
-    const [Acc, setAcc] = useState([]);
-  useEffect(() => {
-    Axios.get(`https://us-east-1.aws.data.mongodb-api.com/app/application-0-hxfdv/endpoint/accessory`)
-      .then((res) => {
-        const searchedCabinet = res.data;
-        setAcc(searchedCabinet);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
-
-    
   
     return (
       <tr>
