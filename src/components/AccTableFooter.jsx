@@ -2,7 +2,7 @@ import React,  {useState} from "react";
 import { CSVLink } from "react-csv";
 
 function AccTableFooter(props) {
-  const acc = props.acc;
+  const acc = props.acc
   const items = props.items;
   const newItem = props.newItem;
   const [addNumberOfRow, setAddNumberOfRow] = useState(1);
