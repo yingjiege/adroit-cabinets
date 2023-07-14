@@ -1,0 +1,404 @@
+/* General */
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family: "Roboto", sans-serif
+}
+
+body{
+  margin:0 auto
+}
+
+.m-5-auto{
+  margin: 5 rem auto
+}
+
+.primary-button{
+  margin-top: 5rem;
+  margin-right: 1rem;
+  padding: .6rem;
+  width:10rem;
+  background:#222;
+  border:none;
+  color:#fff;
+  font-size:1.2rem;
+  transition:all .5s;
+  cursor: pointer;
+  text-transform: capitalize;
+}
+
+/* Landing Page */
+.main-title,
+.main-para{
+  color:#f1f1f1
+}
+
+.main-title{
+  padding-top:10rem;
+  font-size:5rem;
+  font-family: 'Fascinate', cursive;
+  text-transform: uppercase;
+}
+
+.main-para{
+  font-size: 2.5rem;
+  text-transform: capitalize;
+}
+
+#reg_btn span{
+  display: inline-block;
+  position: relative;
+  transform: 0.5s;
+}
+
+#reg_btn span:after{
+  content: '\00bb';
+  position:absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+#reg_btn:hover span{
+  padding-right:25px;
+}
+
+#reg_btn:hover span:after{
+  opacity: 1;
+  right: 0;
+}
+
+/* Login Page */
+h2{
+  font-weight: 300;
+}
+/* 
+form {
+  display: inline-block;
+  background: #f3f3f3;
+  border:1px solid #ddd;
+  border-radius: 2px;
+  padding: 2rem;
+  margin: 2rem 0 1rem 0;
+} */
+
+form label{
+  float:left;
+  font-size: .9rem;
+  margin:0;
+  padding:0;
+}
+
+.right-label{
+  float: right;
+  cursor: pointer;
+}
+
+input{
+  width: 15rem;
+  padding: .3rem;
+  border-radius: 5px;
+  outline: none;
+  border: none;
+}
+
+#sub_btn{
+  display:block;
+  width: 100%;
+  padding:.3rem;
+  border:none;
+  background: #222;
+  color: #fff;
+  border-radius: 3px;
+}
+
+#sub_btn:hover{
+  background: #333;
+  transition: all .5s;
+}
+
+footer p {
+  margin: 0;
+  font-size: .9rem;
+}
+
+/* Register Page */
+#checkbox{
+  width: 1rem;
+}
+
+form span{
+  font-size: .8rem
+}
+
+#rest_pass_lbl{
+  float: left;
+}
+
+/* Home Page */
+.home-page-title{
+  color:#222
+}
+
+.btn-person-circle {
+  color: black;
+}
+
+
+.navbar {
+  position: fixed;
+  background-color: var(--bg-primary);
+  transition: width 600ms ease;
+  overflow: scroll;
+}
+
+.navbar2 {
+  background-color: var(--bg-primary);
+  transition: width 600ms ease;
+  height: 60px;
+}
+
+.navbar-nav {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+}
+
+.nav-item {
+  width: 100%;
+}
+
+.nav-item:last-child {
+  margin-top: auto;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  height: 5rem;
+  color: var(--text-primary);
+  text-decoration: none;
+  filter: grayscale(100%) opacity(0.7);
+  transition: var(--transition-speed);
+  justify-content: flex-start; /* Align content to the left */
+}
+
+
+.nav-link:hover {
+  filter: grayscale(0%) opacity(1);
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+}
+
+.link-text {
+  display: none;
+  margin-left: 1rem;
+}
+
+.nav-link svg {
+  width: 2rem;
+  min-width: 2rem;
+  margin: 0 1.5rem;
+}
+
+.fa-primary {
+  color: #ff7eee;
+}
+
+.fa-secondary {
+  color: #df49a6;
+}
+
+.fa-primary,
+.fa-secondary {
+  transition: var(--transition-speed);
+}
+
+.logo {
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  text-align: left;
+  color: var(--text-secondary);
+  background: var(--bg-secondary);
+  font-size: 1.5rem;
+  letter-spacing: 0.3ch;
+  width: 100%;
+}
+
+.logo svg {
+  transform: rotate(0deg);
+  transition: var(--transition-speed);
+}
+
+.logo-text {
+  display: inline-block;
+  position: relative;
+  left: -999px;
+  transition: var(--transition-speed);
+}
+
+.navbar:hover .logo svg {
+  transform: rotate(-180deg);
+}
+
+/* Small screens */
+@media only screen and (max-width: 600px) {
+  .navbar {
+    bottom: 0;
+    width: 100vw;
+    height: 5rem;
+  }
+
+  .logo {
+    display: none;
+  }
+
+  .navbar-nav {
+    flex-direction: row;
+  }
+
+  .nav-link {
+    justify-content: center;
+  }
+
+  main {
+    margin: 0;
+  }
+}
+
+/* Large screens */
+@media only screen and (min-width: 600px) {
+  .navbar {
+    top: 0;
+    width: 100rem;
+    height: 5vh;
+  }
+
+  .navbar:hover {
+    width: 24rem;
+  }
+
+  .navbar:hover .link-text {
+    display: inline;
+  }
+
+  .navbar:hover .logo svg
+  {
+    margin-left: 11rem;
+  }
+
+  .navbar:hover .logo-text
+  {
+    left: 0px;
+  }
+}
+body {
+  font-family: Arial;
+  font-size: 17px;
+  padding: 8px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.row {
+  display: -ms-flexbox; /* IE10 */
+  display: flex;
+  -ms-flex-wrap: wrap; /* IE10 */
+  flex-wrap: wrap;
+  margin: 0 -16px;
+}
+
+.col-25 {
+  -ms-flex: 25%; /* IE10 */
+  flex: 25%;
+}
+
+.col-50 {
+  -ms-flex: 50%; /* IE10 */
+  flex: 50%;
+}
+
+.col-75 {
+  -ms-flex: 75%; /* IE10 */
+  flex: 75%;
+}
+
+.col-25,
+.col-50,
+.col-75 {
+  padding: 0 16px;
+}
+
+.container {
+  background-color: #f2f2f2;
+  padding: 5px 20px 15px 20px;
+  border: 1px solid lightgrey;
+  border-radius: 3px;
+}
+
+input[type=text] {
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+label {
+  margin-bottom: 10px;
+  display: block;
+}
+
+.icon-container {
+  margin-bottom: 20px;
+  padding: 7px 0;
+  font-size: 24px;
+}
+
+.btn {
+  background-color: #04AA6D;
+  color: white;
+  padding: 12px;
+  margin: 10px 0;
+  border: none;
+  width: 100%;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 17px;
+}
+
+.btn:hover {
+  background-color: #45a049;
+}
+
+a {
+  color: #2196F3;
+}
+
+hr {
+  border: 1px solid lightgrey;
+}
+
+span.price {
+  float: right;
+  color: grey;
+}
+
+/* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other (also change the direction - make the "cart" column go on top) */
+@media (max-width: 800px) {
+  .row {
+    flex-direction: column-reverse;
+  }
+  .col-25 {
+    margin-bottom: 20px;
+  }
+}
