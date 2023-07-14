@@ -654,12 +654,6 @@ const handleFileUpload = (e) => {
         <PrintFooter items={items} />
         </table>
       </div>
-      <input
-        type="file"
-        accept=".xlsx, .xls, .csv"
-        className="form-control bg-light rounded-pill"
-        onChange={handleFileUpload}
-      />
     </Fragment>
   );
 }
