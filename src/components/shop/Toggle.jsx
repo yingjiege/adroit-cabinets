@@ -104,7 +104,6 @@ function Toggle() {
   const user_id = localStorage.user;
   const order_id = "123123123123";
   const navigate = useNavigate();
-
   const [select, setSelect] = useState(() => {
     const storedData = JSON.parse(localStorage.getItem("selectData"));
     return storedData || {
@@ -124,7 +123,7 @@ function Toggle() {
   useEffect(() => {
     localStorage.setItem("selectData", JSON.stringify(select));
     const handleBeforeUnload = () => {
-      localStorage.removeItem("selectData");
+    localStorage.removeItem("selectData");
     };
   
     window.addEventListener("beforeunload", handleBeforeUnload);
@@ -150,15 +149,6 @@ function Toggle() {
         status:"unpaid" // Add the current date to the data being posted
       }
     )
-    Axios.post('https://us-east-1.aws.data.mongodb-api.com/app/application-0-hxfdv/endpoint/post_test', {
-      user_id: user_id,
-      order_id: order_id,
-      cabinet: cabinet,
-      cabinetDoor: cabinetDoor,
-      accessory: accessories,
-      PO: PO, 
-      date: currentDate // Add the current date to the data being posted
-    })
       .then((response) => {
         localStorage.setItem("insertedId", response.data.insertedId);
         navigate("/cart");
