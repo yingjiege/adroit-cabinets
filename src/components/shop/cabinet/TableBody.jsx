@@ -96,12 +96,12 @@ function TableBody({
   return (
 
     <><tr>
-      <td>
+      <td style={{ width: "2em" }}>
         <i className="bi bi-x-circle-fill btn"
           onClick={() => handleDeleteClick(item.id)}
         ></i>
       </td>
-      <td>
+      <td style={{ width: "2em" }}>
         <i className="bi bi-files btn"
         onClick={() => handleCopyClick(item.id)}
         ></i>
