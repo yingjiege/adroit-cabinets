@@ -31,6 +31,7 @@ function CheckOutBody() {
   const cabinetDoor = filteredData && filteredData.cabinetDoor;
   const accessory = filteredData && filteredData.accessory;
   const PO = filteredData && filteredData.PO;
+  console.log(filteredData)
   let totalQty = 0;
   let totalPrice = 0;
 
@@ -50,6 +51,7 @@ function CheckOutBody() {
     totalPrice += parseFloat(accessory[i].accPrice) * qty;
   }
   totalPrice = +(Math.round(totalPrice + "e+2") + "e-2");
+  console.log(select)
   return (
     <div>
     <NavbarAfterLogin/>
@@ -70,7 +72,23 @@ function CheckOutBody() {
                   <table>
                   <thead>
                     <tr>
-                      <th scope="col" colSpan="5" style={{ width: '1700px' }}>1. {select.cabinetBox}</th>
+                    <th scope="col" colSpan="5" style={{ width: '1700px' }}>
+                      {select.cabinetBox === 'WHITE_BOX' ? (
+                        <>1. WHITE MELAMINE PLYWOOD CABINET BOX (BOX EDGE MATCH DOOR)</>
+                      ) : select.cabinetBox === 'COMODO_BOX' ? (
+                        <>1. STOCK WHITE PLYWOOD CABINET BOX WITH WHITE MATTE EDGE (COMODO BOX)</>
+                      ) : select.cabinetBox === 'MAPLE_BOX' ? (
+                        <>1. MODERN MAPLE MELAMINE PLYWOOD CABINET BOX (BOX EDGE MATCH DOOR)</>
+                      ) : select.cabinetBox === 'BIRCH_BOX' ? (
+                        <>1. NATURE BIRCH PLYWOOD CABINET BOX (BOX EDGE MATCH DOOR)</>
+                      ) : select.cabinetBox === 'DOMESTIC_MAPLE_BOX' ? (
+                        <>1. DOMESTIC MAPLE PLYWOOD CABINET BOX (BOX EDGE MATCH DOOR)</>
+                      ) : select.cabinetBox === 'GREY_BOX' ? (
+                        <>1. GREY MELAMINE PLYWOOD CABINET BOX (BOX EDGE MATCH DOOR)</>
+                      ) : (
+                        <>Unknown cabinet box option</>
+                      )}
+                    </th>
                     </tr>
                     <tr>
                       <th scope="col" colSpan="5" style={{ width: '1700px' }}>2. {select.ADoorColor}</th>
