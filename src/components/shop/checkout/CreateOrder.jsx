@@ -11,7 +11,7 @@ function CreateOrder(){
     useEffect(() => {
         Axios.get("https://us-east-1.aws.data.mongodb-api.com/app/application-0-hxfdv/endpoint/get_order")
           .then((res) => {
-            const searchedCabinet = res.data.find(item => item._id === storedInsertedId)?.order_detail;
+            const searchedCabinet = res.data.find(item => item._id === storedInsertedId);
             let newrow1 = []
             let newrow2 = []
             let newrow3 = []
