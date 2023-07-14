@@ -40,7 +40,7 @@ function AccTableFooter(props) {
             <i
               className="bi bi-plus-circle-fill btn btn-secondary"
               onClick={() => handleClick(addNumberOfRow)}
-              style={{ width: "auto", maxWidth: "150px" }}
+              style={{ width: "auto", maxWidth: "200px" }}
             >
               Add Accessory
             </i>
