@@ -23,7 +23,7 @@ export default function CheckoutForm() {
   }, []);
 
   useEffect(() => {
-    Axios.get("https://us-east-1.aws.data.mongodb-api.com/app/application-0-hxfdv/endpoint/get_order_list")
+    Axios.get("https://us-east-1.aws.data.mongodb-api.com/app/application-0-hxfdv/endpoint/get_undetermined_order")
       .then((res) => {
         setSearchedCabinet(res.data);
       })
