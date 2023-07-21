@@ -31,7 +31,6 @@ function CheckOutBody() {
   const cabinetDoor = filteredData && filteredData.cabinetDoor;
   const accessory = filteredData && filteredData.accessory;
   const PO = filteredData && filteredData.PO;
-  console.log(filteredData)
   let totalQty = 0;
   let totalPrice = 0;
 
@@ -51,7 +50,6 @@ function CheckOutBody() {
     totalPrice += parseFloat(accessory[i].accPrice) * qty;
   }
   totalPrice = +(Math.round(totalPrice + "e+2") + "e-2");
-  console.log(select)
   return (
     <div>
     <NavbarAfterLogin/>
@@ -123,7 +121,7 @@ function CheckOutBody() {
                           {cabinet && cabinet.map((item, index) => (
                             <tr key={index}>
                               <td colspan="1" style={{ width: '500px' }}>
-                                {item.qty} {item.doorColor}_{item.width}*{item.height}*{item.depth}_{item.memo}_${(item.qty * item.price).toFixed(2)}
+                                {item.qty}PC_{item.doorColor}_{item.width}*{item.height}*{item.depth}_{item.memo}_${(item.qty * item.price).toFixed(2)}
                               </td>
                             </tr>
                           ))}
@@ -156,29 +154,10 @@ function CheckOutBody() {
 
                           {accessory && accessory.map((item, index) => (
                             <tr key={index}>
-                              <td colspan="1">
-                                Accessory: {item.acc}
-                              </td>
-                              <td colspan="1">
-                                Color: {item.accColor}
-                              </td>
-                              <td style={{ width: '100px' }}>
-                                W: {item.accWidth} 
-                              </td>
-                              <td style={{ width: '90px' }}>
-                                H: {item.accHeight}
-                              </td>
-                              <td style={{ width: '80px' }}>
-                                D: {item.accDepth}
-                              </td>
-                              <td style={{ width: '60px' }} >
-                                Qty: <span className="quantity" style={{ fontSize: "18px" }}>{item.accQty}</span>
-                              </td>
-                              <td>
-                                Subtotal: <span className="subtotal" style={{ fontSize: "18px" }}>${item.accPrice}</span>
-                              </td>
-                              <td colspan="1"></td> {/* Empty cells to align with the previous row */}
-                            </tr>
+                            <td colspan="1" style={{ width: '500px' }}>
+                              {item.accQty} PC_{item.accColor}_{item.acc}_{item.accWidth}*{item.accHeight}*{item.accDepth}_${(item.accPrice).toFixed(2)}
+                            </td>
+                          </tr>
                           ))}
                           <tr>
                             <td colSpan="6">Total qty: {totalQty}</td>
