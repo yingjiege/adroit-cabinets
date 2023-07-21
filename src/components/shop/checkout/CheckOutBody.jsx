@@ -127,29 +127,10 @@ function CheckOutBody() {
                           ))}
                           {cabinetDoor && cabinetDoor.map((item, index) => (
                             <tr key={index}>
-                              <td colspan="1">
-                                Cabinet Door : {item.panelFinish}
-                              </td>
-                              <td colspan="1">
-                                Color: {item.panelId}
-                              </td>
-                              <td style={{ width: '100px' }}>
-                                W: {item.width} 
-                              </td>
-                              <td style={{ width: '90px' }}>
-                                H: {item.height}
-                              </td>
-                              <td style={{ width: '80px' }}>
-                                D: {item.depth}
-                              </td>
-                              <td style={{ width: '60px' }} >
-                                Qty: <span className="quantity" style={{ fontSize: "18px" }}>{item.qty}</span>
-                              </td>
-                              <td>
-                                Subtotal: <span className="subtotal" style={{ fontSize: "18px" }}>${item.subtotal}</span>
-                              </td>
-                              <td colspan=""></td> {/* Empty cells to align with the previous row */}
-                            </tr>
+                              <td colspan="1" style={{ width: '500px' }}>
+                            {item.qty} PC_{item.panelId}_{item.panelFinish}_{item.width}*{item.height}*{item.depth}_${(item.subtotal)}
+                            </td>
+                          </tr>                            
                           ))}
 
                           {accessory && accessory.map((item, index) => (
