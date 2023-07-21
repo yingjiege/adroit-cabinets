@@ -67,22 +67,7 @@ function Toggle() {
 
   const [accessories, setAccessories] = useState(() => {
     const storedData = JSON.parse(localStorage.getItem("accessoriesData"));
-    return (
-      storedData || [
-        {
-          id: 1,
-          acc: "",
-          accColor: "",
-          accCategory: "",
-          accWidth: 0,
-          accHeight: 0,
-          accDepth: 0,
-          accType: "",
-          accQty: 1,
-          accPrice: 0,
-        },
-      ]
-    );
+    return storedData || [];
   });
 
   useEffect(() => {
@@ -139,7 +124,6 @@ function Toggle() {
       "https://us-east-1.aws.data.mongodb-api.com/app/application-0-hxfdv/endpoint/post_test",
       {
         user_id: user_id,
-        order_id: order_id,
         cabinet: cabinet,
         cabinetDoor: cabinetDoor,
         accessory: accessories,
@@ -231,8 +215,6 @@ function Toggle() {
         >
           Cabinet
         </i>
-  
-        {/* Door toggle */}
         <i
           onClick={doorClicked}
           className={
