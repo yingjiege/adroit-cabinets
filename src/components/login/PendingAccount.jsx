@@ -18,7 +18,6 @@ export default function PendingAccount() {
         "https://us-east-1.aws.data.mongodb-api.com/app/application-0-hxfdv/endpoint/get_all_users"
       )
       .then((response) => {
-        console.log(response.data);
         const newdata = [...response.data];
         setUsersData(newdata);
       })
