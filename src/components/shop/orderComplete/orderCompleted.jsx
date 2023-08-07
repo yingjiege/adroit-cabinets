@@ -17,14 +17,12 @@ function OrderCompleted() {
     if (userItem) {
       localStorage.setItem('user', userItem);
     }
-    
     // Navigate to the main page
-    navigate('/');
+    navigate('/shop');
   };
   return (
     <div>
       <NavbarAfterLogin/>
-
       <div className="container mt-2" style={{ width: '1000px' }}>
         <div className="row">
           <div className="col-12">
