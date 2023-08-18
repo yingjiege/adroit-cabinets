@@ -10,30 +10,7 @@ function Toggle() {
   const [PO, setPO] = useState(localStorage.getItem("PO") || "");
   const [cabinet, setCabinet] = useState(() => {
     const storedData = JSON.parse(localStorage.getItem("cabinetData"));
-    return storedData || [
-      {
-        id: 0,
-        cabinetSize: "",
-        doorType: "",
-        doorColor: "",
-        qty: 1,
-        width: 0,
-        height: 0,
-        depth: 0,
-        hinge: "",
-        finLOrR: "",
-        doorH: "",
-        pcTopDoor: "",
-        pcDoor: "",
-        botDF: "",
-        notchOut: "",
-        customizeAddOn: "",
-        memo: "",
-        price: 0,
-        BO: 0,
-        DO: 0,
-      },
-    ];
+    return storedData || [];
   });
 
   useEffect(() => {
@@ -87,7 +64,6 @@ function Toggle() {
   const [isDoorClicked, setDoorClicked] = useState(false);
   const [isAccessoryClicked, setAccessoryClicked] = useState(false);
   const user_id = localStorage.user;
-  const order_id = "123123123123";
   const navigate = useNavigate();
   const [select, setSelect] = useState(() => {
     const storedData = JSON.parse(localStorage.getItem("selectData"));
@@ -251,7 +227,6 @@ function Toggle() {
           onChange={(e) => setPO(e.target.value)}
         />
       </div>
-  
       {/* Conditional rendering based on toggle state */}
       <div id="main" style={{ display: "table" }} className="container">
         <div style={{ display: isCabinetClicked ? "table-row" : "none" }}>
@@ -265,13 +240,11 @@ function Toggle() {
             />
           </div>
         </div>
-  
         <div style={{ display: isDoorClicked ? "table-row" : "none" }}>
           <div style={{ display: "table-cell" }}>
             <CreateDoor info={PO} items={cabinetDoor} setItems={setCabinetDoor} />
           </div>
         </div>
-  
         <div style={{ display: isAccessoryClicked ? "table-row" : "none" }}>
           <div className="text-center" style={{ display: "table-cell" }}>
             <CreateAccessory
@@ -282,8 +255,6 @@ function Toggle() {
           </div>
         </div>
       </div>
-  
-      {/* Submit button */}
       <div>
         {(isAccessoryClicked || isCabinetClicked || isDoorClicked) ? (
           <div className="text-center">
@@ -313,8 +284,6 @@ function Toggle() {
       </div>
     </Fragment>
   );
-  
-
 }
 
 export default Toggle;
