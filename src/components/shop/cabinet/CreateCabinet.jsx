@@ -6,19 +6,16 @@ import { useReactToPrint } from "react-to-print";
 import TableFooter from "./TableFooter";
 import * as XLSX from "xlsx/xlsx.js";
 import Axios from "axios";
-import PrintHead from "./PrintHead";
-import PrintTable  from "./PrintTable"
-import PrintFooter from "./PrintFooter";
+import Addon from '../../../addon.js';
 
-function CreateCabinet({ info, items, setItems, select, setSelect }) {
+function CreateCabinet({ items, setItems, select, setSelect }) {
+  const addon = Addon;
   const [cabinet, setCabinet] = useState([]);
   const [cabinetDoor, setCabinetDoor] = useState([]);
   const [customer, setCustomer] = useState([]);
-  const [addOn, setAddOn] = useState([]);
   const [cabinetFinish, setCabinetFinish] = useState([]);
   const [inf, setInf] = useState({})
   const user_id = localStorage.getItem('user');
-
 
   useEffect(() => {
     Axios.get(
@@ -62,16 +59,17 @@ function CreateCabinet({ info, items, setItems, select, setSelect }) {
         console.error(error);
       });
 
-    Axios.get(
-      "https://us-east-1.aws.data.mongodb-api.com/app/application-0-hxfdv/endpoint/get_cabinet_addon"
-    )
-      .then((res) => {
-        const searchedCabinet = res.data;
-        setAddOn(searchedCabinet);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    // Axios.get(
+    //   "https://us-east-1.aws.data.mongodb-api.com/app/application-0-hxfdv/endpoint/get_addon"
+    // )
+    //   .then((res) => {
+    //     const searchedCabinet = res.data;
+    //     console.log(searchedCabinet)
+    //     setAddOn(searchedCabinet);
+    //   })
+    //   .catch((error) => {
+    //     console.error(error);
+    //   });
 
     Axios.get(
       "https://us-east-1.aws.data.mongodb-api.com/app/application-0-hxfdv/endpoint/get_cabinet_finish"
@@ -89,15 +87,14 @@ function CreateCabinet({ info, items, setItems, select, setSelect }) {
     return cabinet.find((cab) => cab.ID === id);
   };
 
-
   const getColor = (color) => {
     return cabinetDoor.find(cab =>cab.color === color);
   }
   const getAddOnDoor = (custom) => {
-    return addOn.find(cab => cab.AddOnDoor === custom);
+    return addon.find(cab => cab.AddOnDoor === custom);
   }
   const getAddOnHardware = (custom) => {
-    return addOn.find(cab => cab.AddOnHardware === custom);
+    return addon.find(cab => cab.AddOnHardware === custom);
   }
 
   const componentPDF = useRef();
@@ -126,7 +123,6 @@ function CreateCabinet({ info, items, setItems, select, setSelect }) {
   
       return updatedItem;
     });
-  
     setItems(updatedItems);
   }
   function calculation(obj, select){
@@ -293,6 +289,7 @@ function CreateCabinet({ info, items, setItems, select, setSelect }) {
       price: newData.price,
       BO: newData.BO,
       DO: newData.DO,
+      apt: newData.apt
     };
   
     const newItems = [...items];
@@ -326,6 +323,7 @@ function CreateCabinet({ info, items, setItems, select, setSelect }) {
         price: copyItem.price,
         BO: copyItem.BO,
         DO: copyItem.DO,
+        apt: copyItem.apt
     };
     tempItem.id = nanoid();
     newItems.splice(index, 0, tempItem);
@@ -363,6 +361,7 @@ function CreateCabinet({ info, items, setItems, select, setSelect }) {
         price: 0,
         BO: 0,
         DO: 0,
+        apt: "",
         id: nanoid(),
       };
       newItems.push(newItem);
@@ -535,6 +534,7 @@ const handleFileUpload = (e) => {
           price: NaN,
           BO: NaN,
           DO: NaN,
+          apt: parsedData[row].apt || "",
           id: nanoid()
         };
   
@@ -589,15 +589,6 @@ const handleFileUpload = (e) => {
   
     setItems(updatedItems);
   }
-  const formatPercentage = (value) => {
-    const numericValue = parseFloat(value);
-    if (!isNaN(numericValue)) {
-      const percentageValue = (numericValue * 100).toFixed(2);
-      return `${percentageValue}`;
-    }
-    return value;
-  };
-
 
   return (
     <Fragment>
@@ -629,7 +620,7 @@ const handleFileUpload = (e) => {
         <TableFooter items = {items} newItem = {select} onAdd={addRow} printPDF={generatePDF}/>
       </table>
       </div>
-      <div hidden>
+      {/* <div hidden>
       <table
         id="PrintTable"
         className="table table-hover table-sm table-responsive-sm"
@@ -653,7 +644,13 @@ const handleFileUpload = (e) => {
         </tbody>
         <PrintFooter items={items} />
         </table>
-      </div>
+      </div> */}
+      <input
+        type="file"
+        accept=".xlsx, .xls, .csv"
+        className="form-control bg-light rounded-pill"
+        onChange={handleFileUpload}
+      />
     </Fragment>
   );
 }
