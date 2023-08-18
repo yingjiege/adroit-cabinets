@@ -1,6 +1,8 @@
 import React, {useState, useEffect } from "react";
 import Axios from "axios";
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import Addon from '../../../addon.js';
+
 
 function TableBody({
   newItem, 
@@ -12,21 +14,12 @@ function TableBody({
 }) {
 
   const [cabinet, setCabinet] = useState([]);
-  const [addOn, setAddOn] = useState([]);
-
+  const addon = Addon;
   useEffect(() => {
     Axios.get(`https://us-east-1.aws.data.mongodb-api.com/app/application-0-hxfdv/endpoint/cabinet`)
       .then((res) => {
         const searchedCabinet = res.data;
         setCabinet(searchedCabinet);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-    Axios.get(`https://us-east-1.aws.data.mongodb-api.com/app/application-0-hxfdv/endpoint/get_cabinet_addon`)
-      .then((res) => {
-        const searchedCabinet = res.data;
-        setAddOn(searchedCabinet);
       })
       .catch((error) => {
         console.error(error);
@@ -101,7 +94,7 @@ function TableBody({
           onClick={() => handleDeleteClick(item.id)}
         ></i>
       </td>
-      <td style={{ width: "2em" }}>
+      <td>
         <i className="bi bi-files btn"
         onClick={() => handleCopyClick(item.id)}
         ></i>
@@ -241,7 +234,7 @@ function TableBody({
           disabled />
       </td>
       </tr>
-
+ 
       <tr>
       <td>
         <button onClick={handleToggleAdditional}
@@ -250,11 +243,11 @@ function TableBody({
         </button>
       </td>
       <th colSpan="1" className="text-center" ></th>
-          <th className="text-center" hidden={!additionalShown}>DOOR H</th>
+          {/* <th className="text-center" hidden={!additionalShown}>DOOR H</th>
           <th className="text-center" hidden={!additionalShown}>PC TOP DOOR</th>
           <th className="text-center" hidden={!additionalShown}>BC DOOR</th>
           <th className="text-center" hidden={!additionalShown}>BOT DF</th>
-          <th className="text-center" hidden={!additionalShown}>NOTCH OUT</th>
+          <th className="text-center" hidden={!additionalShown}>NOTCH OUT</th> */}
           <th colSpan="2" className="text-center" hidden={!additionalShown}>CUSTOMIZE ADD ON</th>
           <th colSpan="2" className="text-center" hidden={!additionalShown}>MEMO</th>
           <th className="text-center" hidden={!additionalShown}>APT</th>
@@ -264,8 +257,8 @@ function TableBody({
         <td></td>
         <td></td>
         
-      <td className="text-center">
-        <input
+      {/* <td className="text-center">
+        <input 
           type="text"
           name="doorH"
           style={{ width: "6em", margin: "0 auto" }}
@@ -318,7 +311,7 @@ function TableBody({
             <option value="MITER DOOR">MITER DOOR</option>
           </select>
 
-      </td>
+      </td> */}
       <td colSpan="2" className="text-center">
         <input
           type="text"
@@ -330,7 +323,7 @@ function TableBody({
           style={{ width: "20em" }}
         />
         <datalist id="customizeAddOn">
-          {addOn.map((item, key) => (
+          {addon.map((item, key) => (
             <option key={key} value={item.AddOnDoor || item.AddOnHardware} />
           ))}
         </datalist>
