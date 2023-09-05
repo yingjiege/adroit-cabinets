@@ -174,6 +174,13 @@ function Toggle() {
     localStorage.removeItem("data");
   }, []);
 
+  function handleClick(){
+    localStorage.removeItem("selectedOrder");
+    localStorage.removeItem("data");
+    localStorage.removeItem("insertedId")
+    navigate("/shop");
+  }
+
   return (
     <Fragment>
       <NavbarAfterLogin/>
@@ -277,6 +284,33 @@ function Toggle() {
                 style={{ width: "auto", maxWidth: "150px" }}
               >
                 Place Order
+              </button>
+            </form>
+          </div>
+        )}
+      </div>
+      <div>
+        {(isAccessoryClicked || isCabinetClicked || isDoorClicked) ? (
+          <div className="text-center">
+            <form onSubmit={handleClick}>
+              <button
+                type="submit"
+                className="bi bi-cart btn btn btn-outline-primary"
+                style={{ width: "auto", maxWidth: "150px" }}
+              >
+                New Order
+              </button>
+            </form>
+          </div>
+        ) : (
+          <div style={{ display: "none" }}>
+            <form onSubmit={handleClick}>
+              <button
+                type="submit"
+                className="bi bi-cart btn btn btn-outline-primary"
+                style={{ width: "auto", maxWidth: "150px" }}
+              >
+                Start New Order
               </button>
             </form>
           </div>
