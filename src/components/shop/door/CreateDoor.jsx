@@ -95,7 +95,6 @@ function CreateArea({ info, items, setItems }) {
         //Push the object into the array
         newArray.push(newItem);
       }
-
       //Set the new Array into the items
       setItems(newArray);
     };
@@ -120,13 +119,12 @@ function CreateArea({ info, items, setItems }) {
     let panel_value = 0;
     let unit_price = 0;
     let discount = 1;
-    let grain = "";
+    let matchGrain = obj.matchGrain;
     const Sindex = PL.findIndex(
       (pitem) => pitem.label === obj.panelFinish || pitem.id === obj.panelId
     );
     if (Sindex !== -1) {
       panel_value = Number(PL[Sindex].value);
-      grain = PL[Sindex].grain;
     }
 
     if (obj.hingeHole) {
@@ -142,8 +140,7 @@ function CreateArea({ info, items, setItems }) {
     }
 
     if (obj.miterCut !== "None") unit_price += 15;
-
-    if (grain === "Y") {
+    if (matchGrain === true) {
       if (obj.matchGrain) unit_price += 15;
     }
     let sizeOfDoor = (width * height) / 144;

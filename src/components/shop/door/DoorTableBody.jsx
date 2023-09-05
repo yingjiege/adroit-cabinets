@@ -11,7 +11,7 @@ function NewTableBody({
   handleEditAllInOne,
   handleEditTwo,
 }) {
-    const [panelFinishList,setPanelFinishList] = useState([]);
+  const [panelFinishList,setPanelFinishList] = useState([]);
   const [widthValue, setWidthValue] = useState(true);
   const [heightValue, setHeightValue] = useState(true);
   const [widthDecimal, setWidthDecimal] = useState(true);
@@ -30,13 +30,21 @@ function NewTableBody({
   useEffect(() => {
     retrieveDoor();
     //if is in range
-    if (item.width <= 0 || item.width > 48) {
+    if ((item.width < 3 && item.height <3) || item.width > 48){
       setWidthValue(false);
+      console.log(item.width)
+      console.log(item.height)
+    }
+    else if (item.width <3 && item.height > 3){
+      setWidthValue(true);
     } else {
       setWidthValue(true);
     }
-    if (item.height <= 0 || item.height > 96) {
+    if ((item.height < 3 && item.width < 3) || item.height > 96) {
       setHeightValue(false);
+    } 
+    else if (item.height <3 && item.width > 3){
+      setHeightValue(true);
     } else {
       setHeightValue(true);
     }
@@ -67,7 +75,7 @@ function NewTableBody({
       setOversize(false);
       item.price = NaN;
       item.subtotal = NaN;
-    } else setOversize(true);
+    } else setOversize(true); 
   }, [item.width, item.height, item.qty, item.price, item.subtotal, item]);
 
   useEffect(() => {
@@ -168,7 +176,7 @@ function NewTableBody({
         )}
         {widthValue === false && (
           <div className="invalid-feedback">
-            Please enter value not zero and less than 48
+            Please enter value not less than 3 or more than 48
           </div>
         )}
         {widthDecimal === false && (
@@ -190,8 +198,7 @@ function NewTableBody({
         />
         {heightValue === false && (
           <div className="invalid-feedback">
-            Please enter value not 
-            zero and less than 96
+            Please enter value not less than 3 or more than 96
           </div>
         )}
         {heightDecimal === false && (
