@@ -114,19 +114,24 @@ function CreateCabinet({ items, setItems, select, setSelect }) {
     setItems(updatedItems);
   }
   function calculation(obj, select){
-    console.log(select)
+    console.log(select.cabinetBox)
     const finLorR = obj.finLOrR;
     const notchOut = obj.notchOut;
     let price = 0;
     let finalPrice = 0;
     const DO = parseFloat(obj.DO);
-    const BO = parseFloat(obj.BO);
+    let BO = 0;
     const qty = parseFloat(obj.qty);
     const cabInfo = getCabinetById(obj.cabinetSize);
     const newDoorColor = getColor(obj.doorColor);
+    const newCabinetInfo = getCabinetById(obj.cabinetSize);
+
     let customizeAddOn = getAddOnDoor(obj.customizeAddOn);
     if (!customizeAddOn) {
       customizeAddOn = getAddOnHardware(obj.customizeAddOn);
+    }
+    if (newCabinetInfo && newDoorColor) {
+      BO = newCabinetInfo[select.cabinetBox];
     }
     const doorType = newDoorColor ? newDoorColor.category : "";        
     let doorCount = 0;
@@ -250,6 +255,7 @@ function CreateCabinet({ items, setItems, select, setSelect }) {
     }
     if (newCabinetInfo) {
       newData["price"] = calculation(newData, newSelect); 
+      console.log(newData)
     } else {
       newData["price"] = NaN;
       newData["width"] = NaN;
