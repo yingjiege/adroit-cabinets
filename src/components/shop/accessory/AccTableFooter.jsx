@@ -73,9 +73,6 @@ function AccTableFooter(props) {
             </i>
           </CSVLink> */}
         </td>
-        <td>
-
-        </td>
       </tr>
     </tfoot>
   );

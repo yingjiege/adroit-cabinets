@@ -18,7 +18,6 @@ function CreateAccessory({ info, accessories, setAccessories }) {
   const user_id = localStorage.getItem('user');
 
   useEffect(() => {
-
     Axios.get(`https://us-east-1.aws.data.mongodb-api.com/app/application-0-hxfdv/endpoint/accessory`)
           .then((res) => {
             const searchedCabinet = res.data;
@@ -90,6 +89,8 @@ function CreateAccessory({ info, accessories, setAccessories }) {
       }
     } else if (fieldName === "accColor") {
       newData["accColor"] = fieldValue;
+    } else if (fieldName === "accWidth") {
+      newData["accWidth"] = fieldValue;
     } else if (fieldName === "accQty") {
       newData["accQty"] = fieldValue;
     }
@@ -147,9 +148,9 @@ function CreateAccessory({ info, accessories, setAccessories }) {
       acc:copyItem.acc,
       accColor:copyItem.accColor,
       accCategory:copyItem.accCategory,
-      accWidth:copyItem.width,
-      accHeight:copyItem.height,
-      accDepth:copyItem.depth,
+      accWidth:copyItem.accWidth,
+      accHeight:copyItem.accHeight,
+      accDepth:copyItem.accDepth,
       accType:copyItem.accType,
       accQty:copyItem.accQty,
       accPrice:copyItem.accPrice

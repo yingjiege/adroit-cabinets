@@ -11,6 +11,7 @@ function AccTableBody({newItem,
 
     const [colorSelected, setColor] = useState([])
     const [Acc, setAcc] = useState([]);
+    console.log(Acc)
   useEffect(() => {
     Axios.get(`https://us-east-1.aws.data.mongodb-api.com/app/application-0-hxfdv/endpoint/accessory`)
       .then((res) => {
@@ -31,12 +32,12 @@ function AccTableBody({newItem,
   }, []);
     return (
       <tr>
-      <td style={{ width: "2em" }}>
+        <td style={{ width: "2em" }}>
           <i className="bi bi-x-circle-fill btn"
             onClick={() => handleDeleteAcc(Accitem.id)}
           ></i>
         </td>
-      <td style={{ width: "2em" }}>
+        <td style={{ width: "2em" }}>
           <i className="bi bi-files btn"
           onClick={() => handleCopyAcc(Accitem.id)}
           ></i>
@@ -95,8 +96,7 @@ function AccTableBody({newItem,
               style={{ width: "5em"  }}
               value={Accitem.accWidth}
               min="0"
-              readOnly
-              disabled
+              onChange={(event) => handleEditedAcc(event, Accitem.id, Accitem)}
             />
           </td>
         <td className="text-center">
@@ -131,8 +131,6 @@ function AccTableBody({newItem,
         </td>
         </tr>        
         );
-  
   }
-
 
 export default AccTableBody;

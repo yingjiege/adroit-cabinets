@@ -11,12 +11,8 @@ function AccTableHead() {
         <th className="text-center" style={{ width: "100px" }}>COLOR</th>
         <th className="text-center" style={{ width: "100px" }}>Qty</th>
         <th >Width(inch)</th>
-
         <th colSpan="2">Height(inch)</th>
-
         <th colSpan="2">Depth</th>
-
-
         <th  colSpan="2" className="text-center">Price</th>
       </tr>
     </thead>
