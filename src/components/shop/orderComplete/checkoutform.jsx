@@ -2,7 +2,6 @@ import React, { Fragment, useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import Axios from "axios";
 import NavbarAfterLogin from "../../navbar/NavbarAfterLogin";
-import { CSVLink } from "react-csv";
 
 export default function CheckoutForm() {
   const [searchedCabinet, setSearchedCabinet] = useState(null);
@@ -42,6 +41,7 @@ export default function CheckoutForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const currentDate = new Date();
+    // Submit the order
     Axios.post(
       "https://us-east-1.aws.data.mongodb-api.com/app/application-0-hxfdv/endpoint/post_order",
       {
@@ -52,18 +52,37 @@ export default function CheckoutForm() {
         PO: PO,
         select: select,
         date: currentDate,
-        status:"unpaid" // Add the current date to the data being posted
+        status: "unpaid"
       }
     )
-      .then((response) => {
-        localStorage.setItem("orderNO", response.data.insertedId);
+    .then((response) => {
+      // Now delete the order based on storedInsertedId
+      Axios.delete(
+        "https://us-east-1.aws.data.mongodb-api.com/app/application-0-hxfdv/endpoint/delete_order",
+        {
+          data: {
+            _id: storedInsertedId
+          }
+        }
+      )
+      .then((deleteResponse) => {
+        if (deleteResponse.status === 200) {
+          // Handle successful deletion (e.g., show a message)
+        }
         navigate("/ordercompleted");
       })
-      .catch((error) => {
-        console.error("Error uploading data:", error);
-        // Handle the error (e.g., display an error message)
+      .catch((deleteError) => {
+        console.error("Error deleting order:", deleteError);
+        // Handle the delete error (e.g., display an error message)
+        navigate("/ordercompleted");
       });
+    })
+    .catch((error) => {
+      console.error("Error uploading data:", error);
+      // Handle the submit error (e.g., display an error message)
+    });
   };
+  
   return(<Fragment>
     <NavbarAfterLogin/>
     <div className="container">
@@ -187,7 +206,6 @@ export default function CheckoutForm() {
         Please enter a valid email address for shipping updates.
       </div>
     </div>
-
     <div className="col-12">
       <label className="form-label">Address</label>
       <input 
@@ -203,7 +221,6 @@ export default function CheckoutForm() {
         Please enter your shipping address.
       </div>
     </div>
-
     <div className="col-md-4">
       <label className="form-label">State</label>
       <input 
@@ -250,72 +267,6 @@ export default function CheckoutForm() {
       </div>
     </div>
   </div>
-
-          {/* <hr className="my-4"/>
-
-          <div className="form-check">
-            <input type="checkbox" className="form-check-input" id="same-address"/>
-            <label className="form-check-label">Shipping address is the same as my billing address</label>
-          </div>
-
-          <div className="form-check">
-            <input type="checkbox" className="form-check-input" id="save-info"/>
-            <label className="form-check-label" >Save this information for next time</label>
-          </div>
-
-          <hr className="my-4"/>
-
-          <h4 className="mb-3">Payment</h4>
-
-          <div className="my-3">
-            <div className="form-check">
-              <input id="credit" name="paymentMethod" type="radio" className="form-check-input" checked required/>
-              <label className="form-check-label" >Credit card</label>
-            </div>
-            <div className="form-check">
-              <input id="debit" name="paymentMethod" type="radio" className="form-check-input" required/>
-              <label className="form-check-label" >Debit card</label>
-            </div>
-            <div className="form-check">
-              <input id="paypal" name="paymentMethod" type="radio" className="form-check-input" required/>
-              <label className="form-check-label" >PayPal</label>
-            </div>
-          </div>
-
-          <div className="row gy-3">
-            <div className="col-md-6">
-              <label className="form-label">Name on card</label>
-              <input type="text" className="form-control" id="cc-name" placeholder="" required/>
-              <small className="text-body-secondary">Full name as displayed on card</small>
-              <div className="invalid-feedback">
-                Name on card is required
-              </div>
-            </div>
-
-            <div className="col-md-6">
-              <label className="form-label">Credit card number</label>
-              <input type="text" className="form-control" id="cc-number" placeholder="" required/>
-              <div className="invalid-feedback">
-                Credit card number is required
-              </div>
-            </div>
-
-            <div className="col-md-3">
-              <label className="form-label">Expiration</label>
-              <input type="text" className="form-control" id="cc-expiration" placeholder="" required/>
-              <div className="invalid-feedback">
-                Expiration date required
-              </div>
-            </div>
-
-            <div className="col-md-3">
-              <label className="form-label">CVV</label>
-              <input type="text" className="form-control" id="cc-cvv" placeholder="" required/>
-              <div className="invalid-feedback">
-                Security code required
-              </div>
-            </div>
-          </div> */}
           <hr className="my-4"/>
             {/* form fields */}
             <button
