@@ -27,7 +27,7 @@ function CreateCabinet({ items, setItems, select, setSelect }) {
       })
       .catch((error) => {
         console.error(error);
-      });
+      }); 
       Axios.get(`https://us-east-1.aws.data.mongodb-api.com/app/application-0-hxfdv/endpoint/get_customer_information?user_id=${user_id}`)
       .then((res) => {
         const searchedCabinet = res.data[0];
@@ -58,18 +58,6 @@ function CreateCabinet({ items, setItems, select, setSelect }) {
       .catch((error) => {
         console.error(error);
       });
-
-    // Axios.get(
-    //   "https://us-east-1.aws.data.mongodb-api.com/app/application-0-hxfdv/endpoint/get_addon"
-    // )
-    //   .then((res) => {
-    //     const searchedCabinet = res.data;
-    //     console.log(searchedCabinet)
-    //     setAddOn(searchedCabinet);
-    //   })
-    //   .catch((error) => {
-    //     console.error(error);
-    //   });
 
     Axios.get(
       "https://us-east-1.aws.data.mongodb-api.com/app/application-0-hxfdv/endpoint/get_cabinet_finish"
@@ -126,6 +114,7 @@ function CreateCabinet({ items, setItems, select, setSelect }) {
     setItems(updatedItems);
   }
   function calculation(obj, select){
+    console.log(select)
     const finLorR = obj.finLOrR;
     const notchOut = obj.notchOut;
     let price = 0;
@@ -260,7 +249,7 @@ function CreateCabinet({ items, setItems, select, setSelect }) {
       newData["BO"] = newCabinetInfo[select.cabinetBox];
     }
     if (newCabinetInfo) {
-      newData["price"] = calculation(newData, newSelect);
+      newData["price"] = calculation(newData, newSelect); 
     } else {
       newData["price"] = NaN;
       newData["width"] = NaN;

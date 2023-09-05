@@ -54,16 +54,6 @@ function TableFooter(props) {
           />
            </div>
         </td>
-        {/* <td colSpan="4">
-          <i
-            className="bi bi-file-earmark-pdf-fill btn btn-primary"
-            onClick={props.printPDF}
-            style={{ color: "white", borderStyle: "solid", width: "auto", maxWidth: "150px" }}
-          >
-            PDF
-          </i>
-        </td> */}
-
       </tr>
     </tfoot>
   );
