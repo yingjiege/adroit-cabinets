@@ -61,7 +61,7 @@ function TableFooter(props) {
           total items
         </td>
         <td  colSpan="2">{totalQty}</td>
-        <input
+        {/* <input
           colSpan="2"
           type="checkbox"
           className="form-check-input form-conctrol"
@@ -76,7 +76,7 @@ function TableFooter(props) {
         )}        
         <td colSpan="6" align="right">
         {testTotal}
-        </td>
+        </td> */}
       </tr>
 
       <tr>
