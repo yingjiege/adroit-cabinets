@@ -19,8 +19,6 @@ export default function AccountSetting() {
     });
   }, []);
 
-  
-
   return(<Fragment>
     <NavbarAfterLogin/>
     <div class="container">
@@ -32,7 +30,7 @@ export default function AccountSetting() {
     </div>
 
     <div class="row g-5">
-      <div class="col-md-5 col-lg-4 order-md-last">
+      {/* <div class="col-md-5 col-lg-4 order-md-last">
         <h4 class="d-flex justify-content-between align-items-center mb-3">
           <span class="text-primary">Your cart</span>
           <span class="badge bg-primary rounded-pill">3</span>
@@ -78,7 +76,7 @@ export default function AccountSetting() {
             <button type="submit" class="btn btn-secondary">Redeem</button>
           </div>
         </form>
-      </div>
+      </div> */}
       <div class="col-md-7 col-lg-8">
         <h4 class="mb-3">Billing address</h4>
         <form class="needs-validation" noValidate>
