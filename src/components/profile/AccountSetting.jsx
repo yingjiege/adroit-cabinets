@@ -5,20 +5,21 @@ import NavbarAfterLogin from "../navbar/NavbarAfterLogin";
 import "../../App.css";
 
 export default function AccountSetting() {
-  const navigate = useNavigate();
   const [info, setInfo] = useState({})
   const user_id = localStorage.getItem('user');
 
   useEffect(() => {
-      Axios.get(`https://us-east-1.aws.data.mongodb-api.com/app/application-0-hxfdv/endpoint/get_customer_information?user_id=${user_id}`)
-      .then((res) => {
-        const user = res.data[0];
-        setInfo(user)
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    Axios.get(`https://us-east-1.aws.data.mongodb-api.com/app/application-0-hxfdv/endpoint/get_customer_information?user_id=${user_id}`)
+    .then((res) => {
+      const user = res.data[0];
+      setInfo(user)
+    })
+    .catch((error) => {
+      console.error(error);
+    });
   }, []);
+
+  
 
   return(<Fragment>
     <NavbarAfterLogin/>
@@ -275,6 +276,9 @@ export default function AccountSetting() {
             </div>
           </div>
           <hr class="my-4"/> */}
+            <button className="btn btn-primary btn-lg" type="submit">
+              Save Changes
+            </button>
         </form>
       </div>
     </div>
