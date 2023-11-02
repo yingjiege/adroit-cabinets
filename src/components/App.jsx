@@ -13,10 +13,10 @@ import OrderCompleted from './shop/orderComplete/orderCompleted'
 import Testing1 from './testing1'
 import PendingAccount from './login/PendingAccount'
 import CheckoutForm from './shop/orderComplete/checkoutform';
-
-
 import '../App.css'
 import "bootstrap/dist/css/bootstrap.css";
+import Management from './shop/Management'
+import PriceManagement from './shop/priceManagement'
 
 export default function App() {
     const [info, setInfo] = useState({})
@@ -38,6 +38,9 @@ export default function App() {
                     <Route path="/ordercompleted" element={<OrderCompleted/>}/>
                     <Route path="/test" element={ <Testing1/> } />
                     <Route path="/accountmanagement" element={ <PendingAccount/> } />
+                    <Route path="/management" element={ <Management/> } />
+                    <Route path="/price_management" element={ <PriceManagement/> } />
+
                 </Routes>
             </div>
         </Router>
