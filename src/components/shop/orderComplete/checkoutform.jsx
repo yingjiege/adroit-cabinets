@@ -38,6 +38,18 @@ export default function CheckoutForm() {
   const accessory = filteredData && filteredData.accessory;
   const PO = filteredData && filteredData.PO;
 
+  function generateRandomAlphanumericID(length) {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let result = '';
+  
+    for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      result += characters.charAt(randomIndex);
+    }
+  
+    return result;
+  }
+  const randomID = generateRandomAlphanumericID(12);
   const handleSubmit = (e) => {
     e.preventDefault();
     const currentDate = new Date();
@@ -52,18 +64,14 @@ export default function CheckoutForm() {
         PO: PO,
         select: select,
         date: currentDate,
-        status: "unpaid"
+        status: "unpaid",
+        order_id: randomID
       }
     )
     .then((response) => {
       // Now delete the order based on storedInsertedId
       Axios.delete(
-        "https://us-east-1.aws.data.mongodb-api.com/app/application-0-hxfdv/endpoint/delete_order",
-        {
-          data: {
-            _id: storedInsertedId
-          }
-        }
+        `https://us-east-1.aws.data.mongodb-api.com/app/application-0-hxfdv/endpoint/delete_undetermined_order?_id=${filteredData._id}`
       )
       .then((deleteResponse) => {
         if (deleteResponse.status === 200) {
@@ -272,6 +280,7 @@ export default function CheckoutForm() {
             <button
                 className="w-100 btn btn-primary btn-lg"
                 type="submit"
+                onClick={handleSubmit}
             >
                 Complete Order
             </button>
