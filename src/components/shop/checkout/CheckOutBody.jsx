@@ -258,7 +258,7 @@ function CheckOutBody() {
                           {cabinet && cabinet.map((item, index) => (
                             <tr key={index}>
                               <td colspan="1" style={{ width: '500px' }}>
-                                {item.qty}PC_{item.doorColor}_{item.width}*{item.height}*{item.depth}_{item.customizeAddOn}_{item.memo}_${(item.qty * item.price).toFixed(2)}
+                                {item.qty}PC_{item.doorColor}_{item.width}*{item.height}*{item.depth}_{item.hinge}_{item.finLOrR}_{item.customizeAddOn}_{item.memo}_${(item.qty * item.price).toFixed(2)}
                               </td>
                             </tr>
                           ))}
@@ -295,12 +295,18 @@ function CheckOutBody() {
             </div>
           </div>
         </div>
-        <CSVLink data={csvData} filename={`order_${PO}.csv`}>
+        {/* <CSVLink data={csvData} filename={`order_${PO}.csv`}>
           <button onClick={handleClick} 
           className="form-control"
           style={{ width: "auto", maxWidth: "150px" }}
           >CHECK OUT</button>
-        </CSVLink>
+        </CSVLink> */}
+        <button data={csvData} filename={`order_${PO}.csv`}>
+          <button onClick={handleClick} 
+          className="form-control"
+          style={{ width: "auto", maxWidth: "150px" }}
+          >CHECK OUT</button>
+        </button>
         <button onClick={handleClick2} 
         className="form-control"
         style={{ width: "auto", maxWidth: "150px" }}
