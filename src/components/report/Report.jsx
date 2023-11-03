@@ -4,7 +4,6 @@ import NavbarAfterLogin from "../navbar/NavbarAfterLogin";
 import { useNavigate  } from "react-router-dom";
 import { Chart } from "react-google-charts";
 
-
 export const data = [
   ["Year", "Sales", "Expenses"],
   ["2004", 1000, 400],
@@ -20,19 +19,19 @@ export const options = {
 };
 
 export default function Report() {  
-  const [order,setOrder] = useState([{}])
+  const [order, setOrder] = useState([]);
   const user_id = localStorage.getItem('user');
   const navigate = useNavigate();
 // Make the GET request to retrieve the order list
 useEffect(() => {
-
   const user_id = localStorage.getItem('user');
-
 // Make the GET request to retrieve the order list
 axios.get(`https://us-east-1.aws.data.mongodb-api.com/app/application-0-hxfdv/endpoint/get_order_history?user_id=${user_id}`)  
 .then((response) => {
     // Handle the response data
-    setOrder(response.data)
+    const sortedOrders = response.data.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    setOrder(sortedOrders)
     // Perform further operations with the order list
   })
   .catch((error) => {
@@ -41,6 +40,16 @@ axios.get(`https://us-east-1.aws.data.mongodb-api.com/app/application-0-hxfdv/en
   });
 }, [user_id]);
 
+const formatDateTime = (dateTimeString) => {
+  const date = new Date(dateTimeString);
+  const hours = date.getHours().toString().padStart(2, "0");
+  const minutes = date.getMinutes().toString().padStart(2, "0");
+  const day = date.getDate().toString().padStart(2, "0");
+  const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Months are 0-based
+  const year = date.getFullYear();
+
+  return `${hours}:${minutes} ${day}/${month}/${year}`;
+};
   const handleReorder = (_id) => {
     // Set the selected order in local storage
     const selectedOrder = order.find((o) => o._id === _id);
@@ -171,42 +180,6 @@ axios.get(`https://us-east-1.aws.data.mongodb-api.com/app/application-0-hxfdv/en
           </nav>
 
           <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-            {/* <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-              <h1 className="h2">Dashboard</h1>
-              <div className="btn-toolbar mb-2 mb-md-0">
-                <div className="btn-group me-2">
-                  <button
-                    type="button"
-                    className="btn btn-sm btn-outline-secondary"
-                  >
-                    Share
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-sm btn-outline-secondary"
-                  >
-                    Export
-                  </button>
-                </div>
-                <button
-                  type="button"
-                  className="btn btn-sm btn-outline-secondary dropdown-toggle"
-                >
-                  <span
-                    data-feather="calendar"
-                    className="align-text-bottom"
-                  ></span>
-                  This week
-                </button>
-              </div>
-            </div> */}
-            {/* <Chart
-              chartType="LineChart"
-              width="100%"
-              height="400px"
-              data={data}
-              options={options}
-            /> */}
           <h2>Orders</h2>
                 <div className="table-responsive">
                   <table className="table table-striped table-sm">
@@ -226,9 +199,9 @@ axios.get(`https://us-east-1.aws.data.mongodb-api.com/app/application-0-hxfdv/en
                         <tr key={order._id}>
                           <td>{index + 1}</td>
                           <td>{order.status}</td>
-                          <td>{order._id}</td>
+                          <td>{order.order_id}</td>
                           <td>{order.PO}</td>
-                          <td>{order.date}</td>
+                          <td>{formatDateTime(order.date)}</td>
                           <td>{order.name}</td>
                           <td>
                             <button onClick={() => handleReorder(order._id)}
