@@ -257,22 +257,23 @@ function CheckOutBody() {
                         <tbody>
                           {cabinet && cabinet.map((item, index) => (
                             <tr key={index}>
-                              <td colspan="1" style={{ width: '500px' }}>
-                                {item.qty}PC_{item.doorColor}_{item.width}*{item.height}*{item.depth}_{item.hinge}_{item.finLOrR}_{item.customizeAddOn}_{item.memo}_${(item.qty * item.price).toFixed(2)}
+                              <td colspan="1" style={{ width: '1200px' }}>
+                                {item.qty}PC_{item.doorColor}_{item.width}*{item.height}*{item.depth}_{item.hinge}_{item.finLOrR}_{item.customizeAddOn}_{item.memo}_{item.apt}___${(item.qty * item.price).toFixed(2)}
                               </td>
                             </tr>
                           ))}
                           {cabinetDoor && cabinetDoor.map((item, index) => (
                             <tr key={index}>
-                              <td colspan="1" style={{ width: '500px' }}>
-                            {item.qty} PC_{item.panelId}_{item.panelFinish}_{item.width}*{item.height} _ {item.cust}*{item.depth}_${(item.subtotal)}
-                            </td>
-                          </tr>                            
+                              <td colspan="1" style={{ width: '1200px' }}>
+                                {item.qty} PC_{item.panelId}_{item.panelFinish}_{item.width}*{item.height} _
+                                {item.matchGrain ? 'G' : ''}_{item.miterCut}_{item.hingeHole ? 'H': ''}_${item.subtotal}
+                              </td>
+                            </tr>
                           ))}
 
                           {accessory && accessory.map((item, index) => (
                             <tr key={index}>
-                            <td colspan="1" style={{ width: '500px' }}>
+                            <td colspan="1" style={{ width: '1200px' }}>
                               {item.accQty} PC_{item.accColor}_{item.acc}_{item.accWidth}*{item.accHeight}*{item.accDepth}_${(item.accPrice).toFixed(2)}
                             </td>
                           </tr>
@@ -280,6 +281,9 @@ function CheckOutBody() {
                           <tr>
                             <td colSpan="6">Total qty: {totalQty}</td>
                             <td colSpan="1">Total: {totalPrice}</td>
+
+                          </tr>
+                          <tr>
                           </tr>
                         </tbody>
                       </table>
