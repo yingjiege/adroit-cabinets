@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from "react";
 import NavbarAfterLogin from "../navbar/NavbarAfterLogin";
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 
 function Management() {
   const [order, setOrder] = useState([]); // Replace with your actual data source
   const [searchInput, setSearchInput] = useState("");
   const [sortedOrders, setSortedOrders] = useState([]);
   const [customer, setCustomer] = useState("");
-  const navigate = useNavigate();
 
   // Fetch orders (you can use useEffect to fetch data)
   useEffect(() => {
@@ -111,7 +109,7 @@ function Management() {
                 {order.cabinet.map((cabinet, index) => (
                     <li key={index}>
                     <p>{cabinet.qty}_{cabinet.doorColor}_{cabinet.cabinetSize}_{cabinet.height}_{cabinet.width}_
-                    {cabinet.depth}_{cabinet.hinge}_{cabinet.finLOrR}_{cabinet.customizeAddOn}_{cabinet.memo}_{cabinet.price}
+                    {cabinet.depth}_{cabinet.hinge}_{cabinet.finLOrR}_{cabinet.customizeAddOn}_{cabinet.memo}_{cabinet.apt}___${cabinet.price}
                     </p>
                     </li>
                 ))}
@@ -121,7 +119,7 @@ function Management() {
                     {order.accessory.map((accessory) => (
                         <li key={accessory.id}>
                         <p> {accessory.accQty} _{accessory.acc }_{accessory.accColor }_{accessory.accHeight }_{accessory.accWidth } _{accessory.accDepth }
-                        _{accessory.accPrice }</p>
+                        ___{accessory.accPrice }</p>
                         </li>
                     ))}
                     </ul>
@@ -130,7 +128,7 @@ function Management() {
                     {order.cabinetDoor.map((cabinetDoor) => (
                         <li key={cabinetDoor.id}>
                         <p> {cabinetDoor.qty} _{cabinetDoor.panelId }_{cabinetDoor.panelFinish }_{cabinetDoor.height }_{cabinetDoor.width }
-                        _{cabinetDoor.matchGrain }_{cabinetDoor.miterCut }_{cabinetDoor.hingeHole }_{cabinetDoor.subtotal }</p>
+                        _{cabinetDoor.matchGrain ? 'G': '' }_{cabinetDoor.miterCut }_{cabinetDoor.hingeHole ? 'H': ''}___{cabinetDoor.subtotal }</p>
                         </li>
                     ))}
                     </ul>
