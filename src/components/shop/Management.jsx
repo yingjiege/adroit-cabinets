@@ -39,25 +39,42 @@ function Management() {
     setSearchInput(e.target.value);
   };
 
-  // Function to trigger search
-  const searchOrders = () => {
-    if (order && order.length > 0) {
-      const filteredOrders = order.filter((order) =>
-        order.order_id === searchInput
-      );
-      console.log(filteredOrders)
-      const sortedByTime = filteredOrders.sort((a, b) => a.time - b.time);
+// Function to trigger search
+const searchOrders = () => {
+  if (order && order.length > 0) {
+    // Check if the search input is a company name
+    const ordersByCompany = order.filter((order) =>
+    order.companyName &&
+    order.companyName.toLowerCase() === searchInput.toLowerCase()
+    );
+
+    // Check if the search input is an order number
+    const ordersByOrderNumber = order.filter((order) =>
+      order.order_id === searchInput
+    );
+
+    if (ordersByCompany.length > 0) {
+      // If company name matches, set sortedOrders to the matching orders
+      const sortedByTime = ordersByCompany.sort((a, b) => a.time - b.time);
+      setSortedOrders(sortedByTime);
+    } else if (ordersByOrderNumber.length > 0) {
+      // If order number matches, set sortedOrders to the matching orders
+      const sortedByTime = ordersByOrderNumber.sort((a, b) => a.time - b.time);
       setSortedOrders(sortedByTime);
     } else {
-      // Handle the case when there are no orders or when the data is not yet loaded
+      // Handle the case when no matching orders are found
       setSortedOrders([]);
     }
-  };
+  } else {
+    // Handle the case when there are no orders or when the data is not yet loaded
+    setSortedOrders([]);
+  }
+};
 
   const deleteOrder = (orderId) => {
     // Make an API request to delete the order based on its ID
-    axios
-      .delete(`https://us-east-1.aws.data.mongodb-api.com/app/application-0-hxfdv/endpoint/deleted_order?order_id=${sortedOrders[0].order_id}`)
+    const index = sortedOrders.findIndex((sortedOrders) => sortedOrders._id === orderId);
+    axios.delete(`https://us-east-1.aws.data.mongodb-api.com/app/application-0-hxfdv/endpoint/deleted_order?order_id=${sortedOrders[index].order_id}`)
       .then(() => {
         // After successful deletion, update the order state to reflect the changes
         const updatedOrders = order.filter(order => order._id !== orderId);
@@ -77,6 +94,16 @@ function Management() {
       });
   };
 
+  const formatDateTime = (dateTimeString) => {
+    const date = new Date(dateTimeString);
+    const hours = date.getHours().toString().padStart(2, "0");
+    const minutes = date.getMinutes().toString().padStart(2, "0");
+    const day = date.getDate().toString().padStart(2, "0");
+    const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Months are 0-based
+    const year = date.getFullYear();
+  
+    return `${hours}:${minutes} ${day}/${month}/${year}`;
+  };
   return (
     <div>
       <NavbarAfterLogin />
@@ -95,15 +122,17 @@ function Management() {
         <ul>
             {sortedOrders.map((order) => (
             <li key={order._id}>
-                <p>Status: {order.status || 'N/A'}</p>
-                <p>PO: {order.PO || 'N/A'}</p>
-                <p>Date: {order.date || 'N/A'}</p>
-                <p>Name: {order.name || 'N/A'}</p>
-                <p>Box: {order.select.cabinetBox || 'N/A'}</p>
-                <p>Hinge Type: {order.select.hingeType || 'N/A'}</p>
-                <p>Slide: {order.select.slide || 'N/A'}</p>
-                <p>Drawer: {order.select.drawer || 'N/A'}</p>
-                <p>Cabinet Leg: {order.select.cabinetLeg || 'N/A'}</p>
+                <p>Order Number: {order.order_id}</p>
+                <p>
+                  Status: {order.status || 'N/A'} &nbsp; &nbsp; &nbsp; &nbsp; PO: {order.PO || 'N/A'}
+                </p>
+                <p>Date: {formatDateTime(order.date) || 'N/A'}</p>
+                <p>Company: {order.companyName || 'N/A'}</p>
+                <p>Box: {order.select.cabinetBox || 'N/A'} &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
+                Hinge Type: {order.select.hingeType || 'N/A'}</p>
+                <p>Slide: {order.select.slide || 'N/A'}&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
+                Drawer: {order.select.drawer || 'N/A'}&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
+                Cabinet Leg: {order.select.cabinetLeg || 'N/A'}</p>
                 <p>Cabinet:</p>
                 <ul>
                 {order.cabinet.map((cabinet, index) => (
