@@ -4,7 +4,8 @@ function TableHead() {
   return (
     <thead className="table-success">
       <tr>
-        <th colSpan="2" className="text-center"></th>
+        <th className="text-center">Door</th>
+        <th className="text-center">Copy</th>
         <th className="text-center">Item#</th>
         <th className="text-center">Panel Finish</th>
         <th className="text-center">Panel ID</th>
