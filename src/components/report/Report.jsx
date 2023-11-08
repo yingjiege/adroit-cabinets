@@ -2,7 +2,6 @@ import React, { Fragment, useEffect, useState } from "react";
 import axios from 'axios';
 import NavbarAfterLogin from "../navbar/NavbarAfterLogin";
 import { useNavigate  } from "react-router-dom";
-import { Chart } from "react-google-charts";
 
 export const data = [
   ["Year", "Sales", "Expenses"],
@@ -48,7 +47,7 @@ const formatDateTime = (dateTimeString) => {
   const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Months are 0-based
   const year = date.getFullYear();
 
-  return `${hours}:${minutes} ${day}/${month}/${year}`;
+  return `${hours}:${minutes} ${month}/${day}/${year}`;
 };
   const handleReorder = (_id) => {
     // Set the selected order in local storage
