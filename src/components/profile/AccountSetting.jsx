@@ -6,6 +6,8 @@ import "../../App.css";
 
 export default function AccountSetting() {
   const [info, setInfo] = useState({})
+  const navigate = useNavigate();
+
   const user_id = localStorage.getItem('user');
 
   useEffect(() => {
@@ -18,6 +20,21 @@ export default function AccountSetting() {
       console.error(error);
     });
   }, []);
+  const handleSaveChanges = (e) => {
+    e.preventDefault();
+  
+    Axios.put(`https://us-east-1.aws.data.mongodb-api.com/app/application-0-hxfdv/endpoint/put_accoutn_setting?user_id=${user_id}`, info)
+      .then((res) => {
+        // Handle success, e.g., show a success message
+        console.log("User information updated successfully");
+        navigate("/shop");
+      })
+      .catch((error) => {
+        // Handle error, e.g., show an error message
+        console.error("Error updating user information:", error);
+        navigate("/shop");
+      });
+  };
 
   return(<Fragment>
     <NavbarAfterLogin/>
@@ -30,56 +47,10 @@ export default function AccountSetting() {
     </div>
 
     <div class="row g-5">
-      {/* <div class="col-md-5 col-lg-4 order-md-last">
-        <h4 class="d-flex justify-content-between align-items-center mb-3">
-          <span class="text-primary">Your cart</span>
-          <span class="badge bg-primary rounded-pill">3</span>
-        </h4>
-        <ul class="list-group mb-3">
-          <li class="list-group-item d-flex justify-content-between lh-sm">
-            <div>
-              <h6 class="my-0">Product name</h6>
-              <small class="text-body-secondary">Brief description</small>
-            </div>
-            <span class="text-body-secondary">$12</span>
-          </li>
-          <li class="list-group-item d-flex justify-content-between lh-sm">
-            <div>
-              <h6 class="my-0">Second product</h6>
-              <small class="text-body-secondary">Brief description</small>
-            </div>
-            <span class="text-body-secondary">$8</span>
-          </li>
-          <li class="list-group-item d-flex justify-content-between lh-sm">
-            <div>
-              <h6 class="my-0">Third item</h6>
-              <small class="text-body-secondary">Brief description</small>
-            </div>
-            <span class="text-body-secondary">$5</span>
-          </li>
-          <li class="list-group-item d-flex justify-content-between bg-body-tertiary">
-            <div class="text-success">
-              <h6 class="my-0">Promo code</h6>
-              <small>EXAMPLECODE</small>
-            </div>
-            <span class="text-success">−$5</span>
-          </li>
-          <li class="list-group-item d-flex justify-content-between">
-            <span>Total (USD)</span>
-            <strong>$20</strong>
-          </li>
-        </ul>
-
-        <form class="card p-2">
-          <div class="input-group">
-            <input type="text" class="form-control" placeholder="Promo code"/>
-            <button type="submit" class="btn btn-secondary">Redeem</button>
-          </div>
-        </form>
-      </div> */}
+      
       <div class="col-md-7 col-lg-8">
         <h4 class="mb-3">Billing address</h4>
-        <form class="needs-validation" noValidate>
+        <form class="needs-validation" noValidate onSubmit={handleSaveChanges} >
         <div class="row g-3">
     <div class="col-sm-6">
       <label for="firstName" class="form-label">First name</label>
@@ -139,6 +110,20 @@ export default function AccountSetting() {
         placeholder="you@example.com"
         value={info.email}
         onChange={(e) => setInfo({ ...info, email: e.target.value })}
+      />
+      <div class="invalid-feedback">
+        Please enter a valid email address for shipping updates.
+      </div>
+    </div>
+    <div class="col-12">
+      <label for="email" class="form-label">Phone Number <span class="text-body-secondary">(Optional)</span></label>
+      <input 
+        type="phoneNumber" 
+        class="form-control" 
+        id="phoneNumber" 
+        placeholder="you@example.com"
+        value={info.phoneNumber}
+        onChange={(e) => setInfo({ ...info, phoneNumber: e.target.value })}
       />
       <div class="invalid-feedback">
         Please enter a valid email address for shipping updates.
