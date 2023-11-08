@@ -3,10 +3,13 @@ import NavbarAfterLogin from "../navbar/NavbarAfterLogin";
 import axios from 'axios';
 
 function Management() {
-  const [order, setOrder] = useState([]); // Replace with your actual data source
+  const [order, setOrder] = useState([]);
   const [searchInput, setSearchInput] = useState("");
   const [sortedOrders, setSortedOrders] = useState([]);
+  const [selectedOrderId, setSelectedOrderId] = useState(null);
+  const [showOrderDetails, setShowOrderDetails] = useState(false);
   const [customer, setCustomer] = useState("");
+  
 
   // Fetch orders (you can use useEffect to fetch data)
   useEffect(() => {
@@ -40,12 +43,12 @@ function Management() {
   };
 
 // Function to trigger search
-const searchOrders = () => {
+const searchOrders = (orderId) => {
   if (order && order.length > 0) {
     // Check if the search input is a company name
     const ordersByCompany = order.filter((order) =>
-    order.companyName &&
-    order.companyName.toLowerCase() === searchInput.toLowerCase()
+      order.companyName &&
+      order.companyName.toLowerCase() === searchInput.toLowerCase()
     );
 
     // Check if the search input is an order number
@@ -53,13 +56,21 @@ const searchOrders = () => {
       order.order_id === searchInput
     );
 
+    let matchingOrders = [];
+
     if (ordersByCompany.length > 0) {
-      // If company name matches, set sortedOrders to the matching orders
-      const sortedByTime = ordersByCompany.sort((a, b) => a.time - b.time);
-      setSortedOrders(sortedByTime);
+      matchingOrders = ordersByCompany;
     } else if (ordersByOrderNumber.length > 0) {
-      // If order number matches, set sortedOrders to the matching orders
-      const sortedByTime = ordersByOrderNumber.sort((a, b) => a.time - b.time);
+      matchingOrders = ordersByOrderNumber;
+    }
+
+    if (matchingOrders.length > 0) {
+      // Sort the matching orders by date in descending order (latest to oldest)
+      const sortedByTime = matchingOrders.sort((a, b) => {
+        const dateA = new Date(a.date);
+        const dateB = new Date(b.date);
+        return dateB - dateA;
+      });
       setSortedOrders(sortedByTime);
     } else {
       // Handle the case when no matching orders are found
@@ -71,10 +82,11 @@ const searchOrders = () => {
   }
 };
 
+
   const deleteOrder = (orderId) => {
     // Make an API request to delete the order based on its ID
-    const index = sortedOrders.findIndex((sortedOrders) => sortedOrders._id === orderId);
-    axios.delete(`https://us-east-1.aws.data.mongodb-api.com/app/application-0-hxfdv/endpoint/deleted_order?order_id=${sortedOrders[index].order_id}`)
+    const index = order.findIndex((order) => order.order_id === orderId);
+    axios.delete(`https://us-east-1.aws.data.mongodb-api.com/app/application-0-hxfdv/endpoint/deleted_order?order_id=${order[index].order_id}`)
       .then(() => {
         // After successful deletion, update the order state to reflect the changes
         const updatedOrders = order.filter(order => order._id !== orderId);
@@ -102,8 +114,25 @@ const searchOrders = () => {
     const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Months are 0-based
     const year = date.getFullYear();
   
-    return `${hours}:${minutes} ${day}/${month}/${year}`;
+    return `${hours}:${minutes} ${month}/${day}/${year}`;
   };
+
+  const toggleOrderDetails = (orderId) => {
+
+    setSelectedOrderId(orderId);
+    const index = sortedOrders.findIndex((sortedOrders) => sortedOrders.order_id === orderId);
+    setSortedOrders(sortedOrders[index])
+    setShowOrderDetails(true);
+    // Update selectedOrderDetails based on the selected order
+  };
+
+  // Function to go back to the order list
+  const goBackToOrderList = () => {
+    setSelectedOrderId(null);
+    setShowOrderDetails(false);
+    setSortedOrders([]);
+  };
+
   return (
     <div>
       <NavbarAfterLogin />
@@ -114,58 +143,77 @@ const searchOrders = () => {
           value={searchInput}
           onChange={handleSearchInput}
         />
-
-        <button onClick={searchOrders}>Search</button>
+        {showOrderDetails ? null : <button onClick={searchOrders}>Search</button>}
       </div>
 
-      <div>
-        <ul>
-            {sortedOrders.map((order) => (
-            <li key={order._id}>
-                <p>Order Number: {order.order_id}</p>
-                <p>
-                  Status: {order.status || 'N/A'} &nbsp; &nbsp; &nbsp; &nbsp; PO: {order.PO || 'N/A'}
-                </p>
-                <p>Date: {formatDateTime(order.date) || 'N/A'}</p>
-                <p>Company: {order.companyName || 'N/A'}</p>
-                <p>Box: {order.select.cabinetBox || 'N/A'} &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
-                Hinge Type: {order.select.hingeType || 'N/A'}</p>
-                <p>Slide: {order.select.slide || 'N/A'}&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
-                Drawer: {order.select.drawer || 'N/A'}&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
-                Cabinet Leg: {order.select.cabinetLeg || 'N/A'}</p>
-                <p>Cabinet:</p>
-                <ul>
-                {order.cabinet.map((cabinet, index) => (
-                    <li key={index}>
-                    <p>{cabinet.qty}_{cabinet.doorColor}_{cabinet.cabinetSize}_{cabinet.height}_{cabinet.width}_
-                    {cabinet.depth}_{cabinet.hinge}_{cabinet.finLOrR}_{cabinet.customizeAddOn}_{cabinet.memo}_{cabinet.apt}___${cabinet.price}
+      {showOrderDetails ? (
+        <div>
+          {/* Display order details for the selected order */}
+          <button onClick={goBackToOrderList}>Go Back to Order List</button>
+          {selectedOrderId && sortedOrders && (
+            // Render order details for the selected order
+            // Modify this part to display detailed order information
+            <div>
+            <ul>
+                <li key={sortedOrders._id}>
+                    <p>Order Number: {sortedOrders.order_id}</p>
+                    <p>
+                      Status: {sortedOrders.status || 'N/A'} &nbsp; &nbsp; &nbsp; &nbsp; PO: {sortedOrders.PO || 'N/A'}
                     </p>
-                    </li>
-                ))}
-                </ul>
-                <p>Accessory:</p> 
-                <ul>
-                    {order.accessory.map((accessory) => (
-                        <li key={accessory.id}>
-                        <p> {accessory.accQty} _{accessory.acc }_{accessory.accColor }_{accessory.accHeight }_{accessory.accWidth } _{accessory.accDepth }
-                        ___{accessory.accPrice }</p>
-                        </li>
-                    ))}
-                    </ul>
-                    <p>Cabinet Door:</p> 
+                    <p>Date: {formatDateTime(sortedOrders.date) || 'N/A'}</p>
+                    <p>Company: {sortedOrders.companyName || 'N/A'}</p>
+                    <p>Box: {sortedOrders.select.cabinetBox || 'N/A'} &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
+                    Hinge Type: {sortedOrders.select.hingeType || 'N/A'}</p>
+                    <p>Slide: {sortedOrders.select.slide || 'N/A'}&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
+                    Drawer: {sortedOrders.select.drawer || 'N/A'}&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
+                    Cabinet Leg: {sortedOrders.select.cabinetLeg || 'N/A'}</p>
+                    <p>Cabinet:</p>
                     <ul>
-                    {order.cabinetDoor.map((cabinetDoor) => (
-                        <li key={cabinetDoor.id}>
-                        <p> {cabinetDoor.qty} _{cabinetDoor.panelId }_{cabinetDoor.panelFinish }_{cabinetDoor.height }_{cabinetDoor.width }
-                        _{cabinetDoor.matchGrain ? 'G': '' }_{cabinetDoor.miterCut }_{cabinetDoor.hingeHole ? 'H': ''}___{cabinetDoor.subtotal }</p>
+                    {sortedOrders.cabinet.map((cabinet, index) => (
+                        <li key={index}>
+                        <p>{cabinet.qty}_{cabinet.doorColor}_{cabinet.cabinetSize}_{cabinet.height}_{cabinet.width}_
+                        {cabinet.depth}_{cabinet.hinge}_{cabinet.finLOrR}_{cabinet.customizeAddOn}_{cabinet.memo}_{cabinet.apt}___${cabinet.price}
+                        </p>
                         </li>
                     ))}
                     </ul>
-                    <button onClick={() => deleteOrder(order._id)}>Delete</button>
-            </li>
-            ))}
-        </ul>
+                    <p>Accessory:</p> 
+                    <ul>
+                        {sortedOrders.accessory.map((accessory) => (
+                            <li key={accessory.id}>
+                            <p> {accessory.accQty} _{accessory.acc }_{accessory.accColor }_{accessory.accHeight }_{accessory.accWidth } _{accessory.accDepth }
+                            ___{accessory.accPrice }</p>
+                            </li>
+                        ))}
+                        </ul>
+                        <p>Cabinet Door:</p> 
+                        <ul>
+                        {sortedOrders.cabinetDoor.map((cabinetDoor) => (
+                            <li key={cabinetDoor.id}>
+                            <p> {cabinetDoor.qty} _{cabinetDoor.panelId }_{cabinetDoor.panelFinish }_{cabinetDoor.height }_{cabinetDoor.width }
+                            _{cabinetDoor.matchGrain ? 'G': '' }_{cabinetDoor.miterCut }_{cabinetDoor.hingeHole ? 'H': ''}___{cabinetDoor.subtotal }</p>
+                            </li>
+                        ))}
+                        </ul>
+                        <button onClick={() => deleteOrder(sortedOrders.order_id)}>Delete</button>
+                </li>
+            </ul>
+            </div>
+          )}
         </div>
+      ) : (
+        <div>
+          <ul>
+            {sortedOrders.map((order) => (
+              <li key={order._id}>
+                <p>Order Number: <a href="#" onClick={() => toggleOrderDetails(order.order_id)}>{order.order_id}</a>
+                &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; Status: {order.status || 'N/A'}
+                &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; Date: {formatDateTime(order.date) || 'N/A'}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }
