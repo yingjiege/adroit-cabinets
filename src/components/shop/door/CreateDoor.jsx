@@ -1,7 +1,6 @@
-import React, { Fragment, useState, useRef } from "react";
+import React, { Fragment, useState, useRef, useEffect } from "react";
 import { nanoid } from "nanoid";
 import { useReactToPrint } from "react-to-print";
-import panelFinishList from "../../../panelFinish.js";
 import * as XLSX from "xlsx/xlsx.js";
 import TableHead from "./DoorTableHead";
 import TableFooter from "./DoorTableFooter";
@@ -9,10 +8,25 @@ import PrintHead from "./DoorPrintHead";
 import PrintFooter from "./DoorPrintFooter";
 import ReadOnly from "./DoorPrintBody";
 import NewTableBody from "./DoorTableBody";
+import Axios from "axios";
+
 
 function CreateArea({ info, items, setItems }) {
   //Create the main array contains objects that user create or default object
   const [IsFreight, setIsFreight] = useState(false);
+  const [panelFinishList, setPanelFinishList] = useState([]);
+  useEffect(() => {
+    Axios.get(
+      "https://us-east-1.aws.data.mongodb-api.com/app/application-0-hxfdv/endpoint/get_cabinetFinish"
+    )
+      .then((res) => {
+        const searchedCabinet = res.data;
+        setPanelFinishList(searchedCabinet);
+      })
+      .catch((error) => {
+        console.error(error);
+      }); 
+  }, []);
   //Read the files and import the data into Items
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
@@ -49,7 +63,6 @@ function CreateArea({ info, items, setItems }) {
       for (let row in parsedData) {
         //Create a new object to store data from the file
         let newItem = {
-          panelFinish: "",
           panelId: "",
           qty: NaN,
           width: NaN,
@@ -57,6 +70,9 @@ function CreateArea({ info, items, setItems }) {
           hingeHole: false,
           matchGrain: false,
           miterCut: "None",
+          edge:"",
+          drill:"",
+          custom:"",
           price: NaN,
           subtotal: NaN,
           id: nanoid(),
@@ -119,12 +135,13 @@ function CreateArea({ info, items, setItems }) {
     let panel_value = 0;
     let unit_price = 0;
     let discount = 1;
-    let matchGrain = obj.matchGrain;
+    let matchGrain = "";
     const Sindex = PL.findIndex(
-      (pitem) => pitem.label === obj.panelFinish || pitem.id === obj.panelId
+      (pitem) => pitem.id === obj.panelId
     );
     if (Sindex !== -1) {
       panel_value = Number(PL[Sindex].value);
+      matchGrain = PL[Sindex].grain;
     }
 
     if (obj.hingeHole) {
@@ -140,11 +157,12 @@ function CreateArea({ info, items, setItems }) {
     }
 
     if (obj.miterCut !== "None") unit_price += 15;
-    if (matchGrain === true) {
+    if (matchGrain === "Y") {
       if (obj.matchGrain) unit_price += 15;
     }
     let sizeOfDoor = (width * height) / 144;
     if (sizeOfDoor <= 1.5) sizeOfDoor = 1.5;
+    
 
     unit_price += panel_value * sizeOfDoor;
     unit_price = +(Math.round(unit_price + "e+2") + "e-2");
@@ -194,7 +212,6 @@ function CreateArea({ info, items, setItems }) {
 
     const editedItem = {
       id: itemId,
-      panelFinish: newData.panelFinish,
       panelId: newData.panelId,
       qty: newData.qty,
       width: newData.width,
@@ -202,6 +219,9 @@ function CreateArea({ info, items, setItems }) {
       hingeHole: newData.hingeHole,
       matchGrain: newData.matchGrain,
       miterCut: newData.miterCut,
+      edge:newData.edge,
+      drill: newData.drill,
+      custom: newData.custom,
       price: newData.price,
       subtotal: newData.subtotal,
     };
@@ -242,7 +262,6 @@ function CreateArea({ info, items, setItems }) {
 
     const editedItem = {
       id: itemId,
-      panelFinish: newData.panelFinish,
       panelId: newData.panelId,
       qty: newData.qty,
       width: newData.width,
@@ -250,6 +269,9 @@ function CreateArea({ info, items, setItems }) {
       hingeHole: newData.hingeHole,
       matchGrain: newData.matchGrain,
       miterCut: newData.miterCut,
+      edge: newData.edge,
+      drill: newData.drill,
+      custom: newData.custom,
       price: newData.price,
       subtotal: newData.subtotal,
     };
@@ -272,7 +294,6 @@ function CreateArea({ info, items, setItems }) {
     const copyItem = newItems[index];
     const tempItem = {
       id: 0,
-      panelFinish: copyItem.panelFinish,
       panelId: copyItem.panelId,
       qty: copyItem.qty,
       width: copyItem.width,
@@ -280,6 +301,9 @@ function CreateArea({ info, items, setItems }) {
       hingeHole: copyItem.hingeHole,
       matchGrain: copyItem.matchGrain,
       miterCut: copyItem.miterCut,
+      edge: copyItem.edge,
+      drill: copyItem.drill,
+      custom: copyItem.custom,
       price: copyItem.price,
       subtotal: copyItem.subtotal,
     };
@@ -292,7 +316,6 @@ function CreateArea({ info, items, setItems }) {
     const newItems = [];
     for (let i = 0; i < n; i++) {
       const newItem = {
-        panelFinish: "",
         panelId: "",
         qty: NaN,
         width: NaN,
@@ -300,6 +323,9 @@ function CreateArea({ info, items, setItems }) {
         hingeHole: false,
         matchGrain: false,
         miterCut: "None",
+        edge: "",
+        drill:"",
+        custom: "",
         price: NaN,
         subtotal: NaN,
         id: nanoid(),
