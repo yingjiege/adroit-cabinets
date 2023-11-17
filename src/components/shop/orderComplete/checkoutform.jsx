@@ -2,6 +2,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import Axios from "axios";
 import NavbarAfterLogin from "../../navbar/NavbarAfterLogin";
+import { CSVLink, CSVDownload } from "react-csv";
 
 export default function CheckoutForm() {
   const [searchedCabinet, setSearchedCabinet] = useState(null);
@@ -50,6 +51,7 @@ export default function CheckoutForm() {
     return result;
   }
   const randomID = generateRandomAlphanumericID(12);
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     const currentDate = new Date();
@@ -65,7 +67,8 @@ export default function CheckoutForm() {
         select: select,
         date: currentDate,
         status: "unpaid",
-        order_id: randomID
+        order_id: randomID,
+        companyName: info.companyName
       }
     )
     .then((response) => {
@@ -89,7 +92,32 @@ export default function CheckoutForm() {
       console.error("Error uploading data:", error);
       // Handle the submit error (e.g., display an error message)
     });
+    localStorage.setItem('orderNO',randomID )
   };
+  const csvData = [ 
+    ["MATERIAL ITEM",
+      "EDGEBAND",
+      "QTY",
+      "W",
+      "L",
+      "HINGEHOLE",
+      "MATCHGRAIN",
+      "MITERCUT"
+    ],
+   ];
+
+   for (let i in cabinetDoor) {
+    csvData.push([
+      cabinetDoor[i].panelId,
+      cabinetDoor[i].panelFinish,
+      cabinetDoor[i].qty,
+      cabinetDoor[i].width,
+      cabinetDoor[i].height,
+      cabinetDoor[i].hingeHole,
+      cabinetDoor[i].matchGrain,
+      cabinetDoor[i].miterCut
+    ]);
+  }
   
   return(<Fragment>
     <NavbarAfterLogin/>
@@ -277,14 +305,11 @@ export default function CheckoutForm() {
   </div>
           <hr className="my-4"/>
             {/* form fields */}
-            <button
-                className="w-100 btn btn-primary btn-lg"
-                type="submit"
-                onClick={handleSubmit}
-            >
-                Complete Order
-            </button>
-        </form>
+            <CSVLink data={csvData} filename={`order_1.csv`} onClick={handleSubmit} className="w-100 btn btn-primary btn-lg form-control">
+              Complete Order
+            </CSVLink>
+
+        </form> 
       </div>
     </div>
   </main>
