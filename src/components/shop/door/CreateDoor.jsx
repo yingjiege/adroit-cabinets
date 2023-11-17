@@ -69,7 +69,7 @@ function CreateArea({ info, items, setItems }) {
           height: NaN,
           hingeHole: false,
           matchGrain: false,
-          miterCut: "None",
+          MITERCUT: "None",
           edge:"",
           drill:"",
           custom:"",
@@ -104,6 +104,7 @@ function CreateArea({ info, items, setItems }) {
         newItem[priceField] = priceArr[0];
         newItem[sutotalField] = priceArr[1];
         newItem[idField] = Number(row) + 1;
+        console.log(parsedData[row])
 
         //According to the Panel ID, Re-set the empty part of Panel Finish
         setPanelFinish(newItem);
@@ -386,12 +387,12 @@ function CreateArea({ info, items, setItems }) {
           <PrintFooter items={items} IsFreight={IsFreight} />
         </table>
       </div>
-      <input
+      {/* <input
         type="file"
         accept=".xlsx, .xls, .csv"
         className="form-control bg-light rounded-pill"
         onChange={handleFileUpload}
-      />
+      /> */}
     </Fragment>
   );
 }
