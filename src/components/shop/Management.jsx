@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { Fragment, useState, useRef, useEffect} from "react";
 import NavbarAfterLogin from "../navbar/NavbarAfterLogin";
 import axios from 'axios';
+import { useReactToPrint } from "react-to-print";
+
 
 function Management() {
   const [order, setOrder] = useState([]);
@@ -133,6 +135,12 @@ const searchOrders = (orderId) => {
     setSortedOrders([]);
   };
 
+  const componentPDF = useRef();
+  const generatePDF = useReactToPrint({
+    content: () => componentPDF.current,
+    documentTile: "UserData",
+  });  
+
   return (
     <div>
       <NavbarAfterLogin />
@@ -214,7 +222,16 @@ const searchOrders = (orderId) => {
           </ul>
         </div>
       )}
+                <i
+            className="bi bi-file-earmark-pdf-fill btn btn-primary"
+            onClick={generatePDF}
+            style={{ color: "white", borderStyle: "solid",width: "auto",maxWidth: "150px" }}
+
+          >
+            PDF
+          </i>
     </div>
+    
   );
 }
 
