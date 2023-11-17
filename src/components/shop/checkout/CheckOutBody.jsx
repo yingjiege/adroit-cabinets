@@ -75,21 +75,7 @@ function CheckOutBody() {
   //   // ["DOOR HINGE", "CNG"],
   //   // ["DRAWER SLIDE"],
   //   // ["DRAWER BOX", "", "", "WHITE METAL DRAWER BOX\n白色铁盒"],
-  //   ["",
-  //     "QT",
-  //     "DOOR-COLOR",
-  //     "CAB TYPE",
-  //     "W",
-  //     "H",
-  //     "D",
-  //     "H-SIDE",
-  //     "F-SIDE",
-  //     "MEMO (中文注释)",
-  //     "MEMO (英文注释)",
-  //     "APT",
-  //   ],
-  //   ["编号", "数量", "门颜色", "柜体型号", "宽", "高", "深", "门较", "见光", "注意", "注意", "房间号"],
-  // ];
+
   
   const filteredData = searchedCabinet && searchedCabinet.find(item => item._id === storedInsertedId);
   const cabinet = filteredData && filteredData.cabinet;
@@ -117,27 +103,10 @@ function CheckOutBody() {
   }
   totalPrice = +(Math.round(totalPrice + "e+2") + "e-2");
 
-  // for (let i in cabinet) {
-  //   const newDoorColor = getColor(cabinet[i].doorColor);
-  //   const doorID = newDoorColor ? newDoorColor.productID : "";
-  //   csvData.push([
-  //     `${parseInt(i) + 1}`,
-  //     cabinet[i].qty,
-  //     doorID,
-  //     cabinet[i].cabinetSize,
-  //     cabinet[i].height,
-  //     cabinet[i].width,
-  //     cabinet[i].depth,
-  //     cabinet[i].hinge, 
-  //     cabinet[i].finLOrR, 
-  //     "", 
-  //     cabinet[i].memo,
-  //     cabinet[i].apt
-  //   ]);
-  // }
+  const csvData = []
 
-  const csvData = [ 
-    ["MATERIAL ITEM",
+  if (cabinetDoor && cabinetDoor.length !== 0) {
+    csvData.push(["MATERIAL ITEM",
       "EDGEBAND",
       "QTY",
       "W",
@@ -147,24 +116,59 @@ function CheckOutBody() {
       "MITERCUT",
       "EDGE",
       "DRILLING",
-      "CUSTOM"
-    ],
-   ];
+      "CUSTOM"]);
   
-  for (let i in cabinetDoor) {
+    for (let i in cabinetDoor) {
+      csvData.push([
+        cabinetDoor[i].panelId,
+        cabinetDoor[i].panelFinish,
+        cabinetDoor[i].qty,
+        cabinetDoor[i].width,
+        cabinetDoor[i].height,
+        cabinetDoor[i].hingeHole,
+        cabinetDoor[i].matchGrain,
+        cabinetDoor[i].miterCut,
+        cabinetDoor[i].edge,
+        cabinetDoor[i].drill,
+        cabinetDoor[i].custom
+      ]);
+    }
+  } 
+  else if (cabinet !==0 || accessory !==0){
+    csvData.push(["",
+    "QT",
+    "DOOR-COLOR",
+    "CAB TYPE",
+    "W",
+    "H",
+    "D",
+    "H-SIDE",
+    "F-SIDE",
+    "MEMO (中文注释)",
+    "MEMO (英文注释)",
+    "APT",
+  ],
+  ["编号", "数量", "门颜色", "柜体型号", "宽", "高", "深", "门较", "见光", "注意", "注意", "房间号"],
+)
+
+  for (let i in cabinet) {
+    const newDoorColor = getColor(cabinet[i].doorColor);
+    const doorID = newDoorColor ? newDoorColor.productID : "";
     csvData.push([
-      cabinetDoor[i].panelId,
-      cabinetDoor[i].panelFinish,
-      cabinetDoor[i].qty,
-      cabinetDoor[i].width,
-      cabinetDoor[i].height,
-      cabinetDoor[i].hingeHole,
-      cabinetDoor[i].matchGrain,
-      cabinetDoor[i].miterCut,
-      cabinetDoor[i].edge,
-      cabinetDoor[i].drill,
-      cabinetDoor[i].custom
+      `${parseInt(i) + 1}`,
+      cabinet[i].qty,
+      doorID,
+      cabinet[i].cabinetSize,
+      cabinet[i].height,
+      cabinet[i].width,
+      cabinet[i].depth,
+      cabinet[i].hinge, 
+      cabinet[i].finLOrR, 
+      "", 
+      cabinet[i].memo,
+      cabinet[i].apt
     ]);
+  }
   }
 
   // csvData.push(
@@ -218,6 +222,7 @@ function CheckOutBody() {
   //   ["DRAWER SLIDE"],
   //   ["DRAWER BOX", "", "", "WHITE METAL DRAWER BOX\n白色铁盒"
   // ])
+  console.log(cabinetDoor)
 
   return (
     <div>
@@ -296,8 +301,8 @@ function CheckOutBody() {
                           {cabinetDoor && cabinetDoor.map((item, index) => (
                             <tr key={index}>
                               <td colspan="1" style={{ width: '1200px' }}>
-                                {item.qty} PC_{item.panelId}_{item.panelFinish}_{item.width}*{item.height} _
-                                {item.matchGrain ? 'G' : ''}_{item.miterCut}_{item.hingeHole ? 'H': ''}_{item.drill}_{item.custom}_${item.subtotal}
+                                {item.qty} PC_{item.panelId}_{item.width}*{item.height} _
+                                {item.matchGrain ? 'G' : ''}_{item.miterCut}_{item.hingeHole ? 'H': ''}_{item.edge}_{item.drill}_{item.custom}_${item.subtotal}
                               </td>
                             </tr>
                           ))}
