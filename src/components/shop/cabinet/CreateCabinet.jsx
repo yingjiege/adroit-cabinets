@@ -114,7 +114,6 @@ function CreateCabinet({ items, setItems, select, setSelect }) {
     setItems(updatedItems);
   }
   function calculation(obj, select){
-    console.log(select.cabinetBox)
     const finLorR = obj.finLOrR;
     const notchOut = obj.notchOut;
     let price = 0;
@@ -640,12 +639,12 @@ const handleFileUpload = (e) => {
         <PrintFooter items={items} />
         </table>
       </div> */}
-      <input
+      {/* <input
         type="file"
         accept=".xlsx, .xls, .csv"
         className="form-control bg-light rounded-pill"
         onChange={handleFileUpload}
-      />
+      /> */}
     </Fragment>
   );
 }
