@@ -159,8 +159,8 @@ function CheckOutBody() {
       cabinet[i].qty,
       doorID,
       cabinet[i].cabinetSize,
-      cabinet[i].height,
       cabinet[i].width,
+      cabinet[i].height,
       cabinet[i].depth,
       cabinet[i].hinge, 
       cabinet[i].finLOrR, 
@@ -169,60 +169,57 @@ function CheckOutBody() {
       cabinet[i].apt
     ]);
   }
+  csvData.push(
+    ["", "QT", "ITEM-COLOR","ACC-NO","W","H","D","MEMO (中文注释)","MEMO (英文注释)","APT",],
+    ["编号", "数量", "配件颜色", "配价型号", "宽", "高", "深", "注意", "注意", "房间号"
+  ])
+
+  for (let i in accessory) {
+    const newAccType = getAcc(accessory[i].acc);
+    const AccID = newAccType ? newAccType.ACC_TYPE : "";
+    const newDoorColor = getColor(accessory[i].accColor);
+    const doorID = newDoorColor ? newDoorColor.productID : "";
+    csvData.push([
+      `${parseInt(i) + 1}`,
+      accessory[i].accQty,
+      doorID,
+      AccID,
+      accessory[i].accHeight,
+      accessory[i].accWidth,
+      accessory[i].accDepth,
+      "",
+      "",
+      "", 
+      accessory[i].memo,
+      accessory[i].apt
+    ]);
   }
 
-  // csvData.push(
-  //   ["", "QT", "ITEM-COLOR","ACC-NO","W","H","D","MEMO (中文注释)","MEMO (英文注释)","APT",],
-  //   ["编号", "数量", "配件颜色", "配价型号", "宽", "高", "深", "注意", "注意", "房间号"
-  // ])
-
-  // for (let i in accessory) {
-  //   const newAccType = getAcc(accessory[i].acc);
-  //   const AccID = newAccType ? newAccType.ACC_TYPE : "";
-  //   const newDoorColor = getColor(accessory[i].accColor);
-  //   const doorID = newDoorColor ? newDoorColor.productID : "";
-  //   csvData.push([
-  //     `${parseInt(i) + 1}`,
-  //     accessory[i].accQty,
-  //     doorID,
-  //     AccID,
-  //     accessory[i].accHeight,
-  //     accessory[i].accWidth,
-  //     accessory[i].accDepth,
-  //     "",
-  //     "",
-  //     "", 
-  //     accessory[i].memo,
-  //     accessory[i].apt
-  //   ]);
-  // }
-
-  // csvData.push(
-  //   [],
-  //   ["ORDER NO:", "", "", "EST NO:", "17182"],
-  //   ["COORDINATOR:", "", "DOC DATE:", "6/19/2023"],
-  //   ["CUSTOMER:", "", "PO:", ""],
-  //   ["INVOICE NO:", "", "数据录入", "YC"],
-  //   ["CABINET LEG:", "PLASTIC LEG 4.5“", "PLASTIC LEG 胶脚 QTY", "32"],
-  //   ["CABINET MATERIAL"],
-  //   ["ITEM NAME", "MODEL NO", "QT", "DESCRIPTION", "SPECIAL ORDER"],
-  //   ["BOX MATERIAL", "PLME0411-192S36", "", "19mm (3/4\") New White TFL with 2.5mm MR MDF X-band V/C 4'X8'..TSCA Title IV Compliant"],
-  //   ["BOX EDGE", "EB1-WD354HG-P", "", "1mm Designer White High Gloss PVC edge-banding 15/16\" x 500'"],
-  //   ["BACKING", "PLME0411-192S36", "", "19mm (3/4\") New White TFL with 2.5mm MR MDF X-band V/C 4'X8'..TSCA Title IV Compliant"],
-  //   ["DOOR COLOR", "MDPE3004-181S90", "", "3/4\" (18mm) Pearl White High Gloss PET MDF Core 4x8"],
-  //   ["DOOR EDGE", "EB1.3-3004-90P", "", "1.3mm Solid White HG ABS Edge-Banding 328'..Matching MDPE3004 / WQ63004"],
-  //   ["MITER EDGE"],
-  //   ["OTHER"],
-  //   ["OTHER"],
-  //   ["OTHER"],
-  //   ["OTHER"],
-  //   ["HARDWARE MATERIAL"],
-  //   ["ITEM NAME", "MODEL NO", "QT", "DESCRIPTION", "SPECIAL ORDER"],
-  //   ["DOOR HINGE", "CNG"],
-  //   ["DRAWER SLIDE"],
-  //   ["DRAWER BOX", "", "", "WHITE METAL DRAWER BOX\n白色铁盒"
-  // ])
-  console.log(cabinetDoor)
+  csvData.push(
+    [],
+    ["ORDER NO:", "", "", "EST NO:", "17182"],
+    ["COORDINATOR:", "", "DOC DATE:", "6/19/2023"],
+    ["CUSTOMER:", "", "PO:", ""],
+    ["INVOICE NO:", "", "数据录入", "YC"],
+    ["CABINET LEG:", "PLASTIC LEG 4.5“", "PLASTIC LEG 胶脚 QTY", "32"],
+    ["CABINET MATERIAL"],
+    ["ITEM NAME", "MODEL NO", "QT", "DESCRIPTION", "SPECIAL ORDER"],
+    ["BOX MATERIAL", "PLME0411-192S36", "", "19mm (3/4\") New White TFL with 2.5mm MR MDF X-band V/C 4'X8'..TSCA Title IV Compliant"],
+    ["BOX EDGE", "EB1-WD354HG-P", "", "1mm Designer White High Gloss PVC edge-banding 15/16\" x 500'"],
+    ["BACKING", "PLME0411-192S36", "", "19mm (3/4\") New White TFL with 2.5mm MR MDF X-band V/C 4'X8'..TSCA Title IV Compliant"],
+    ["DOOR COLOR", "MDPE3004-181S90", "", "3/4\" (18mm) Pearl White High Gloss PET MDF Core 4x8"],
+    ["DOOR EDGE", "EB1.3-3004-90P", "", "1.3mm Solid White HG ABS Edge-Banding 328'..Matching MDPE3004 / WQ63004"],
+    ["MITER EDGE"],
+    ["OTHER"],
+    ["OTHER"],
+    ["OTHER"],
+    ["OTHER"],
+    ["HARDWARE MATERIAL"],
+    ["ITEM NAME", "MODEL NO", "QT", "DESCRIPTION", "SPECIAL ORDER"],
+    ["DOOR HINGE", "CNG"],
+    ["DRAWER SLIDE"],
+    ["DRAWER BOX", "", "", "WHITE METAL DRAWER BOX\n白色铁盒"])
+  }
 
   return (
     <div>
