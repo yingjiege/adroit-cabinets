@@ -83,6 +83,7 @@ function CheckOutBody() {
   const cabinetDoor = filteredData && filteredData.cabinetDoor;
   const accessory = filteredData && filteredData.accessory;
   const PO = filteredData && filteredData.PO;
+  console.log(filteredData)
   let totalQty = 0;
   let totalPrice = 0;
 
@@ -104,6 +105,8 @@ function CheckOutBody() {
   totalPrice = +(Math.round(totalPrice + "e+2") + "e-2");
 
   const csvData = []
+
+  console.log(select)
 
   if (cabinetDoor && cabinetDoor.length !== 0) {
     csvData.push(["MATERIAL ITEM",
@@ -135,6 +138,16 @@ function CheckOutBody() {
     }
   } 
   else if (cabinet !==0 || accessory !==0){
+    if(select){
+    csvData.push([select.cabinetBox],
+      [select.ADoorColor],
+      [select.BDoorColor],
+      [select.CDoorColor],
+      [select.hingeType],
+      [select.slide],
+      [select.drawer],
+      [select.cabinetLeg])
+    }
     csvData.push(["",
     "QT",
     "DOOR-COLOR",
