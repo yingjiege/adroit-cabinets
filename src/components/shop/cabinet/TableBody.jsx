@@ -78,12 +78,11 @@ function TableBody({
     }
 
     if(cabInfo){
-      if(cabInfo.DOOR_COUNT === 1 && item.hinge === "")
+      if(cabInfo.HINGE_RE ===1 && item.hinge === "")
         setHingeReq(false);
       else 
         setHingeReq(true);
     }
-    
   }, [item.width, item.qty, item.hinge, cabInfo]);
 
   return (
