@@ -13,6 +13,8 @@ function TableHead({item,handleEditAllInOne}) {
         console.error(error);
       });
   }, []);
+  const color1 = [item.ADoorColor];
+  const color2 = [item.BDoorColor];
   return (
     <thead className="table-success">
           <tr>
@@ -43,6 +45,8 @@ function TableHead({item,handleEditAllInOne}) {
                   value={item.BDoorColor}
                   style={{ margin: "0 auto"  }}
                   onChange={(event) => handleEditAllInOne(event,  item)}
+                  readOnly={color1.every(color => color === "")}
+                  disabled={color1.every(color => color === "")}
                   />
             <datalist id="dataBdoor">
               {cabinetDoor.map((item, key) => (
@@ -50,7 +54,7 @@ function TableHead({item,handleEditAllInOne}) {
               ))}
             </datalist></th>
             <th className="needBorder">HINGE:</th>
-            <th style={{ width: "25em" }}>
+            <th >
               <select
                 list="dataHinge"
                 className="form-control"
@@ -111,6 +115,8 @@ function TableHead({item,handleEditAllInOne}) {
                 style={{ margin: "0 auto", width: "15em"   }}
                 value={item.CDoorColor}
                 onChange={(event) => handleEditAllInOne(event,  item)}
+                readOnly={color2.every(color => color === "")}
+                disabled={color2.every(color => color === "")}
                 />
             <datalist id="dataCdoor">
               {cabinetDoor.map((item, key) => (
@@ -147,8 +153,8 @@ function TableHead({item,handleEditAllInOne}) {
               onChange={(event) => handleEditAllInOne(event,  item)}
               >
                   <option value="None">None</option>
-                  <option value="PLASTIC">PLASTIC</option>
-                  <option value="WOOD">WOOD</option> 
+                  <option value="PLASTIC LEG">PLASTIC LEG</option>
+                  <option value="WOOD LEG">WOOD LEG</option> 
               </select>
             </th>
           </tr>
