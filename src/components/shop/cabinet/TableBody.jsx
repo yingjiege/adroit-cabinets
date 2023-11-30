@@ -51,7 +51,7 @@ function TableBody({
   }
 
   useEffect(() => {
-    if (cabInfo && item.width > cabInfo.W) {
+    if (cabInfo && item.width > cabInfo.W ||cabInfo &&  item.width <= cabInfo.W -3) {
       setWidthValue(false);
     } else {
       setWidthValue(true);
@@ -158,15 +158,15 @@ function TableBody({
               style={{ width: "5em", margin: "0 auto" }}
               value={item.width}
             max={cabInfo && cabInfo.W}
-            min="0"
+            min={cabInfo && (cabInfo.W-3)}
             onChange={(event) => handleEdited(event, item.id, item, newItem)}
           />
           {widthValue === false && (
-            <div className="invalid-feedback">Please enter value not oversized</div>
+            <div className="invalid-feedback">Please check the width value!</div>
           )}
           {widthPositive === false && (
             <div className="invalid-feedback">Please enter width more than 0 and integer only</div>
-          )}
+          )} 
         </td>
         <td className="text-center">
           <input
