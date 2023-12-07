@@ -56,7 +56,7 @@ function TableBody({
     } else {
       setWidthValue(true);
     }
-
+  
     if (!isPositiveInteger(item.width)) {
       if (isNaN(item.width)) {
         setWidthPositive(true);
@@ -242,11 +242,11 @@ function TableBody({
         </button>
       </td>
       <th colSpan="1" className="text-center" ></th>
-          {/* <th className="text-center" hidden={!additionalShown}>DOOR H</th>
+          <th className="text-center" hidden={!additionalShown}>DOOR H</th>
           <th className="text-center" hidden={!additionalShown}>PC TOP DOOR</th>
           <th className="text-center" hidden={!additionalShown}>BC DOOR</th>
           <th className="text-center" hidden={!additionalShown}>BOT DF</th>
-          <th className="text-center" hidden={!additionalShown}>NOTCH OUT</th> */}
+          <th className="text-center" hidden={!additionalShown}>NOTCH OUT</th>
           <th colSpan="2" className="text-center" hidden={!additionalShown}>CUSTOMIZE ADD ON</th>
           <th colSpan="2" className="text-center" hidden={!additionalShown}>MEMO</th>
           <th className="text-center" hidden={!additionalShown}>APT</th>
@@ -256,7 +256,7 @@ function TableBody({
         <td></td>
         <td></td>
         
-      {/* <td className="text-center">
+      <td className="text-center">
         <input 
           type="text"
           name="doorH"
@@ -279,10 +279,10 @@ function TableBody({
       <td className="text-center">
         <input
           type="text"
-          name="pcDoor"
+          name="bcDoor"
           className="form-control"
           style={{ width: "6em", margin: "0 auto" }}
-          value = {item.pcDoor}
+          value = {item.bcDoor}
           onChange={(event) => handleEdited(event, item.id, item, newItem)}
            />
       </td>
@@ -310,7 +310,7 @@ function TableBody({
             <option value="MITER DOOR">MITER DOOR</option>
           </select>
 
-      </td> */}
+      </td>
       <td colSpan="2" className="text-center">
         <input
           type="text"
@@ -348,7 +348,6 @@ function TableBody({
             />
       </td>
     </tr>
-
     </>
   );
 }
