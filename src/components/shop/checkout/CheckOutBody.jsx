@@ -106,8 +106,6 @@ function CheckOutBody() {
 
   const csvData = []
 
-  console.log(select)
-
   if (cabinetDoor && cabinetDoor.length !== 0) {
     csvData.push(["MATERIAL ITEM",
       "EDGEBAND",
@@ -177,6 +175,11 @@ function CheckOutBody() {
       cabinet[i].depth,
       cabinet[i].hinge, 
       cabinet[i].finLOrR, 
+      cabinet[i].doorH,
+      cabinet[i].pcTopDoor,
+      cabinet[i].bcDoor,
+      cabinet[i].botDF,
+      cabinet[i].notchOut,
       "", 
       cabinet[i].memo,
       cabinet[i].apt
