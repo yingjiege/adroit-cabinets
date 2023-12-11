@@ -93,6 +93,8 @@ function CreateAccessory({ info, accessories, setAccessories }) {
       newData["accWidth"] = fieldValue;
     } else if (fieldName === "accQty") {
       newData["accQty"] = fieldValue;
+    } else if (fieldName === "accHeight") {
+      newData["accHeight"] = fieldValue;
     }
     const newAccInfo = getAcc(newData.acc);
     const newAccColor = getColor(newData.accColor);
@@ -205,7 +207,7 @@ function CreateAccessory({ info, accessories, setAccessories }) {
                 ItemNum ={index}
                 item = {rowItem}
               />
-            );
+            );          
           })}
         </tbody>
         <PrintFooter  acc={accessories}/>
