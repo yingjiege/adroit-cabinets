@@ -106,8 +106,8 @@ function AccTableBody({newItem,
             className="form-control"
             style={{ width: "5em"  }}
             value={Accitem.accHeight}
-            readOnly
-            disabled />
+            onChange={(event) => handleEditedAcc(event, Accitem.id, Accitem)}
+ />
         </td>
         <td className="text-center">
           <input
