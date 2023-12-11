@@ -139,34 +139,22 @@ function TableBody({
         <input
           type="number"
           name="qty"
-          className={qtyInteger === false ? "form-control is-invalid" : "form-control"}
+          className={ "form-control"}
           style={{ width: "5em", margin: "0 auto" }}
           value={item.qty}
           min="1"
           onChange={(event) => handleEdited(event, item.id, item, newItem)}
         />
-        {!qtyInteger && (
-          <div className="invalid-feedback">Please enter more than 0</div>
-        )}
       </td>
       <td  style={{ textAlign: "center",  justifyContent: "center" }}>
           <input
             type="number"
             name="width"
-            className={widthValue === false || widthPositive === false ? 
-              "form-control is-invalid" : "form-control"} 
+            className={"form-control"} 
               style={{ width: "5em", margin: "0 auto" }}
               value={item.width}
-            max={cabInfo && cabInfo.W}
-            min={cabInfo && (cabInfo.W-3)}
             onChange={(event) => handleEdited(event, item.id, item, newItem)}
           />
-          {widthValue === false && (
-            <div className="invalid-feedback">Please check the width value!</div>
-          )}
-          {widthPositive === false && (
-            <div className="invalid-feedback">Please enter width more than 0 and integer only</div>
-          )} 
         </td>
         <td className="text-center">
           <input
