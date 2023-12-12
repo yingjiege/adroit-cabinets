@@ -155,11 +155,16 @@ function CheckOutBody() {
     "D",
     "H-SIDE",
     "F-SIDE",
+    "Door H",
+    "PC TOP DOOR",
+    "BC Door",
+    "Bot DF",
+    "NOTCH OUT",
+    "CUSTOMIZE ADD ON",
     "MEMO (中文注释)",
     "MEMO (英文注释)",
     "APT",
-  ],
-  ["编号", "数量", "门颜色", "柜体型号", "宽", "高", "深", "门较", "见光", "注意", "注意", "房间号"],
+  ]
 )
 
   for (let i in cabinet) {
